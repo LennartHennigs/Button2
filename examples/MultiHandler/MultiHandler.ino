@@ -15,7 +15,7 @@ Button2 buttonA = Button2(BUTTON_A_PIN);
 void setup() {
   Serial.begin(9600);
   delay(50);
-  Serial.println("\n\nButton Demo");
+  Serial.println("\n\nMulti Handler Demo");
   
   buttonA.setClickHandler(handler);
   buttonA.setLongClickHandler(handler);

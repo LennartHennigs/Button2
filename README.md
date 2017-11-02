@@ -10,7 +10,7 @@ Arduino Library to simplify working with buttons.
 
 Description
 -----------
-It allows you to use callback functions to track single, double, triple and long clicks. It also takes care of debouncing. It will reduce and simplify your souce code significantly. Tested with Arduino and ESP8266.
+It allows you to use callback functions to track single, double, triple and long clicks. It also takes care of debouncing. It will reduce and simplify your source code significantly. Tested with Arduino and ESP8266.
 
 Installation
 ------------
