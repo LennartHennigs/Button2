@@ -1,7 +1,7 @@
 Button2
 ======
 
-* Author: Lennart Hennigs (<URL!!>)
+* Author: Lennart Hennigs (https://www.lennarthennigs.de)
 * Copyright (C) 2017 Lennart Hennigs.
 * Released under the MIT license.
 
