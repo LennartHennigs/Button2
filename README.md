@@ -14,7 +14,7 @@ It allows you to use callback functions to track single, double, triple and long
 
 Installation
 ------------
-Download the ZIP archive (https://github.com/lennarthennigs/Button2/zipball/master), then open the Arduino IDE and choose Sketch > Include Library > Add .ZIP Library... and select your downloaded file.
+Download the ZIP archive (https://github.com/LennartHennigs/Button2/archive/master.zip), then open the Arduino IDE and choose Sketch > Include Library > Add .ZIP Library... and select your downloaded file.
 
 
 License
