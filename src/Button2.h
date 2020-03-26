@@ -1,7 +1,7 @@
 /////////////////////////////////////////////////////////////////
 /*
   Button2.cpp - Arduino Library to simplify working with buttons.
-  Created by Lennart Hennigs, October 28, 2017.
+  Created by Lennart Hennigs.
 */
 /////////////////////////////////////////////////////////////////
 #pragma once
@@ -30,7 +30,9 @@ class Button2 {
   protected:
     byte pin;
     int prev_state;
-    int state = HIGH;
+    int state;
+    int pressed;
+    int released;
     byte click_count = 0;
     unsigned int last_click_type = 0;
     unsigned long click_ms;
@@ -52,7 +54,7 @@ class Button2 {
     CallbackFunction triple_cb = NULL;
     
   public:
-    Button2(byte attachTo, byte buttonMode = INPUT_PULLUP, unsigned int debounceTimeout = DEBOUNCE_MS);
+    Button2(byte attachTo, byte buttonMode = INPUT_PULLUP, boolean activeLow = true, unsigned int debounceTimeout = DEBOUNCE_MS);
     void setDebounceTime(unsigned int ms);
     void reset();
     
