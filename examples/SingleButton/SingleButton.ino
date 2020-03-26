@@ -4,11 +4,11 @@
 
 /////////////////////////////////////////////////////////////////
 
-#define BUTTON_A_PIN  2
+#define BUTTON_PIN  2
 
 /////////////////////////////////////////////////////////////////
 
-Button2 buttonA = Button2(BUTTON_A_PIN);
+Button2 button = Button2(BUTTON_PIN);
 
 /////////////////////////////////////////////////////////////////
 
@@ -17,21 +17,21 @@ void setup() {
   delay(50);
   Serial.println("\n\nButton Demo");
   
-  // buttonA.setChangedHandler(changed);
-  // buttonA.setPressedHandler(pressed);
-  buttonA.setReleasedHandler(released);
+  // button.setChangedHandler(changed);
+  // button.setPressedHandler(pressed);
+  button.setReleasedHandler(released);
 
-  // buttonA.setTapHandler(tap);
-  buttonA.setClickHandler(click);
-  buttonA.setLongClickHandler(longClick);
-  buttonA.setDoubleClickHandler(doubleClick);
-  buttonA.setTripleClickHandler(tripleClick);
+  // button.setTapHandler(tap);
+  button.setClickHandler(click);
+  button.setLongClickHandler(longClick);
+  button.setDoubleClickHandler(doubleClick);
+  button.setTripleClickHandler(tripleClick);
 }
 
 /////////////////////////////////////////////////////////////////
 
 void loop() {
-  buttonA.loop();
+  button.loop();
 }
 
 /////////////////////////////////////////////////////////////////

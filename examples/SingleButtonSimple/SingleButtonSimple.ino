@@ -4,11 +4,11 @@
 
 /////////////////////////////////////////////////////////////////
 
-#define BUTTON_A_PIN  2
+#define BUTTON_PIN  2
 
 /////////////////////////////////////////////////////////////////
 
-Button2 buttonA = Button2(BUTTON_A_PIN);
+Button2 button = Button2(BUTTON_PIN);
 
 /////////////////////////////////////////////////////////////////
 
@@ -17,18 +17,18 @@ void setup() {
   delay(50);
   Serial.println("\n\nButton Demo");
   
-  buttonA.setChangedHandler(changed);
-  //buttonA.setPressedHandler(pressed);
-  //buttonA.setReleasedHandler(released);
+  button.setChangedHandler(changed);
+  //button.setPressedHandler(pressed);
+  //button.setReleasedHandler(released);
 
   // captures any type of click, longpress or shortpress
-  buttonA.setTapHandler(tap);
+  button.setTapHandler(tap);
 }
 
 /////////////////////////////////////////////////////////////////
 
 void loop() {
-  buttonA.loop();
+  button.loop();
 }
 
 /////////////////////////////////////////////////////////////////
