@@ -168,3 +168,22 @@ void Button2::loop() {
 }
 
 /////////////////////////////////////////////////////////////////
+
+void Button2::reset() {
+  click_count = 0;
+  last_click_type = 0;
+  down_time_ms = 0;
+  pressed_triggered = false;
+  longclick_detected = false;
+	
+  pressed_cb = NULL;
+  released_cb = NULL;
+  change_cb = NULL;
+  tap_cb = NULL;
+  click_cb = NULL;
+  long_cb = NULL;
+  double_cb = NULL;
+  triple_cb = NULL;
+}
+
+/////////////////////////////////////////////////////////////////

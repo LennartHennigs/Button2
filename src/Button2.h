@@ -54,6 +54,7 @@ class Button2 {
   public:
     Button2(byte attachTo, byte buttonMode = INPUT_PULLUP, unsigned int debounceTimeout = DEBOUNCE_MS);
     void setDebounceTime(unsigned int ms);
+    void reset();
     
     void setChangedHandler(CallbackFunction f);
     void setPressedHandler(CallbackFunction f);
