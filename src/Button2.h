@@ -39,7 +39,6 @@ class Button2 {
     unsigned long down_ms;
     unsigned int debounce_time_ms;
     unsigned int down_time_ms = 0;
-    unsigned long now;
     bool pressed_triggered = false;
     bool longclick_detected = false;
         
