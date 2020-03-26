@@ -10,7 +10,7 @@
 
 /////////////////////////////////////////////////////////////////
 
-Button2::Button2(byte attachTo, byte buttonMode /*= INPUT_PULLUP*/, boolean activeLow /*= true*/, unsigned int debounceTimeout /*= DEBOUNCE_MS*/) {
+Button2::Button2(byte attachTo, byte buttonMode /* = INPUT_PULLUP */, boolean activeLow /* = true */, unsigned int debounceTimeout /* = DEBOUNCE_MS */) {
   pin = attachTo;
   setDebounceTime(debounceTimeout);
   pinMode(attachTo, buttonMode);
@@ -167,7 +167,8 @@ void Button2::loop() {
     }
     click_count = 0;
     click_ms = 0;
-  }   
+  }
+  delay(0);
 }
 
 /////////////////////////////////////////////////////////////////
