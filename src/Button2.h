@@ -16,8 +16,8 @@
 /////////////////////////////////////////////////////////////////
 
 #define DEBOUNCE_MS      50
-#define LONGCLICK_MS    250
-#define DOUBLECLICK_MS  400
+#define LONGCLICK_MS    200
+#define DOUBLECLICK_MS  300
 
 #define SINGLE_CLICK      1
 #define DOUBLE_CLICK      2
