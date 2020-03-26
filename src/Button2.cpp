@@ -168,7 +168,10 @@ void Button2::loop() {
     click_count = 0;
     click_ms = 0;
   }
-  delay(0);
+  if ((millis() - now) > 1000) {
+    delay(0);
+    now = millis();
+  }
 }
 
 /////////////////////////////////////////////////////////////////
