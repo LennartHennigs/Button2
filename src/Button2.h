@@ -27,7 +27,7 @@
 /////////////////////////////////////////////////////////////////
 
 class Button2 {
-  private:
+  protected:
     byte pin;
     int prev_state;
     int state = HIGH;
