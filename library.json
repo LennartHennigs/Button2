@@ -1,0 +1,17 @@
+{
+	"name": "Button2",
+	"keywords": "button",
+	"description": "Arduino Library to simplify working with buttons.",
+	"homepage": "https://github.com/LennartHennigs/Button2",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/LennartHennigs/Button2"
+	},
+	"version": "1.1.0",
+	"authors": {
+		"name": "Lennart Hennigs",
+		"url": "https://lennarthennigs.de"
+	},
+	"frameworks": "arduino",
+	"platforms": "*"
+}
