@@ -16,9 +16,6 @@ Button2::Button2(byte attachTo, byte buttonMode /* = INPUT_PULLUP */, boolean is
   if (!isCapacitive) {
     pinMode(attachTo, buttonMode);
   } else {
-    #ifndef ARDUINO_ARCH_ESP32
-      #pragma message "isCapacitive option is made for the ESP32."
-    #endif
     capacitive = true;
   }
   pressed = activeLow ? HIGH : LOW;
