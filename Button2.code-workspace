@@ -6,7 +6,9 @@
 	],
 	"settings": {
 		"files.associations": {
-			"cstddef": "cpp"
+			"cstddef": "cpp",
+			"locale": "cpp",
+			"string": "cpp"
 		}
 	}
 }
