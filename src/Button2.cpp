@@ -10,12 +10,16 @@
 
 /////////////////////////////////////////////////////////////////
 
-Button2::Button2(byte attachTo, byte buttonMode /* = INPUT_PULLUP */, boolean activeLow /* = true */, unsigned int debounceTimeout /* = DEBOUNCE_MS */) {
+Button2::Button2(byte attachTo, byte buttonMode /* = INPUT_PULLUP */, boolean isCapacitive /* = false */, boolean activeLow /* = true */, unsigned int debounceTimeout /* = DEBOUNCE_MS */) {
   pin = attachTo;
   setDebounceTime(debounceTimeout);
-  pinMode(attachTo, buttonMode);
-  pressed = activeLow ? LOW : HIGH;
-  state = activeLow ? HIGH : LOW;
+  if (!isCapacitive) {
+    pinMode(attachTo, buttonMode);
+  } else {
+    capacitive = true;
+    pressed = activeLow ? LOW : HIGH;
+    state = activeLow ? HIGH : LOW;
+  }
 }
 
 /////////////////////////////////////////////////////////////////
@@ -80,14 +84,14 @@ void Button2::setTripleClickHandler(CallbackFunction f) {
 
 /////////////////////////////////////////////////////////////////
 
-unsigned int Button2::wasPressedFor() {
+unsigned int Button2::wasPressedFor() const {
   return down_time_ms;
 }
 
 /////////////////////////////////////////////////////////////////
 
-boolean Button2::isPressed() {
-  return (state == pressed);
+boolean Button2::isPressed() const {
+  return (state == released);
 }
 
 /////////////////////////////////////////////////////////////////
@@ -98,13 +102,13 @@ boolean Button2::isPressedRaw() {
 
 /////////////////////////////////////////////////////////////////
 
-byte Button2::getNumberOfClicks() {
+byte Button2::getNumberOfClicks() const {
     return click_count;
 }
 
 /////////////////////////////////////////////////////////////////
 
-byte Button2::getClickType() {
+byte Button2::getClickType() const {
     return last_click_type;
 }
 
@@ -112,8 +116,14 @@ byte Button2::getClickType() {
 
 void Button2::loop() {
   prev_state = state;
-  state = digitalRead(pin);
-
+  if (!capacitive) {
+    state = digitalRead(pin);
+  } else {
+    #if defined(ARDUINO_ARCH_ESP32)
+      int capa = touchRead(pin);
+      state = capa <  CAPACITIVE_TOUCH_THRESHOLD ? LOW : HIGH;
+    #endif
+  }
   // is button pressed?
   if (prev_state != pressed && state == pressed) {
     down_ms = millis();
