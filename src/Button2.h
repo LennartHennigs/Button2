@@ -24,6 +24,9 @@
 #ifndef DOUBLECLICK_MS
     #define DOUBLECLICK_MS  300
 #endif 
+#ifndef CAPACITIVE_TOUCH_THRESHOLD
+    #define CAPACITIVE_TOUCH_THRESHOLD 35
+#endif
 
 #define SINGLE_CLICK      1
 #define DOUBLE_CLICK      2
@@ -35,6 +38,7 @@
 class Button2 {
   protected:
     byte pin;
+    bool capacitive = false;
     int prev_state;
     int state;
     int pressed;
@@ -60,7 +64,7 @@ class Button2 {
     CallbackFunction triple_cb = NULL;
     
   public:
-    Button2(byte attachTo, byte buttonMode = INPUT_PULLUP, boolean activeLow = true, unsigned int debounceTimeout = DEBOUNCE_MS);
+    Button2(byte attachTo, byte buttonMode = INPUT_PULLUP, boolean isCapacitive = false, boolean activeLow = true, unsigned int debounceTimeout = DEBOUNCE_MS);
     void setDebounceTime(unsigned int ms);
     void reset();
     
