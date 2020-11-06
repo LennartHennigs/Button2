@@ -35,12 +35,11 @@
 class Button2 {
   protected:
     byte pin;
-    int prev_state;
-    int state;
-    int pressed;
-    int released;
+    byte prev_state;
+    byte state;
+    byte pressed;
     byte click_count = 0;
-    unsigned int last_click_type = 0;
+    byte last_click_type = 0;
     unsigned long click_ms;
     unsigned long down_ms;
     unsigned int debounce_time_ms;
@@ -75,9 +74,10 @@ class Button2 {
 
     unsigned int wasPressedFor();
     boolean isPressed();
+    boolean isPressedRaw();
 
-    unsigned int getNumberOfClicks();
-    unsigned int getClickType();
+    byte getNumberOfClicks();
+    byte getClickType();
     
     bool operator==(Button2 &rhs);
 

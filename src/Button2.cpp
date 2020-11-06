@@ -14,9 +14,8 @@ Button2::Button2(byte attachTo, byte buttonMode /* = INPUT_PULLUP */, boolean ac
   pin = attachTo;
   setDebounceTime(debounceTimeout);
   pinMode(attachTo, buttonMode);
-  released = activeLow ? HIGH : LOW;
   pressed = activeLow ? LOW : HIGH;
-  state = released;
+  state = activeLow ? HIGH : LOW;
 }
 
 /////////////////////////////////////////////////////////////////
@@ -90,16 +89,22 @@ unsigned int Button2::wasPressedFor() {
 boolean Button2::isPressed() {
   return (state == pressed);
 }
-    
+
 /////////////////////////////////////////////////////////////////
 
-unsigned int Button2::getNumberOfClicks() {
+boolean Button2::isPressedRaw() {
+  return (digitalRead(pin) == pressed);
+}
+
+/////////////////////////////////////////////////////////////////
+
+byte Button2::getNumberOfClicks() {
     return click_count;
 }
 
 /////////////////////////////////////////////////////////////////
 
-unsigned int Button2::getClickType() {
+byte Button2::getClickType() {
     return last_click_type;
 }
 
@@ -110,17 +115,17 @@ void Button2::loop() {
   state = digitalRead(pin);
 
   // is button pressed?
-  if (prev_state == released && state == pressed) {
+  if (prev_state != pressed && state == pressed) {
     down_ms = millis();
     pressed_triggered = false;
-    click_count++;
     click_ms = down_ms;
 
   // is the button released?
-  } else if (prev_state == pressed && state == released) {
+  } else if (prev_state == pressed && state != pressed) {
     down_time_ms = millis() - down_ms;
     // is it beyond debounce time?
     if (down_time_ms >= debounce_time_ms) {
+	  click_count++;
       // trigger release        
       if (change_cb != NULL) change_cb (*this);
       if (released_cb != NULL) released_cb (*this);
@@ -139,7 +144,7 @@ void Button2::loop() {
     pressed_triggered = true;
   
   // is the button released and the time has passed for multiple clicks?
-  } else if (state == released && millis() - click_ms > DOUBLECLICK_MS) {
+  } else if (state != pressed && millis() - click_ms > DOUBLECLICK_MS) {
     // was there a longclick?
     if (longclick_detected) {
       // was it part of a combination?
