@@ -17,10 +17,9 @@ Button2::Button2(byte attachTo, byte buttonMode /* = INPUT_PULLUP */, boolean is
     pinMode(attachTo, buttonMode);
   } else {
     capacitive = true;
+    pressed = activeLow ? LOW : HIGH;
+    state = activeLow ? HIGH : LOW;
   }
-  pressed = activeLow ? HIGH : LOW;
-  released = activeLow ? LOW : HIGH;
-  state = pressed;
 }
 
 /////////////////////////////////////////////////////////////////
@@ -94,16 +93,22 @@ unsigned int Button2::wasPressedFor() const {
 boolean Button2::isPressed() const {
   return (state == released);
 }
-    
+
 /////////////////////////////////////////////////////////////////
 
-unsigned int Button2::getNumberOfClicks() const {
+boolean Button2::isPressedRaw() {
+  return (digitalRead(pin) == pressed);
+}
+
+/////////////////////////////////////////////////////////////////
+
+byte Button2::getNumberOfClicks() const {
     return click_count;
 }
 
 /////////////////////////////////////////////////////////////////
 
-unsigned int Button2::getClickType() const {
+byte Button2::getClickType() const {
     return last_click_type;
 }
 
@@ -120,14 +125,13 @@ void Button2::loop() {
     #endif
   }
   // is button pressed?
-  if (prev_state == pressed && state == released) {
+  if (prev_state != pressed && state == pressed) {
     down_ms = millis();
     pressed_triggered = false;
-    click_count++;
     click_ms = down_ms;
 
   // is the button released?
-  } else if (prev_state == released && state == pressed) {
+  } else if (prev_state == pressed && state != pressed) {
     down_time_ms = millis() - down_ms;
     // is it beyond debounce time?
     if (down_time_ms >= debounce_time_ms) {
@@ -143,13 +147,14 @@ void Button2::loop() {
     }
 
   // trigger pressed event (after debounce has passed)
-  } else if (state == released && !pressed_triggered && (millis() - down_ms >= debounce_time_ms)) {
+  } else if (state == pressed && !pressed_triggered && (millis() - down_ms >= debounce_time_ms)) {
+    pressed_triggered = true;
+    click_count++;
     if (change_cb != NULL) change_cb (*this);      
     if (pressed_cb != NULL) pressed_cb (*this);
-    pressed_triggered = true;
   
-  // is the button pressed and the time has passed for multiple clicks?
-  } else if (state == pressed && millis() - click_ms > DOUBLECLICK_MS) {
+  // is the button released and the time has passed for multiple clicks?
+  } else if (state != pressed && millis() - click_ms > DOUBLECLICK_MS) {
     // was there a longclick?
     if (longclick_detected) {
       // was it part of a combination?

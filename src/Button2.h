@@ -39,12 +39,11 @@ class Button2 {
   protected:
     byte pin;
     bool capacitive = false;
-    int prev_state;
-    int state;
-    int pressed;
-    int released;
+    byte prev_state;
+    byte state;
+    byte pressed;
     byte click_count = 0;
-    unsigned int last_click_type = 0;
+    byte last_click_type = 0;
     unsigned long click_ms;
     unsigned long down_ms;
     unsigned int debounce_time_ms;
@@ -80,8 +79,8 @@ class Button2 {
     unsigned int wasPressedFor() const;
     boolean isPressed() const;
 
-    unsigned int getNumberOfClicks() const;
-    unsigned int getClickType() const;
+    byte getNumberOfClicks() const;
+    byte getClickType() const;
     
     bool operator==(Button2 &rhs);
 
