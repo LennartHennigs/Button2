@@ -125,7 +125,6 @@ void Button2::loop() {
     down_time_ms = millis() - down_ms;
     // is it beyond debounce time?
     if (down_time_ms >= debounce_time_ms) {
-	  click_count++;
       // trigger release        
       if (change_cb != NULL) change_cb (*this);
       if (released_cb != NULL) released_cb (*this);
@@ -139,9 +138,10 @@ void Button2::loop() {
 
   // trigger pressed event (after debounce has passed)
   } else if (state == pressed && !pressed_triggered && (millis() - down_ms >= debounce_time_ms)) {
+    pressed_triggered = true;
+    click_count++;
     if (change_cb != NULL) change_cb (*this);      
     if (pressed_cb != NULL) pressed_cb (*this);
-    pressed_triggered = true;
   
   // is the button released and the time has passed for multiple clicks?
   } else if (state != pressed && millis() - click_ms > DOUBLECLICK_MS) {
