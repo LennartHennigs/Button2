@@ -78,7 +78,8 @@ class Button2 {
 
     unsigned int wasPressedFor() const;
     boolean isPressed() const;
-
+    boolean isPressedRaw() const;
+    
     byte getNumberOfClicks() const;
     byte getClickType() const;
     

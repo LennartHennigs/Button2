@@ -91,12 +91,12 @@ unsigned int Button2::wasPressedFor() const {
 /////////////////////////////////////////////////////////////////
 
 boolean Button2::isPressed() const {
-  return (state == released);
+  return (state != pressed);
 }
 
 /////////////////////////////////////////////////////////////////
 
-boolean Button2::isPressedRaw() {
+boolean Button2::isPressedRaw() const {
   return (digitalRead(pin) == pressed);
 }
 
