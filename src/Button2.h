@@ -77,11 +77,11 @@ class Button2 {
     void setDoubleClickHandler(CallbackFunction f);
     void setTripleClickHandler(CallbackFunction f);
 
-    unsigned int wasPressedFor();
-    boolean isPressed();
+    unsigned int wasPressedFor() const;
+    boolean isPressed() const;
 
-    unsigned int getNumberOfClicks();
-    unsigned int getClickType();
+    unsigned int getNumberOfClicks() const;
+    unsigned int getClickType() const;
     
     bool operator==(Button2 &rhs);
 

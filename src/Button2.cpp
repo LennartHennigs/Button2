@@ -88,25 +88,25 @@ void Button2::setTripleClickHandler(CallbackFunction f) {
 
 /////////////////////////////////////////////////////////////////
 
-unsigned int Button2::wasPressedFor() {
+unsigned int Button2::wasPressedFor() const {
   return down_time_ms;
 }
 
 /////////////////////////////////////////////////////////////////
 
-boolean Button2::isPressed() {
+boolean Button2::isPressed() const {
   return (state == released);
 }
     
 /////////////////////////////////////////////////////////////////
 
-unsigned int Button2::getNumberOfClicks() {
+unsigned int Button2::getNumberOfClicks() const {
     return click_count;
 }
 
 /////////////////////////////////////////////////////////////////
 
-unsigned int Button2::getClickType() {
+unsigned int Button2::getClickType() const {
     return last_click_type;
 }
 
