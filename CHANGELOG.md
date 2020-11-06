@@ -3,6 +3,10 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.1] - ...
+- Updated LongpressHandler example - changed variable name to from ```buttonA``` to ```button```
+
+
 ## [1.3.0] - 2020-11-06
 - Added capacitive touch sensor capabilties (for ESP32) (as suggested by [qubolino](https://github.com/qubolino) in [#11] (https://github.com/LennartHennigs/Button2/issues/11)) 
 - Removed deprecated entry in the library.properties file (as suggested by [https://github.com/SNL5943]) in [#15](https://github.com/LennartHennigs/Button2/issues/15)
