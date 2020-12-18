@@ -13,13 +13,13 @@
 Button2::Button2(byte attachTo, byte buttonMode /* = INPUT_PULLUP */, boolean isCapacitive /* = false */, boolean activeLow /* = true */, unsigned int debounceTimeout /* = DEBOUNCE_MS */) {
   pin = attachTo;
   setDebounceTime(debounceTimeout);
+  pressed = activeLow ? LOW : HIGH;
+  state = activeLow ? HIGH : LOW;
   if (!isCapacitive) {
     pinMode(attachTo, buttonMode);
   } else {
     capacitive = true;
-    pressed = activeLow ? LOW : HIGH;
-    state = activeLow ? HIGH : LOW;
-  }
+  }	
 }
 
 /////////////////////////////////////////////////////////////////
