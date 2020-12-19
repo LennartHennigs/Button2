@@ -3,6 +3,11 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.1] - 2020-12-19
+- Moved activeLow outside of isCapacitive condition (as suggested by [Wai Lin](https://github.com/w4ilun) in[#18](https://github.com/LennartHennigs/Button2/pull/18)
+
+
+
 ## [1.4.0] - 2020-11-06
 - Updated LongpressHandler example - changed variable name to from ```buttonA``` to ```button```
 - toggled ```pressed``` and ```released``` (as suggesed by [TommyC81] (https://github.com/TommyC81) in [#16] (https://github.com/LennartHennigs/Button2/issues/16))
