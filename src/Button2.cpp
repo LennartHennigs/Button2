@@ -25,14 +25,14 @@ Button2::Button2(byte attachTo, byte buttonMode /* = INPUT_PULLUP */, boolean is
 /////////////////////////////////////////////////////////////////
 
 bool Button2::operator==(Button2 &rhs) {
-      return (this==&rhs);    
+  return (this==&rhs);    
 }
       
 /////////////////////////////////////////////////////////////////
 
 void Button2::setDebounceTime(unsigned int ms) {
-      debounce_time_ms = ms;
-    }
+  debounce_time_ms = ms;
+}
     
 /////////////////////////////////////////////////////////////////
 
@@ -80,6 +80,12 @@ void Button2::setDoubleClickHandler(CallbackFunction f) {
 
 void Button2::setTripleClickHandler(CallbackFunction f) {
   triple_cb = f;
+}
+
+/////////////////////////////////////////////////////////////////
+
+void Button2::setLongpressDetectedClickHandler(CallbackFunction f) {
+  longpress_detected_cb = f;
 }
 
 /////////////////////////////////////////////////////////////////
@@ -186,6 +192,15 @@ void Button2::loop() {
   //  yield();
 }
 
+// check to see that the LONGCLICK_MS period has been exceeded and call the appropriate callback
+if (state == pressed && millis() - down_ms >= LONGCLICK_MS && !longclick_detected_reported) {
+  Serial.printf("eval longpress\n");
+  longclick_detected_reported = true;
+  longclick_detected = true;
+  if (longpress_detected_cb != NULL)
+    longpress_detected_cb(*this);
+}
+
 /////////////////////////////////////////////////////////////////
 
 void Button2::reset() {
@@ -194,6 +209,7 @@ void Button2::reset() {
   down_time_ms = 0;
   pressed_triggered = false;
   longclick_detected = false;
+  longclick_detected_reported = false;
 	
   pressed_cb = NULL;
   released_cb = NULL;
@@ -203,6 +219,7 @@ void Button2::reset() {
   long_cb = NULL;
   double_cb = NULL;
   triple_cb = NULL;
+  longpress_detected_cb = NULL;
 }
 
 /////////////////////////////////////////////////////////////////

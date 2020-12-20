@@ -50,6 +50,8 @@ class Button2 {
     unsigned int down_time_ms = 0;
     bool pressed_triggered = false;
     bool longclick_detected = false;
+    bool longclick_detected = false;
+    bool longclick_detected_reported = false;
         
     typedef void (*CallbackFunction) (Button2&);
 
@@ -75,6 +77,7 @@ class Button2 {
     void setLongClickHandler(CallbackFunction f);
     void setDoubleClickHandler(CallbackFunction f);
     void setTripleClickHandler(CallbackFunction f);
+    void setLongpressDetectedHandler(CallbackFunction f);
 
     unsigned int wasPressedFor() const;
     boolean isPressed() const;
