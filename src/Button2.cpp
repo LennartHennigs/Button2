@@ -168,8 +168,9 @@ void Button2::loop() {
         last_click_type = LONG_CLICK;
         if (long_cb != NULL) long_cb (*this);
       }
-      longclick_detected = false;      
-    // determine the number of single clicks
+      longclick_detected = false;
+      longclick_detected_reported = false;
+      // determine the number of single clicks
     } else if (click_count > 0) {
       switch (click_count) {
         case 1: 
