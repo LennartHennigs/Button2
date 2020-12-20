@@ -25,14 +25,14 @@ Button2::Button2(byte attachTo, byte buttonMode /* = INPUT_PULLUP */, boolean is
 /////////////////////////////////////////////////////////////////
 
 bool Button2::operator==(Button2 &rhs) {
-  return (this==&rhs);    
+      return (this==&rhs);    
 }
       
 /////////////////////////////////////////////////////////////////
 
 void Button2::setDebounceTime(unsigned int ms) {
-  debounce_time_ms = ms;
-}
+      debounce_time_ms = ms;
+    }
     
 /////////////////////////////////////////////////////////////////
 
