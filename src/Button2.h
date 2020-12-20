@@ -62,6 +62,7 @@ class Button2 {
     CallbackFunction long_cb = NULL;
     CallbackFunction double_cb = NULL;
     CallbackFunction triple_cb = NULL;
+    CallbackFunction longclick_detected_cb = NULL;
     
   public:
     Button2(byte attachTo, byte buttonMode = INPUT_PULLUP, boolean isCapacitive = false, boolean activeLow = true, unsigned int debounceTimeout = DEBOUNCE_MS);
@@ -76,7 +77,7 @@ class Button2 {
     void setLongClickHandler(CallbackFunction f);
     void setDoubleClickHandler(CallbackFunction f);
     void setTripleClickHandler(CallbackFunction f);
-    void setLongpressDetectedHandler(CallbackFunction f);
+    void setLongClickDetectedHandler(CallbackFunction f);
 
     unsigned int wasPressedFor() const;
     boolean isPressed() const;

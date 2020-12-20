@@ -84,8 +84,8 @@ void Button2::setTripleClickHandler(CallbackFunction f) {
 
 /////////////////////////////////////////////////////////////////
 
-void Button2::setLongpressDetectedClickHandler(CallbackFunction f) {
-  longpress_detected_cb = f;
+void Button2::setLongClickDetectedHandler(CallbackFunction f) {
+  longclick_detected_cb = f;
 }
 
 /////////////////////////////////////////////////////////////////
@@ -189,16 +189,15 @@ void Button2::loop() {
     click_count = 0;
     click_ms = 0;
   }
-  //  yield();
-}
 
-// check to see that the LONGCLICK_MS period has been exceeded and call the appropriate callback
-if (state == pressed && millis() - down_ms >= LONGCLICK_MS && !longclick_detected_reported) {
-  Serial.printf("eval longpress\n");
-  longclick_detected_reported = true;
-  longclick_detected = true;
-  if (longpress_detected_cb != NULL)
-    longpress_detected_cb(*this);
+  // check to see that the LONGCLICK_MS period has been exceeded and call the appropriate callback
+  if (state == pressed && millis() - down_ms >= LONGCLICK_MS && !longclick_detected_reported) {
+    longclick_detected_reported = true;
+    longclick_detected = true;
+    if (longclick_detected_cb != NULL)
+      longclick_detected_cb(*this);
+  }
+  //  yield();
 }
 
 /////////////////////////////////////////////////////////////////
