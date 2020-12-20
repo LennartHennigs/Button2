@@ -218,7 +218,7 @@ void Button2::reset() {
   long_cb = NULL;
   double_cb = NULL;
   triple_cb = NULL;
-  longpress_detected_cb = NULL;
+  longclick_detected_cb = NULL;
 }
 
 /////////////////////////////////////////////////////////////////
