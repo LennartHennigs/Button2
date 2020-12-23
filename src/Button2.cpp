@@ -34,10 +34,12 @@ void Button2::setDebounceTime(unsigned int ms) {
       debounce_time_ms = ms;
     }
     
+void Button2::setLongClickDetectedRetriggerable(bool retriggerable) {
+  longclick_detected_retriggerable = retriggerable;
+}
 /////////////////////////////////////////////////////////////////
 
-void Button2::setChangedHandler(CallbackFunction f) {
-  change_cb = f; 
+void Button2::setChangedHandler(CallbackFunction f)
 }
     
 /////////////////////////////////////////////////////////////////
@@ -170,6 +172,7 @@ void Button2::loop() {
       }
       longclick_detected = false;
       longclick_detected_reported = false;
+      longclick_detected_counter = 0;
       // determine the number of single clicks
     } else if (click_count > 0) {
       switch (click_count) {
@@ -191,10 +194,19 @@ void Button2::loop() {
     click_ms = 0;
   }
 
+  bool longclick_period_detected = millis() - down_ms >= (LONGCLICK_MS * (longclick_detected_counter + 1));
+
   // check to see that the LONGCLICK_MS period has been exceeded and call the appropriate callback
-  if (state == pressed && millis() - down_ms >= LONGCLICK_MS && !longclick_detected_reported) {
+  if (state == pressed && longclick_period_detected && !longclick_detected_reported)
+  {
     longclick_detected_reported = true;
     longclick_detected = true;
+    if (longclick_detected_retriggerable)
+    {
+      longclick_detected_counter++;
+      longclick_detected_reported = false;
+    }
+    longpress_detected_ms = millis();
     if (longclick_detected_cb != NULL)
       longclick_detected_cb(*this);
   }
