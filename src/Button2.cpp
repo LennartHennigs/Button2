@@ -25,14 +25,14 @@ Button2::Button2(byte attachTo, byte buttonMode /* = INPUT_PULLUP */, boolean is
 /////////////////////////////////////////////////////////////////
 
 bool Button2::operator==(Button2 &rhs) {
-      return (this==&rhs);    
+  return (this==&rhs);    
 }
       
 /////////////////////////////////////////////////////////////////
 
 void Button2::setDebounceTime(unsigned int ms) {
-      debounce_time_ms = ms;
-    }
+  debounce_time_ms = ms;
+}
     
 void Button2::setLongClickDetectedRetriggerable(bool retriggerable) {
   longclick_detected_retriggerable = retriggerable;
@@ -199,12 +199,11 @@ void Button2::loop() {
   bool longclick_period_detected = millis() - down_ms >= (LONGCLICK_MS * (longclick_detected_counter + 1));
 
   // check to see that the LONGCLICK_MS period has been exceeded and call the appropriate callback
-  if (state == pressed && longclick_period_detected && !longclick_detected_reported)
-  {
+  if (state == pressed && longclick_period_detected && !longclick_detected_reported) {
     longclick_detected_reported = true;
     longclick_detected = true;
-    if (longclick_detected_retriggerable)
-    {
+    if (longclick_detected_retriggerable) {
+      // if it's retriggerable then we bump the counter and reset the "reported" flag (as the counter will stop the false trigger)
       longclick_detected_counter++;
       longclick_detected_reported = false;
     }
