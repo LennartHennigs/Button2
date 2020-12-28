@@ -37,7 +37,7 @@
 
 class Button2 {
   protected:
-    byte pin;
+    byte pin = -1;
     bool capacitive = false;
     byte prev_state;
     byte state;
@@ -64,6 +64,9 @@ class Button2 {
     
   public:
     Button2(byte attachTo, byte buttonMode = INPUT_PULLUP, boolean isCapacitive = false, boolean activeLow = true, unsigned int debounceTimeout = DEBOUNCE_MS);
+    Button2();
+    
+    void setPin(byte attachTo, byte buttonMode = INPUT_PULLUP, boolean isCapacitive = false, boolean activeLow = true, unsigned int debounceTimeout = DEBOUNCE_MS);
     void setDebounceTime(unsigned int ms);
     void reset();
     
