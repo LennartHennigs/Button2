@@ -23,7 +23,9 @@ void setup() {
 
   // button.setTapHandler(tap);
   button.setClickHandler(click);
+  button.setLongClickDetectedHandler(longClickDetected);
   button.setLongClickHandler(longClick);
+  
   button.setDoubleClickHandler(doubleClick);
   button.setTripleClickHandler(tripleClick);
 }
@@ -49,6 +51,11 @@ void changed(Button2& btn) {
 void click(Button2& btn) {
     Serial.println("click\n");
 }
+
+void longClickDetected(Button2& btn) {
+    Serial.println("long click detected\n");
+}
+
 void longClick(Button2& btn) {
     Serial.println("long click\n");
 }
