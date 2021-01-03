@@ -14,12 +14,7 @@ Button2::Button2() {
   pin = -1;
 }
 
-Button2::Button2(int attachTo, byte buttonMode /* = INPUT_PULLUP */, boolean isCapacitive /* = false */, boolean activeLow /* = true */, unsigned int debounceTimeout /* = DEBOUNCE_MS */) {
-  setPin(attachTo, buttonMode, isCapacitive, debounceTimeout);
-}
-
-
-void Button2::setPin(byte attachTo, byte buttonMode /* = INPUT_PULLUP */, boolean isCapacitive /* = false */, boolean activeLow /* = true */, unsigned int debounceTimeout /* = DEBOUNCE_MS */) {  
+void Button2::begin(int attachTo, byte buttonMode /* = INPUT_PULLUP */, boolean isCapacitive /* = false */, boolean activeLow /* = true */, unsigned int debounceTimeout /* = DEBOUNCE_MS */) {  
   pin = attachTo;
   setDebounceTime(debounceTimeout);
   pressed = activeLow ? LOW : HIGH;
@@ -29,6 +24,10 @@ void Button2::setPin(byte attachTo, byte buttonMode /* = INPUT_PULLUP */, boolea
   } else {
     capacitive = true;
   }	
+}
+
+Button2::Button2(int attachTo, byte buttonMode /* = INPUT_PULLUP */, boolean isCapacitive /* = false */, boolean activeLow /* = true */, unsigned int debounceTimeout /* = DEBOUNCE_MS */) {
+  begin(attachTo, buttonMode, isCapacitive, debounceTimeout);
 }
 
 /////////////////////////////////////////////////////////////////
@@ -187,24 +186,23 @@ void Button2::loop() {
       click_count = 0;
       click_ms = 0;
     }
-  }
 
-  bool longclick_period_detected = millis() - down_ms >= (LONGCLICK_MS * (longclick_detected_counter + 1));
+    bool longclick_period_detected = millis() - down_ms >= (LONGCLICK_MS * (longclick_detected_counter + 1));
 
-  // check to see that the LONGCLICK_MS period has been exceeded and call the appropriate callback
-  if (state == pressed && longclick_period_detected && !longclick_detected_reported) {
-    longclick_detected_reported = true;
-    longclick_detected = true;
-    if (longclick_detected_retriggerable) {
-      // if it's retriggerable then we bump the counter and reset the "reported" flag (as the counter will stop the false trigger)
-      longclick_detected_counter++;
-      longclick_detected_reported = false;
+    // check to see that the LONGCLICK_MS period has been exceeded and call the appropriate callback
+    if (state == pressed && longclick_period_detected && !longclick_detected_reported) {
+      longclick_detected_reported = true;
+      longclick_detected = true;
+      if (longclick_detected_retriggerable) {
+        // if it's retriggerable then we bump the counter and reset the "reported" flag (as the counter will stop the false trigger)
+        longclick_detected_counter++;
+        longclick_detected_reported = false;
+      }
+      longpress_detected_ms = millis();
+      if (longclick_detected_cb != NULL)
+        longclick_detected_cb(*this);
     }
-    longpress_detected_ms = millis();
-    if (longclick_detected_cb != NULL)
-      longclick_detected_cb(*this);
   }
-  //  yield();
 }
 
 /////////////////////////////////////////////////////////////////
