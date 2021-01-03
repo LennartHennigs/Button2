@@ -5,7 +5,7 @@ none
 
 ## [1.5.0] - 2021-01-03
 - Added default constructor and ```begin()``` function
-- Added pull request by (skelstar)[https://github.com/skelstar] to add the ```setLongClickDetectedHandler()``` function which is triggered as soon as the longclick timeout has passed
+- Added pull request by [skelstar](https://github.com/skelstar) to add the ```setLongClickDetectedHandler()``` function which is triggered as soon as the longclick timeout has passed
 
 ## [1.4.1] - 2020-12-19
 - Moved activeLow outside of isCapacitive condition (as suggested by [Wai Lin](https://github.com/w4ilun) in[#18](https://github.com/LennartHennigs/Button2/pull/18)

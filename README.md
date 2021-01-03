@@ -2,7 +2,7 @@ Button2
 ======
 
 * Author: Lennart Hennigs (https://www.lennarthennigs.de)
-* Copyright (C) 2017-2020 Lennart Hennigs.
+* Copyright (C) 2017-2021 Lennart Hennigs.
 * Released under the MIT license.
 
 Arduino Library to simplify working with buttons.
@@ -10,7 +10,9 @@ Arduino Library to simplify working with buttons.
 
 Description
 -----------
-It allows you to use callback functions to track single, double, triple and long clicks. It also takes care of debouncing. It will reduce and simplify your source code significantly. Tested with Arduino and ESP8266, ESP32.
+It allows you to use callback functions to track single, double, triple and long clicks. It also takes care of debouncing. It will reduce and simplify your source code significantly. 
+
+Tested with Arduino and ESP8266, ESP32.
 
 How To Use
 ----------
@@ -66,6 +68,8 @@ bool operator==(Button2 &rhs);
 
 void loop();
 ```
+
+And please take a look at the [Changelog](https://github.com/LennartHennigs/Button2/blob/master/CHANGELOG.md) for the latest changes to the library.
 
 Installation
 ------------
