@@ -25,19 +25,23 @@ Button2::Button2(byte attachTo, byte buttonMode /* = INPUT_PULLUP */, boolean is
 /////////////////////////////////////////////////////////////////
 
 bool Button2::operator==(Button2 &rhs) {
-      return (this==&rhs);    
+  return (this==&rhs);    
 }
       
 /////////////////////////////////////////////////////////////////
 
 void Button2::setDebounceTime(unsigned int ms) {
-      debounce_time_ms = ms;
-    }
+  debounce_time_ms = ms;
+}
     
+void Button2::setLongClickDetectedRetriggerable(bool retriggerable) {
+  longclick_detected_retriggerable = retriggerable;
+}
 /////////////////////////////////////////////////////////////////
 
-void Button2::setChangedHandler(CallbackFunction f) {
-  change_cb = f; 
+void Button2::setChangedHandler(CallbackFunction f)
+{
+  change_cb = f;
 }
     
 /////////////////////////////////////////////////////////////////
@@ -80,6 +84,12 @@ void Button2::setDoubleClickHandler(CallbackFunction f) {
 
 void Button2::setTripleClickHandler(CallbackFunction f) {
   triple_cb = f;
+}
+
+/////////////////////////////////////////////////////////////////
+
+void Button2::setLongClickDetectedHandler(CallbackFunction f) {
+  longclick_detected_cb = f;
 }
 
 /////////////////////////////////////////////////////////////////
@@ -162,8 +172,10 @@ void Button2::loop() {
         last_click_type = LONG_CLICK;
         if (long_cb != NULL) long_cb (*this);
       }
-      longclick_detected = false;      
-    // determine the number of single clicks
+      longclick_detected = false;
+      longclick_detected_reported = false;
+      longclick_detected_counter = 0;
+      // determine the number of single clicks
     } else if (click_count > 0) {
       switch (click_count) {
         case 1: 
@@ -183,6 +195,22 @@ void Button2::loop() {
     click_count = 0;
     click_ms = 0;
   }
+
+  bool longclick_period_detected = millis() - down_ms >= (LONGCLICK_MS * (longclick_detected_counter + 1));
+
+  // check to see that the LONGCLICK_MS period has been exceeded and call the appropriate callback
+  if (state == pressed && longclick_period_detected && !longclick_detected_reported) {
+    longclick_detected_reported = true;
+    longclick_detected = true;
+    if (longclick_detected_retriggerable) {
+      // if it's retriggerable then we bump the counter and reset the "reported" flag (as the counter will stop the false trigger)
+      longclick_detected_counter++;
+      longclick_detected_reported = false;
+    }
+    longpress_detected_ms = millis();
+    if (longclick_detected_cb != NULL)
+      longclick_detected_cb(*this);
+  }
   //  yield();
 }
 
@@ -194,6 +222,7 @@ void Button2::reset() {
   down_time_ms = 0;
   pressed_triggered = false;
   longclick_detected = false;
+  longclick_detected_reported = false;
 	
   pressed_cb = NULL;
   released_cb = NULL;
@@ -203,6 +232,7 @@ void Button2::reset() {
   long_cb = NULL;
   double_cb = NULL;
   triple_cb = NULL;
+  longclick_detected_cb = NULL;
 }
 
 /////////////////////////////////////////////////////////////////
