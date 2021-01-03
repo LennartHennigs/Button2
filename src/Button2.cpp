@@ -10,13 +10,14 @@
 
 /////////////////////////////////////////////////////////////////
 
+Button2::Button2() {  
+  pin = -1;
+}
+
 Button2::Button2(int attachTo, byte buttonMode /* = INPUT_PULLUP */, boolean isCapacitive /* = false */, boolean activeLow /* = true */, unsigned int debounceTimeout /* = DEBOUNCE_MS */) {
   setPin(attachTo, buttonMode, isCapacitive, debounceTimeout);
 }
 
-Button2::Button2() {  
-  pin = -1;
-}
 
 void Button2::setPin(byte attachTo, byte buttonMode /* = INPUT_PULLUP */, boolean isCapacitive /* = false */, boolean activeLow /* = true */, unsigned int debounceTimeout /* = DEBOUNCE_MS */) {  
   pin = attachTo;

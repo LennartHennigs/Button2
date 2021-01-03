@@ -69,7 +69,7 @@ protected:
 
 public:
   Button2();
-  Button2(byte attachTo, byte buttonMode = INPUT_PULLUP, boolean isCapacitive = false, boolean activeLow = true, unsigned int debounceTimeout = DEBOUNCE_MS);
+  Button2(int attachTo, byte buttonMode = INPUT_PULLUP, boolean isCapacitive = false, boolean activeLow = true, unsigned int debounceTimeout = DEBOUNCE_MS);
   
   void setDebounceTime(unsigned int ms);
   void setLongClickDetectedRetriggerable(bool retriggerable);
