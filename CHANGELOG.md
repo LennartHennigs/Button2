@@ -3,6 +3,9 @@
 ## Unreleased
 none
 
+## [1.5.0] - 2021-01-04
+- Fixed a bug in the ```loop()``` function
+
 ## [1.5.0] - 2021-01-03
 - Added default constructor and ```begin()``` function
 - Added pull request by [skelstar](https://github.com/skelstar) to add the ```setLongClickDetectedHandler()``` function which is triggered as soon as the longclick timeout has passed
