@@ -3,7 +3,7 @@
 ## Unreleased
 none
 
-## [1.5.0] - 2021-01-04
+## [1.5.1] - 2021-01-04
 - Fixed a bug in the ```loop()``` function
 
 ## [1.5.0] - 2021-01-03
