@@ -16,7 +16,7 @@ none
 
 ## [1.4.0] - 2020-11-06
 - Updated LongpressHandler example - changed variable name to from ```buttonA``` to ```button```
-- toggled ```pressed``` and ```released``` (as suggesed by [TommyC81](https://github.com/TommyC81) in [#16] (https://github.com/LennartHennigs/Button2/issues/16))
+- toggled ```pressed``` and ```released``` (as suggesed by [TommyC81](https://github.com/TommyC81) in [#16](https://github.com/LennartHennigs/Button2/issues/16))
 - added debug function ```isPressedRaw()``` (as suggesed by [TommyC81](https://github.com/TommyC81) in [#16](https://github.com/LennartHennigs/Button2/issues/16))
 - fixed bug with ```click_count``` (as suggesed by [TommyC81](https://github.com/TommyC81) in [#16](https://github.com/LennartHennigs/Button2/issues/16))
 - changed return types of ```getNumberOfClicks()``` and  ```getClickType()``` to ```byte```
