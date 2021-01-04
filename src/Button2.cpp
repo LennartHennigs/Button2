@@ -133,7 +133,7 @@ byte Button2::getClickType() const {
 /////////////////////////////////////////////////////////////////
 
 void Button2::loop() {
-  if (pin != -1) {
+  if (pin > -1) {
     prev_state = state;
     if (!capacitive) {
       state = digitalRead(pin);
@@ -164,24 +164,42 @@ void Button2::loop() {
           longclick_detected = true;
         }
       }
-      longclick_detected = false;
-      longclick_detected_reported = false;
-      longclick_detected_counter = 0;
-      // determine the number of single clicks
-    } else if (click_count > 0) {
-      switch (click_count) {
-        case 1: 
-          last_click_type = SINGLE_CLICK;
-          if (click_cb != NULL) click_cb (*this);
-          break;
-         case 2: 
-          last_click_type = DOUBLE_CLICK;
-          if (double_cb != NULL) double_cb (*this);
-          break;
-         case 3: 
-          last_click_type = TRIPLE_CLICK;
-          if (triple_cb != NULL) triple_cb (*this);
-          break;
+
+    // trigger pressed event (after debounce has passed)
+    } else if (state == pressed && !pressed_triggered && (millis() - down_ms >= debounce_time_ms)) {
+      pressed_triggered = true;
+      click_count++;
+      if (change_cb != NULL) change_cb (*this);      
+      if (pressed_cb != NULL) pressed_cb (*this);
+
+    // is the button released and the time has passed for multiple clicks?
+    } else if (state != pressed && millis() - click_ms > DOUBLECLICK_MS) {
+      // was there a longclick?
+      if (longclick_detected) {
+        // was it part of a combination?
+        if (click_count == 1) {
+          last_click_type = LONG_CLICK;
+          if (long_cb != NULL) long_cb (*this);
+        }
+        longclick_detected = false;
+        longclick_detected_reported = false;
+        longclick_detected_counter = 0;
+        // determine the number of single clicks
+      } else if (click_count > 0) {
+        switch (click_count) {
+          case 1: 
+            last_click_type = SINGLE_CLICK;
+            if (click_cb != NULL) click_cb (*this);
+            break;
+            case 2: 
+            last_click_type = DOUBLE_CLICK;
+            if (double_cb != NULL) double_cb (*this);
+            break;
+            case 3: 
+            last_click_type = TRIPLE_CLICK;
+            if (triple_cb != NULL) triple_cb (*this);
+            break;
+        }
       }
       click_count = 0;
       click_ms = 0;
