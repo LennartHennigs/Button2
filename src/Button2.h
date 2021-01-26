@@ -80,12 +80,14 @@ public:
   void setChangedHandler(CallbackFunction f);
   void setPressedHandler(CallbackFunction f);
   void setReleasedHandler(CallbackFunction f);
-  void setClickHandler(CallbackFunction f);
+
   void setTapHandler(CallbackFunction f);
-  void setLongClickHandler(CallbackFunction f);
-  void setLongClickDetectedHandler(CallbackFunction f);
+  void setClickHandler(CallbackFunction f);
   void setDoubleClickHandler(CallbackFunction f);
   void setTripleClickHandler(CallbackFunction f);
+
+  void setLongClickHandler(CallbackFunction f);
+  void setLongClickDetectedHandler(CallbackFunction f);
 
   unsigned int wasPressedFor() const;
   boolean isPressed() const;
