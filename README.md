@@ -12,7 +12,7 @@ Description
 -----------
 It allows you to use callback functions to track single, double, triple and long clicks. It also takes care of debouncing. It will reduce and simplify your source code significantly. 
 
-Tested with Arduino and ESP8266, ESP32.
+Tested with Arduino, ESP8266 and ESP32.
 
 How To Use
 ----------

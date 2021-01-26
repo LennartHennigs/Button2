@@ -3,6 +3,9 @@
 ## Unreleased
 none
 
+## [1.5.2] - 2021-01-26
+- Fixed a bug in the ```isPressed()``` function, as suggested by [zenturacp](https://github.com/zenturacp) in [#21](https://github.com/LennartHennigs/Button2/issues/21)
+
 ## [1.5.1] - 2021-01-04
 - Fixed a bug in the ```loop()``` function
 
