@@ -3,6 +3,9 @@
 ## Unreleased
 none
 
+## [1.5.3] - 2021-01-26
+- Fixed a bug in the constructor, as suggested by [alex-s-v](https://github.com/alex-s-v) in pull request [#22](https://github.com/LennartHennigs/Button2/pull/22)
+
 ## [1.5.2] - 2021-01-26
 - Fixed a bug in the ```isPressed()``` function, as suggested by [zenturacp](https://github.com/zenturacp) in [#21](https://github.com/LennartHennigs/Button2/issues/21)
 
