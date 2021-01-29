@@ -32,7 +32,7 @@ void Button2::begin(int attachTo, byte buttonMode /* = INPUT_PULLUP */, boolean 
 /////////////////////////////////////////////////////////////////
 
 Button2::Button2(int attachTo, byte buttonMode /* = INPUT_PULLUP */, boolean isCapacitive /* = false */, boolean activeLow /* = true */, unsigned int debounceTimeout /* = DEBOUNCE_MS */) {
-  begin(attachTo, buttonMode, isCapacitive, debounceTimeout);
+  begin(attachTo, buttonMode, isCapacitive, activeLow, debounceTimeout);
 }
 
 /////////////////////////////////////////////////////////////////
