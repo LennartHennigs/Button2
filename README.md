@@ -37,9 +37,9 @@ These are the constructors and the member functions the library provides:
 
 ```
 Button2();
-Button2(int attachTo, byte buttonMode = INPUT_PULLUP, boolean isCapacitive = false, boolean activeLow = true, unsigned int debounceTimeout = DEBOUNCE_MS);
+Button2(byte attachTo, byte buttonMode = INPUT_PULLUP, boolean isCapacitive = false, boolean activeLow = true, unsigned int debounceTimeout = DEBOUNCE_MS);
 
-void begin(int attachTo, byte buttonMode = INPUT_PULLUP, boolean isCapacitive = false , boolean activeLow  = true, unsigned int debounceTimeout = DEBOUNCE_MS);
+void begin(byte attachTo, byte buttonMode = INPUT_PULLUP, boolean isCapacitive = false , boolean activeLow  = true, unsigned int debounceTimeout = DEBOUNCE_MS);
 
 void setDebounceTime(unsigned int ms);
 void setLongClickDetectedRetriggerable(bool retriggerable);
@@ -66,6 +66,7 @@ byte getClickType() const;
 
 bool operator==(Button2 &rhs);
 
+byte getAttachPin();
 void loop();
 ```
 

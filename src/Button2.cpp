@@ -16,7 +16,7 @@ Button2::Button2() {
 
 /////////////////////////////////////////////////////////////////
 
-void Button2::begin(int attachTo, byte buttonMode /* = INPUT_PULLUP */, boolean isCapacitive /* = false */, boolean activeLow /* = true */, unsigned int debounceTimeout /* = DEBOUNCE_MS */) {  
+void Button2::begin(byte attachTo, byte buttonMode /* = INPUT_PULLUP */, boolean isCapacitive /* = false */, boolean activeLow /* = true */, unsigned int debounceTimeout /* = DEBOUNCE_MS */) {  
   pin = attachTo;
   longclick_detected_retriggerable = false;
   setDebounceTime(debounceTimeout);
@@ -31,8 +31,15 @@ void Button2::begin(int attachTo, byte buttonMode /* = INPUT_PULLUP */, boolean 
 
 /////////////////////////////////////////////////////////////////
 
-Button2::Button2(int attachTo, byte buttonMode /* = INPUT_PULLUP */, boolean isCapacitive /* = false */, boolean activeLow /* = true */, unsigned int debounceTimeout /* = DEBOUNCE_MS */) {
+Button2::Button2(byte attachTo, byte buttonMode /* = INPUT_PULLUP */, boolean isCapacitive /* = false */, boolean activeLow /* = true */, unsigned int debounceTimeout /* = DEBOUNCE_MS */) {
   begin(attachTo, buttonMode, isCapacitive, activeLow, debounceTimeout);
+}
+
+
+/////////////////////////////////////////////////////////////////
+
+byte Button2::getAttachPin() {
+  return pin;
 }
 
 /////////////////////////////////////////////////////////////////

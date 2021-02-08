@@ -37,7 +37,7 @@
 
 class Button2 {
 protected:
-  int pin;
+  byte pin;
   bool capacitive = false;
   byte prev_state;
   byte state;
@@ -69,9 +69,9 @@ protected:
 
 public:
   Button2();
-  Button2(int attachTo, byte buttonMode = INPUT_PULLUP, boolean isCapacitive = false, boolean activeLow = true, unsigned int debounceTimeout = DEBOUNCE_MS);
+  Button2(byte attachTo, byte buttonMode = INPUT_PULLUP, boolean isCapacitive = false, boolean activeLow = true, unsigned int debounceTimeout = DEBOUNCE_MS);
 
-  void begin(int attachTo, byte buttonMode = INPUT_PULLUP, boolean isCapacitive = false , boolean activeLow  = true, unsigned int debounceTimeout = DEBOUNCE_MS);
+  void begin(byte attachTo, byte buttonMode = INPUT_PULLUP, boolean isCapacitive = false , boolean activeLow  = true, unsigned int debounceTimeout = DEBOUNCE_MS);
 
   void setDebounceTime(unsigned int ms);
   void setLongClickDetectedRetriggerable(bool retriggerable);
@@ -98,6 +98,7 @@ public:
 
   bool operator==(Button2 &rhs);
 
+  byte getAttachPin();
   void loop();
 };
 /////////////////////////////////////////////////////////////////
