@@ -4,8 +4,7 @@
 -
 
 ## [1.5.4] - 2021-02-08
-- Added ```getAttachPin()``` function, as suggested by [madivad](https://github.com/madivad) in issue [#23] 
-(https://github.com/LennartHennigs/Button2/issues/23)
+- Added ```getAttachPin()``` function, as suggested by [madivad](https://github.com/madivad) in issue [#23](https://github.com/LennartHennigs/Button2/issues/23)
 
 ## [1.5.3] - 2021-01-26
 - Fixed a bug in the constructor, as suggested by [alex-s-v](https://github.com/alex-s-v) in pull request [#22](https://github.com/LennartHennigs/Button2/pull/22)
