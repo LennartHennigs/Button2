@@ -16,20 +16,22 @@ Tested with Arduino, ESP8266 and ESP32.
 
 How To Use
 ----------
+
 Please take a look at the included examples to get an overview over the different callback handlers. 
 
-- The callback function from ```setTapHandler()```  will be called when any click (single, double, triple) occurs
-- The callback function from  ```setLongClickDetectedHandler()``` will be called as soon as the long click timeout has passed. The callback for ```setLongClickHandler()``` will be called after the button has released.
+- The callback function from ```setTapHandler()```  will be called when any click (single, double, triple) occurs.
+- The callback function from  ```setLongClickDetectedHandler()``` will be called as soon as the long click timeout has passed.
 
-- You can define your own timeouts by setting these constants before you include the class:
+- The callback for ```setLongClickHandler()``` will be called after the button has released.
 
-```
-  #define DEBOUNCE_MS 50
-  #define LONGCLICK_MS 200
-  #define DOUBLECLICK_MS 300
-  #define CAPACITIVE_TOUCH_THRESHOLD 35
-```
+- You can define your own timeouts by using these setter functions before you include the class:
 
+  ```void setDebounceTime(unsigned int ms);```
+  
+  ```void setLongClickTime(unsigned int ms);```
+  
+  ```void setDoubleClickTime(unsigned int ms);```
+    
 **Note:** For the class to work, you need to call the `loop()` member function in your sketch's `loop()` function. See the example for more details.
 
 
@@ -37,37 +39,45 @@ These are the constructors and the member functions the library provides:
 
 ```
 Button2();
-Button2(byte attachTo, byte buttonMode = INPUT_PULLUP, boolean isCapacitive = false, boolean activeLow = true, unsigned int debounceTimeout = DEBOUNCE_MS);
+  Button2(byte attachTo, byte buttonMode = INPUT_PULLUP, boolean isCapacitive = false, boolean activeLow = true);
 
-void begin(byte attachTo, byte buttonMode = INPUT_PULLUP, boolean isCapacitive = false , boolean activeLow  = true, unsigned int debounceTimeout = DEBOUNCE_MS);
+  void begin(byte attachTo, byte buttonMode = INPUT_PULLUP, boolean isCapacitive = false , boolean activeLow  = true);
 
-void setDebounceTime(unsigned int ms);
-void setLongClickDetectedRetriggerable(bool retriggerable);
-void reset();
+  void setDebounceTime(unsigned int ms);
+  void setLongClickTime(unsigned int ms);
+  void setDoubleClickTime(unsigned int ms);
+  
+  unsigned int getDebounceTime();
+  unsigned int getLongClickTime();
+  unsigned int getDoubleClickTime();
+  byte getAttachPin();
 
-void setChangedHandler(CallbackFunction f);
-void setPressedHandler(CallbackFunction f);
-void setReleasedHandler(CallbackFunction f);
+  void setLongClickDetectedRetriggerable(bool retriggerable);
 
-void setTapHandler(CallbackFunction f);
-void setClickHandler(CallbackFunction f);
+  void reset();
 
-void setLongClickHandler(CallbackFunction f);
-void setLongClickDetectedHandler(CallbackFunction f);
-void setDoubleClickHandler(CallbackFunction f);
-void setTripleClickHandler(CallbackFunction f);
+  void setChangedHandler(CallbackFunction f);
+  void setPressedHandler(CallbackFunction f);
+  void setReleasedHandler(CallbackFunction f);
 
-unsigned int wasPressedFor() const;
-boolean isPressed() const;
-boolean isPressedRaw() const;
+  void setTapHandler(CallbackFunction f);
+  void setClickHandler(CallbackFunction f);
+  void setDoubleClickHandler(CallbackFunction f);
+  void setTripleClickHandler(CallbackFunction f);
 
-byte getNumberOfClicks() const;
-byte getClickType() const;
+  void setLongClickHandler(CallbackFunction f);
+  void setLongClickDetectedHandler(CallbackFunction f);
 
-bool operator==(Button2 &rhs);
+  unsigned int wasPressedFor() const;
+  boolean isPressed() const;
+  boolean isPressedRaw() const;
 
-byte getAttachPin();
-void loop();
+  byte getNumberOfClicks() const;
+  byte getClickType() const;
+
+  bool operator==(Button2 &rhs);
+
+  void loop();
 ```
 
 And please take a look at the [Changelog](https://github.com/LennartHennigs/Button2/blob/master/CHANGELOG.md) for the latest changes to the library.
