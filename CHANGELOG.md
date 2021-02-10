@@ -1,7 +1,10 @@
 # Changelog
 
 ## Unreleased
--
+
+## [1.6.0] - 2021-02-10
+- added getter/setter functions for debounce, longclick and doubleclick timeouts
+- removed debounce timeout parameter from ```contructor``` and ```begin()```
 
 ## [1.5.4] - 2021-02-08
 - Added ```getAttachPin()``` function, as suggested by [madivad](https://github.com/madivad) in issue [#23](https://github.com/LennartHennigs/Button2/issues/23)
