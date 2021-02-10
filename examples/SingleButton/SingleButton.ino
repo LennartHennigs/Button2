@@ -16,7 +16,13 @@ void setup() {
   Serial.begin(9600);
   delay(50);
   Serial.println("\n\nButton Demo");
-  
+
+  // button.setLongClickTime(1000);
+  // button.setDoubleClickTime(400);
+
+  Serial.println(" Longpress Time: " + String(button.getLongClickTime()) + "ms");
+  Serial.println(" DoubleClick Time: " + String(button.getDoubleClickTime()) + "ms");
+
   // button.setChangedHandler(changed);
   // button.setPressedHandler(pressed);
   button.setReleasedHandler(released);

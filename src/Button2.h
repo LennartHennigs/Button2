@@ -15,18 +15,10 @@
 
 /////////////////////////////////////////////////////////////////
 
-#ifndef DEBOUNCE_MS
-  #define DEBOUNCE_MS 50
-#endif
-#ifndef LONGCLICK_MS
-  #define LONGCLICK_MS 200
-#endif
-#ifndef DOUBLECLICK_MS
-  #define DOUBLECLICK_MS 300
-#endif
-#ifndef CAPACITIVE_TOUCH_THRESHOLD
-  #define CAPACITIVE_TOUCH_THRESHOLD 35
-#endif
+#define DEBOUNCE_MS 50
+#define LONGCLICK_MS 200
+#define DOUBLECLICK_MS 300
+#define CAPACITIVE_TOUCH_THRESHOLD 35
 
 #define SINGLE_CLICK 1
 #define DOUBLE_CLICK 2
@@ -46,14 +38,18 @@ protected:
   byte last_click_type = 0;
   unsigned long click_ms;
   unsigned long down_ms;
-  unsigned long longpress_detected_ms;
+
   bool longclick_detected_retriggerable;
   uint16_t longclick_detected_counter;
-  unsigned int debounce_time_ms;
-  unsigned int down_time_ms = 0;
-  bool pressed_triggered = false;
   bool longclick_detected = false;
   bool longclick_detected_reported = false;
+  
+  unsigned int debounce_time_ms;
+  unsigned int longclick_time_ms;
+  unsigned int doubleclick_time_ms;
+  
+  unsigned int down_time_ms = 0;
+  bool pressed_triggered = false;
 
   typedef void (*CallbackFunction)(Button2 &);
 
@@ -69,12 +65,20 @@ protected:
 
 public:
   Button2();
-  Button2(byte attachTo, byte buttonMode = INPUT_PULLUP, boolean isCapacitive = false, boolean activeLow = true, unsigned int debounceTimeout = DEBOUNCE_MS);
+  Button2(byte attachTo, byte buttonMode = INPUT_PULLUP, boolean isCapacitive = false, boolean activeLow = true);
 
-  void begin(byte attachTo, byte buttonMode = INPUT_PULLUP, boolean isCapacitive = false , boolean activeLow  = true, unsigned int debounceTimeout = DEBOUNCE_MS);
+  void begin(byte attachTo, byte buttonMode = INPUT_PULLUP, boolean isCapacitive = false , boolean activeLow  = true);
 
   void setDebounceTime(unsigned int ms);
+  void setLongClickTime(unsigned int ms);
+  void setDoubleClickTime(unsigned int ms);
+  unsigned int getDebounceTime();
+  unsigned int getLongClickTime();
+  unsigned int getDoubleClickTime();
+  byte getAttachPin();
+
   void setLongClickDetectedRetriggerable(bool retriggerable);
+
   void reset();
 
   void setChangedHandler(CallbackFunction f);
@@ -98,7 +102,6 @@ public:
 
   bool operator==(Button2 &rhs);
 
-  byte getAttachPin();
   void loop();
 };
 /////////////////////////////////////////////////////////////////

@@ -16,10 +16,18 @@ Button2::Button2() {
 
 /////////////////////////////////////////////////////////////////
 
-void Button2::begin(byte attachTo, byte buttonMode /* = INPUT_PULLUP */, boolean isCapacitive /* = false */, boolean activeLow /* = true */, unsigned int debounceTimeout /* = DEBOUNCE_MS */) {  
+Button2::Button2(byte attachTo, byte buttonMode /* = INPUT_PULLUP */, boolean isCapacitive /* = false */, boolean activeLow /* = true */) {
+  begin(attachTo, buttonMode, isCapacitive, activeLow);
+}
+
+/////////////////////////////////////////////////////////////////
+
+void Button2::begin(byte attachTo, byte buttonMode /* = INPUT_PULLUP */, boolean isCapacitive /* = false */, boolean activeLow /* = true */) {  
   pin = attachTo;
   longclick_detected_retriggerable = false;
-  setDebounceTime(debounceTimeout);
+  setDebounceTime(DEBOUNCE_MS);
+  setLongClickTime(LONGCLICK_MS);
+  setDoubleClickTime(DOUBLECLICK_MS);
   pressed = activeLow ? LOW : HIGH;
   state = activeLow ? HIGH : LOW;
   if (!isCapacitive) {
@@ -31,10 +39,39 @@ void Button2::begin(byte attachTo, byte buttonMode /* = INPUT_PULLUP */, boolean
 
 /////////////////////////////////////////////////////////////////
 
-Button2::Button2(byte attachTo, byte buttonMode /* = INPUT_PULLUP */, boolean isCapacitive /* = false */, boolean activeLow /* = true */, unsigned int debounceTimeout /* = DEBOUNCE_MS */) {
-  begin(attachTo, buttonMode, isCapacitive, activeLow, debounceTimeout);
+void Button2::setDebounceTime(unsigned int ms) {
+  debounce_time_ms = ms;
+}
+    
+/////////////////////////////////////////////////////////////////
+
+void Button2::setLongClickTime(unsigned int ms) {
+  longclick_time_ms = ms;
 }
 
+/////////////////////////////////////////////////////////////////
+
+void Button2::setDoubleClickTime(unsigned int ms) {
+  doubleclick_time_ms = ms;
+}
+
+/////////////////////////////////////////////////////////////////
+
+unsigned int Button2::getDebounceTime() {
+  return debounce_time_ms;
+}
+
+/////////////////////////////////////////////////////////////////
+
+unsigned int Button2::getLongClickTime() {
+  return longclick_time_ms;
+}
+
+/////////////////////////////////////////////////////////////////
+
+unsigned int Button2::getDoubleClickTime() {
+  return doubleclick_time_ms;
+}
 
 /////////////////////////////////////////////////////////////////
 
@@ -48,12 +85,6 @@ bool Button2::operator==(Button2 &rhs) {
   return (this==&rhs);    
 }
       
-/////////////////////////////////////////////////////////////////
-
-void Button2::setDebounceTime(unsigned int ms) {
-  debounce_time_ms = ms;
-}
-    
 /////////////////////////////////////////////////////////////////
 
 void Button2::setLongClickDetectedRetriggerable(bool retriggerable) {
@@ -182,13 +213,13 @@ void Button2::loop() {
         // trigger tap
         if (tap_cb != NULL) tap_cb (*this);        
         // was it a longclick? (preceeds single / double / triple clicks)
-        if (down_time_ms >= LONGCLICK_MS) {
+        if (down_time_ms >= longclick_time_ms) {
           longclick_detected = true;
         }
       }
 
     // is the button released and the time has passed for multiple clicks?
-    } else if (state != pressed && now - click_ms > DOUBLECLICK_MS) {
+    } else if (state != pressed && now - click_ms > doubleclick_time_ms) {
       // was there a longclick?
       if (longclick_detected) {
         // was it part of a combination?
@@ -220,9 +251,9 @@ void Button2::loop() {
       click_ms = 0;
     }
 
-    bool longclick_period_detected = now - down_ms >= (LONGCLICK_MS * (longclick_detected_counter + 1));
+    bool longclick_period_detected = now - down_ms >= (longclick_time_ms * (longclick_detected_counter + 1));
 
-    // check to see that the LONGCLICK_MS period has been exceeded and call the appropriate callback
+    // check to see that the longclick_ms period has been exceeded and call the appropriate callback
     if (state == pressed && longclick_period_detected && !longclick_detected_reported) {
       longclick_detected_reported = true;
       longclick_detected = true;
@@ -231,7 +262,7 @@ void Button2::loop() {
         longclick_detected_counter++;
         longclick_detected_reported = false;
       }
-      longpress_detected_ms = now;
+//      longpress_detected_ms = now;
       if (longclick_detected_cb != NULL)
         longclick_detected_cb(*this);
     }
