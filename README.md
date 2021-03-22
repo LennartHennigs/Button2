@@ -29,7 +29,7 @@ __Callback Handler__
   - ```setTapHandler()``` will be be called when any click occurs.
   - ```setLongClickHandler()``` will be called after the button has released.
   - ```setLongClickDetectedHandler()``` will be called as soon as the long click timeout has passed.
-  - ```setDoubleClickHandler()``` and ```setTripleClickHandler()``` detec complex interactions.
+  - ```setDoubleClickHandler()``` and ```setTripleClickHandler()``` detect complex interactions.
   - ```setChangedHandler()```, ```setPressedHandler()``` and ```setReleasedHandler()``` allow to detect basic interactions.
 
 - The callback function needs a ```Button2``` reference parameter. There the reference to the triggered button is stored. This can used to call status fuctions, e.g. ```wasPressedFor()```.
