@@ -1,39 +1,64 @@
 Button2
 ======
 
+Arduino/ESP library to simplify working with buttons.
+
 * Author: Lennart Hennigs (https://www.lennarthennigs.de)
 * Copyright (C) 2017-2021 Lennart Hennigs.
 * Released under the MIT license.
 
-Arduino Library to simplify working with buttons.
-
-
 Description
 -----------
-It allows you to use callback functions to track single, double, triple and long clicks. It also takes care of debouncing. It will reduce and simplify your source code significantly. 
+This library allows you to use callback functions to track single, double, triple and long clicks. It takes care of debouncing. Using this lib will reduce and simplify your source code significantly. 
 
-Tested with Arduino, ESP8266 and ESP32.
+It has been tested with Arduino, ESP8266 and ESP32 devices.
 
 How To Use
 ----------
 
-Please take a look at the included examples to get an overview over the different callback handlers. 
+This library allows you to define a button and uses callback functions to detect different types of button interactions.
 
-- The callback function from ```setTapHandler()```  will be called when any click (single, double, triple) occurs.
-- The callback function from  ```setLongClickDetectedHandler()``` will be called as soon as the long click timeout has passed.
+__Definition__
+- Define the button either using the ```constructor``` or the ```begin()``` function.
+- Per default the button pins are defined as ```INPUT_PULLUP```. You can override this upon creation.
+- On an ESP32 you can use it with the built-in capacitive button pins.
 
-- The callback for ```setLongClickHandler()``` will be called after the button has released.
 
-- You can define your own timeouts by using these setter functions before you include the class:
+__Callback Handler__
+- You can define callback functions to track various types of clicks:
+  - ```setTapHandler()``` will be be called when any click occurs.
+  - ```setLongClickHandler()``` will be called after the button has released.
+  - ```setLongClickDetectedHandler()``` will be called as soon as the long click timeout has passed.
+  - ```setDoubleClickHandler()``` and ```setTripleClickHandler()``` detec complex interactions.
+  - ```setChangedHandler()```, ```setPressedHandler()``` and ```setReleasedHandler()``` allow to detect basic interactions.
 
-  ```void setDebounceTime(unsigned int ms);```
-  
-  ```void setLongClickTime(unsigned int ms);```
-  
-  ```void setDoubleClickTime(unsigned int ms);```
+- The callback function needs a ```Button2``` reference parameter. There the reference to the triggered button is stored. This can used to call status fuctions, e.g. ```wasPressedFor()```.
+
+- Please take a look at the included examples to get an overview over the different callback handlers. 
+
+__Timeouts__
+- You can define your own timeouts by using these setter functions:
+
+  - ```void setDebounceTime(unsigned int ms);```
+  - ```void setLongClickTime(unsigned int ms);```
+  - ```void setDoubleClickTime(unsigned int ms);```
     
-**Note:** For the class to work, you need to call the `loop()` member function in your sketch's `loop()` function. See the example for more details.
 
+__The Loop__    
+- For the class to work, you need to call the button's `loop()` member function in your sketch's `loop()` function. 
+- Please see the examples for more details.
+
+Notes
+-----
+
+- To see the latest changes to the library please take a look at the [Changelog](https://github.com/LennartHennigs/Button2/blob/master/CHANGELOG.md).
+ 
+- And if you find this library helpful, please consider giving it a star at [GitHub](https://github.com/LennartHennigs/Button2). Thanks!
+
+
+
+Class Definition
+----------------
 
 These are the constructors and the member functions the library provides:
 
@@ -79,8 +104,6 @@ Button2();
 
   void loop();
 ```
-
-And please take a look at the [Changelog](https://github.com/LennartHennigs/Button2/blob/master/CHANGELOG.md) for the latest changes to the library.
 
 Installation
 ------------
