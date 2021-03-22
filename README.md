@@ -64,45 +64,45 @@ These are the constructors and the member functions the library provides:
 
 ```
 Button2();
-  Button2(byte attachTo, byte buttonMode = INPUT_PULLUP, boolean isCapacitive = false, boolean activeLow = true);
+Button2(byte attachTo, byte buttonMode = INPUT_PULLUP, boolean isCapacitive = false, boolean activeLow = true);
 
-  void begin(byte attachTo, byte buttonMode = INPUT_PULLUP, boolean isCapacitive = false , boolean activeLow  = true);
+void begin(byte attachTo, byte buttonMode = INPUT_PULLUP, boolean isCapacitive = false , boolean activeLow  = true);
 
-  void setDebounceTime(unsigned int ms);
-  void setLongClickTime(unsigned int ms);
-  void setDoubleClickTime(unsigned int ms);
-  
-  unsigned int getDebounceTime();
-  unsigned int getLongClickTime();
-  unsigned int getDoubleClickTime();
-  byte getAttachPin();
+void setDebounceTime(unsigned int ms);
+void setLongClickTime(unsigned int ms);
+void setDoubleClickTime(unsigned int ms);
 
-  void setLongClickDetectedRetriggerable(bool retriggerable);
+unsigned int getDebounceTime();
+unsigned int getLongClickTime();
+unsigned int getDoubleClickTime();
+byte getAttachPin();
 
-  void reset();
+void setLongClickDetectedRetriggerable(bool retriggerable);
 
-  void setChangedHandler(CallbackFunction f);
-  void setPressedHandler(CallbackFunction f);
-  void setReleasedHandler(CallbackFunction f);
+void reset();
 
-  void setTapHandler(CallbackFunction f);
-  void setClickHandler(CallbackFunction f);
-  void setDoubleClickHandler(CallbackFunction f);
-  void setTripleClickHandler(CallbackFunction f);
+void setChangedHandler(CallbackFunction f);
+void setPressedHandler(CallbackFunction f);
+void setReleasedHandler(CallbackFunction f);
 
-  void setLongClickHandler(CallbackFunction f);
-  void setLongClickDetectedHandler(CallbackFunction f);
+void setTapHandler(CallbackFunction f);
+void setClickHandler(CallbackFunction f);
+void setDoubleClickHandler(CallbackFunction f);
+void setTripleClickHandler(CallbackFunction f);
 
-  unsigned int wasPressedFor() const;
-  boolean isPressed() const;
-  boolean isPressedRaw() const;
+void setLongClickHandler(CallbackFunction f);
+void setLongClickDetectedHandler(CallbackFunction f);
 
-  byte getNumberOfClicks() const;
-  byte getClickType() const;
+unsigned int wasPressedFor() const;
+boolean isPressed() const;
+boolean isPressedRaw() const;
 
-  bool operator==(Button2 &rhs);
+byte getNumberOfClicks() const;
+byte getClickType() const;
 
-  void loop();
+bool operator==(Button2 &rhs);
+
+void loop();
 ```
 
 Installation
