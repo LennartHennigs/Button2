@@ -1,6 +1,10 @@
 # Changelog
 
 ## Unreleased
+- 
+## [1.6.1] - 2021-03-22
+- updated [README.md](https://github.com/LennartHennigs/Button2/blob/master/README.md)
+- added ```const``` to getter functions
 
 ## [1.6.0] - 2021-02-10
 - added getter/setter functions for debounce, longclick and doubleclick timeouts
