@@ -72,10 +72,11 @@ public:
   void setDebounceTime(unsigned int ms);
   void setLongClickTime(unsigned int ms);
   void setDoubleClickTime(unsigned int ms);
-  unsigned int getDebounceTime();
-  unsigned int getLongClickTime();
-  unsigned int getDoubleClickTime();
-  byte getAttachPin();
+  
+  unsigned int getDebounceTime() const;
+  unsigned int getLongClickTime() const;
+  unsigned int getDoubleClickTime() const;
+  byte getAttachPin() const;
 
   void setLongClickDetectedRetriggerable(bool retriggerable);
 

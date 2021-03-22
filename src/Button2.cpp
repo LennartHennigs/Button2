@@ -57,25 +57,25 @@ void Button2::setDoubleClickTime(unsigned int ms) {
 
 /////////////////////////////////////////////////////////////////
 
-unsigned int Button2::getDebounceTime() {
+unsigned int Button2::getDebounceTime() const {
   return debounce_time_ms;
 }
 
 /////////////////////////////////////////////////////////////////
 
-unsigned int Button2::getLongClickTime() {
+unsigned int Button2::getLongClickTime() const {
   return longclick_time_ms;
 }
 
 /////////////////////////////////////////////////////////////////
 
-unsigned int Button2::getDoubleClickTime() {
+unsigned int Button2::getDoubleClickTime() const {
   return doubleclick_time_ms;
 }
 
 /////////////////////////////////////////////////////////////////
 
-byte Button2::getAttachPin() {
+byte Button2::getAttachPin() const {
   return pin;
 }
 
