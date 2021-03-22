@@ -1,3 +1,8 @@
+# MAC .dot folder
 .DS_Store
+# vs code files
 .vscode
 *.code-workspace
+# arduino_ci unit test binaries and artifacts
+*.bin
+*.bin.dSYM
