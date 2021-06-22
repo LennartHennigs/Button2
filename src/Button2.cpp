@@ -5,13 +5,12 @@
 */
 /////////////////////////////////////////////////////////////////
 
-#include "Arduino.h"
 #include "Button2.h"
 
 /////////////////////////////////////////////////////////////////
 
 Button2::Button2() {  
-  pin = -1;
+  pin = 255;
 }
 
 /////////////////////////////////////////////////////////////////
@@ -178,7 +177,7 @@ byte Button2::getClickType() const {
 /////////////////////////////////////////////////////////////////
 
 void Button2::loop() {
-  if (pin > -1) {
+  if (pin != 255) {
     prev_state = state;
     unsigned long now = millis();
     if (!capacitive) {
@@ -272,7 +271,7 @@ void Button2::loop() {
 /////////////////////////////////////////////////////////////////
 
 void Button2::reset() {
-  pin = -1;
+  pin = 255;
   click_count = 0;
   last_click_type = 0;
   down_time_ms = 0;

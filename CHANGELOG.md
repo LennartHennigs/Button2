@@ -1,7 +1,8 @@
 # Changelog
 
 ## Unreleased
-- 
+- initialized ```pin``` property to 255 instead of -1, as pointed out by [rin67630](https://github.com/rin67630) in issue [#26](https://github.com/LennartHennigs/Button2/issues/26)
+
 ## [1.6.1] - 2021-03-22
 - updated [README.md](https://github.com/LennartHennigs/Button2/blob/master/README.md)
 - added ```const``` to getter functions
