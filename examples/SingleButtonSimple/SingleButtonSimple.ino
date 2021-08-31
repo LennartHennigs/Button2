@@ -8,7 +8,7 @@
 
 /////////////////////////////////////////////////////////////////
 
-Button2 button = Button2(BUTTON_PIN);
+Button2 button;
 
 /////////////////////////////////////////////////////////////////
 
@@ -17,11 +17,12 @@ void setup() {
   delay(50);
   Serial.println("\n\nButton Demo");
   
+  button.begin(BUTTON_PIN);
   button.setChangedHandler(changed);
   //button.setPressedHandler(pressed);
   //button.setReleasedHandler(released);
 
-  // captures any type of click, longpress or shortpress
+  // setTapHandler() is called by any type of click, longpress or shortpress
   button.setTapHandler(tap);
 }
 

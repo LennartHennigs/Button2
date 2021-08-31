@@ -9,8 +9,7 @@
 
 /////////////////////////////////////////////////////////////////
 
-Button2 buttonA = Button2(BUTTON_A_PIN);
-Button2 buttonB = Button2(BUTTON_B_PIN);
+Button2 buttonA, buttonB;
 
 /////////////////////////////////////////////////////////////////
 
@@ -19,7 +18,10 @@ void setup() {
   delay(50);
   Serial.println("\n\nMultiple Buttons Demo");
   
+  buttonA.begin(BUTTON_A_PIN);
   buttonA.setClickHandler(click);
+
+  buttonB.begin(BUTTON_B_PIN);
   buttonB.setClickHandler(click);
 }
 

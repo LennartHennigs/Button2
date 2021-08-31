@@ -8,7 +8,7 @@
 
 /////////////////////////////////////////////////////////////////
 
-Button2 button = Button2(BUTTON_PIN);
+Button2 button;
 
 /////////////////////////////////////////////////////////////////
 
@@ -18,7 +18,8 @@ void setup() {
     delay(20);
   }
   Serial.println("\n\nLongpress Handler Demo");
-  
+
+  button.begin(BUTTON_PIN);
   button.setLongClickHandler(longpress);
 }
 

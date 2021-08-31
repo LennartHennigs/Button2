@@ -8,7 +8,7 @@
 
 /////////////////////////////////////////////////////////////////
 
-Button2 button = Button2(BUTTON_PIN);
+Button2 button;
 
 /////////////////////////////////////////////////////////////////
 
@@ -17,6 +17,7 @@ void setup() {
   delay(50);
   Serial.println("\n\nMulti Handler Demo");
   
+  button.begin(BUTTON_PIN);
   button.setClickHandler(handler);
   button.setLongClickHandler(handler);
   button.setDoubleClickHandler(handler);

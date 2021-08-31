@@ -8,7 +8,7 @@
 
 /////////////////////////////////////////////////////////////////
 
-Button2 button = Button2(BUTTON_PIN);
+Button2 button;
 
 /////////////////////////////////////////////////////////////////
 
@@ -17,6 +17,7 @@ void setup() {
   delay(50);
   Serial.println("\n\nButton Demo");
 
+  button.begin(BUTTON_PIN);
   // button.setLongClickTime(1000);
   // button.setDoubleClickTime(400);
 
@@ -57,11 +58,9 @@ void changed(Button2& btn) {
 void click(Button2& btn) {
     Serial.println("click\n");
 }
-
 void longClickDetected(Button2& btn) {
     Serial.println("long click detected\n");
 }
-
 void longClick(Button2& btn) {
     Serial.println("long click\n");
 }
@@ -74,4 +73,5 @@ void tripleClick(Button2& btn) {
 void tap(Button2& btn) {
     Serial.println("tap");
 }
+
 /////////////////////////////////////////////////////////////////
