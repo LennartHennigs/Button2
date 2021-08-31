@@ -106,6 +106,10 @@ public:
   bool operator == (Button2 &rhs);
 
   void loop();
+
+private: 
+  byte _getState();
+
 };
 /////////////////////////////////////////////////////////////////
 #endif
