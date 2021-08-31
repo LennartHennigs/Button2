@@ -10,7 +10,7 @@
 /////////////////////////////////////////////////////////////////
 
 Button2::Button2() {  
-  pin = 255;
+  pin = UNDEFINED_PIN;
 }
 
 /////////////////////////////////////////////////////////////////
@@ -24,15 +24,15 @@ Button2::Button2(byte attachTo, byte buttonMode /* = INPUT_PULLUP */, boolean is
 void Button2::begin(byte attachTo, byte buttonMode /* = INPUT_PULLUP */, boolean isCapacitive /* = false */, boolean activeLow /* = true */) {  
   pin = attachTo;
   longclick_detected_retriggerable = false;
+  _pressedState = activeLow ? LOW : HIGH;
   setDebounceTime(DEBOUNCE_MS);
   setLongClickTime(LONGCLICK_MS);
   setDoubleClickTime(DOUBLECLICK_MS);
-  pressed = activeLow ? LOW : HIGH;
   state = activeLow ? HIGH : LOW;
   if (!isCapacitive) {
     pinMode(attachTo, buttonMode);
   } else {
-    capacitive = true;
+    is_capacitive = true;
   }	
 }
 
@@ -80,7 +80,7 @@ byte Button2::getAttachPin() const {
 
 /////////////////////////////////////////////////////////////////
 
-bool Button2::operator==(Button2 &rhs) {
+bool Button2::operator == (Button2 &rhs) {
   return (this==&rhs);    
 }
       
@@ -91,8 +91,7 @@ void Button2::setLongClickDetectedRetriggerable(bool retriggerable) {
 }
 /////////////////////////////////////////////////////////////////
 
-void Button2::setChangedHandler(CallbackFunction f)
-{
+void Button2::setChangedHandler(CallbackFunction f) {
   change_cb = f;
 }
     
@@ -153,13 +152,13 @@ unsigned int Button2::wasPressedFor() const {
 /////////////////////////////////////////////////////////////////
 
 boolean Button2::isPressed() const {
-  return (state == pressed);
+  return (state == _pressedState);
 }
 
 /////////////////////////////////////////////////////////////////
 
 boolean Button2::isPressedRaw() const {
-  return (digitalRead(pin) == pressed);
+  return (digitalRead(pin) == _pressedState);
 }
 
 /////////////////////////////////////////////////////////////////
@@ -177,10 +176,10 @@ byte Button2::getClickType() const {
 /////////////////////////////////////////////////////////////////
 
 void Button2::loop() {
-  if (pin != 255) {
+  if (pin != UNDEFINED_PIN) {
     prev_state = state;
     unsigned long now = millis();
-    if (!capacitive) {
+    if (!is_capacitive) {
       state = digitalRead(pin);
     } else {
       #if defined(ARDUINO_ARCH_ESP32)
@@ -189,20 +188,20 @@ void Button2::loop() {
       #endif
     }
     // is button pressed?
-    if (state == pressed && prev_state != pressed) {
+    if (state == _pressedState && prev_state != _pressedState) {
       down_ms = now;
       pressed_triggered = false;
       click_ms = down_ms;
 
     // trigger pressed event (after debounce has passed)
-    } else if (state == pressed && !pressed_triggered && (now - down_ms >= debounce_time_ms)) {
+    } else if (state == _pressedState && !pressed_triggered && (now - down_ms >= debounce_time_ms)) {
       pressed_triggered = true;
       click_count++;
       if (change_cb != NULL) change_cb (*this);      
       if (pressed_cb != NULL) pressed_cb (*this);
 
     // is the button released?
-    } else if (state != pressed && prev_state == pressed) {
+    } else if (state != _pressedState && prev_state == _pressedState) {
       down_time_ms = now - down_ms;
       // is it beyond debounce time?
       if (down_time_ms >= debounce_time_ms) {
@@ -218,7 +217,7 @@ void Button2::loop() {
       }
 
     // is the button released and the time has passed for multiple clicks?
-    } else if (state != pressed && now - click_ms > doubleclick_time_ms) {
+    } else if (state != _pressedState && now - click_ms > doubleclick_time_ms) {
       // was there a longclick?
       if (longclick_detected) {
         // was it part of a combination?
@@ -253,7 +252,7 @@ void Button2::loop() {
     bool longclick_period_detected = now - down_ms >= (longclick_time_ms * (longclick_detected_counter + 1));
 
     // check to see that the longclick_ms period has been exceeded and call the appropriate callback
-    if (state == pressed && longclick_period_detected && !longclick_detected_reported) {
+    if (state == _pressedState && longclick_period_detected && !longclick_detected_reported) {
       longclick_detected_reported = true;
       longclick_detected = true;
       if (longclick_detected_retriggerable) {
@@ -271,7 +270,7 @@ void Button2::loop() {
 /////////////////////////////////////////////////////////////////
 
 void Button2::reset() {
-  pin = 255;
+  pin = UNDEFINED_PIN;
   click_count = 0;
   last_click_type = 0;
   down_time_ms = 0;

@@ -3,34 +3,42 @@
 ## Unreleased
 - added two new examples: [```MultiHandlerTwoButtons.ino```](https://github.com/LennartHennigs/Button2/blob/master/examples/MultiHandlerTwoButtons/MultiHandlerTwoButtons.ino) and [```TrackDualButtonClick.ino```](https://github.com/LennartHennigs/Button2/blob/master/examples/TrackDualButtonClick/TrackDualButtonClick.ino.ino)
 - added examples to the [README.md](https://github.com/LennartHennigs/Button2/blob/master/README.md)
-
+- a bit of variable clean up
 
 ## [1.6.2] - 2021-06-22
 - initialized ```pin``` property to 255 instead of -1, as pointed out by [rin67630](https://github.com/rin67630) in issue [#26](https://github.com/LennartHennigs/Button2/issues/26)
+
 
 ## [1.6.1] - 2021-03-22
 - updated [README.md](https://github.com/LennartHennigs/Button2/blob/master/README.md)
 - added ```const``` to getter functions
 
+
 ## [1.6.0] - 2021-02-10
 - added getter/setter functions for debounce, longclick and doubleclick timeouts
 - removed debounce timeout parameter from ```contructor``` and ```begin()```
 
+
 ## [1.5.4] - 2021-02-08
 - Added ```getAttachPin()``` function, as suggested by [madivad](https://github.com/madivad) in issue [#23](https://github.com/LennartHennigs/Button2/issues/23)
+
 
 ## [1.5.3] - 2021-01-26
 - Fixed a bug in the constructor, as suggested by [alex-s-v](https://github.com/alex-s-v) in pull request [#22](https://github.com/LennartHennigs/Button2/pull/22)
 
+
 ## [1.5.2] - 2021-01-26
 - Fixed a bug in the ```isPressed()``` function, as suggested by [zenturacp](https://github.com/zenturacp) in [#21](https://github.com/LennartHennigs/Button2/issues/21)
+
 
 ## [1.5.1] - 2021-01-04
 - Fixed a bug in the ```loop()``` function
 
+
 ## [1.5.0] - 2021-01-03
 - Added default constructor and ```begin()``` function
 - Added pull request by [skelstar](https://github.com/skelstar) to add the ```setLongClickDetectedHandler()``` function which is triggered as soon as the longclick timeout has passed
+
 
 ## [1.4.1] - 2020-12-19
 - Moved activeLow outside of isCapacitive condition (as suggested by [Wai Lin](https://github.com/w4ilun) in [#18](https://github.com/LennartHennigs/Button2/pull/18)
@@ -71,6 +79,5 @@
 
 
 ## Note 
-
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).

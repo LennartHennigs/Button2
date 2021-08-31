@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////
 /*
-  Button2.cpp - Arduino Library to simplify working with buttons.
+  Button2.h - Arduino Library to simplify working with buttons.
   Created by Lennart Hennigs.
 */
 /////////////////////////////////////////////////////////////////
@@ -25,17 +25,19 @@
 #define TRIPLE_CLICK 3
 #define LONG_CLICK 4
 
+#define UNDEFINED_PIN 255
+
 /////////////////////////////////////////////////////////////////
 
 class Button2 {
 protected:
   byte pin;
-  bool capacitive = false;
-  byte prev_state;
   byte state;
-  byte pressed;
+  byte prev_state;
   byte click_count = 0;
   byte last_click_type = 0;
+  byte _pressedState;
+  bool is_capacitive = false;
   unsigned long click_ms;
   unsigned long down_ms;
 
@@ -101,7 +103,7 @@ public:
   byte getNumberOfClicks() const;
   byte getClickType() const;
 
-  bool operator==(Button2 &rhs);
+  bool operator == (Button2 &rhs);
 
   void loop();
 };
