@@ -1,7 +1,8 @@
 # Changelog
 
 ## Unreleased
-- added two new examples: [```MultiHandlerTwoButtons.ino```](https://github.com/LennartHennigs/Button2/blob/master/examples/MultiHandlerTwoButtons/MultiHandlerTwoButtons.ino) and [```TrackDualButtonClick.ino```](https://github.com/LennartHennigs/Button2/blob/master/examples/MultiHandlerTwoButtons/TrackDualButtonClick.ino) 
+- added two new examples: [```MultiHandlerTwoButtons.ino```](https://github.com/LennartHennigs/Button2/blob/master/examples/MultiHandlerTwoButtons/MultiHandlerTwoButtons.ino) and [```TrackDualButtonClick.ino```](https://github.com/LennartHennigs/Button2/blob/master/examples/TrackDualButtonClick/TrackDualButtonClick.ino.ino)
+- added examples to the [README.md](https://github.com/LennartHennigs/Button2/blob/master/README.md)
 
 
 ## [1.6.2] - 2021-06-22

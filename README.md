@@ -48,6 +48,16 @@ __The Loop__
 - For the class to work, you need to call the button's `loop()` member function in your sketch's `loop()` function. 
 - Please see the examples for more details.
 
+Examples
+-----
+- [SingleButtonSimple](https://github.com/LennartHennigs/Button2/blob/master/examples/SingleButtonSimple/SingleButtonSimple.ino) - the most basic example, shows how to assign event handlers
+- [LongpressHandler](https://github.com/LennartHennigs/Button2/blob/master/examples/LongpressHandler/LongpressHandler.ino) - shows how determine the time of a button press
+- [SingleButton](https://github.com/LennartHennigs/Button2/blob/master/examples/SingleButton/SingleButton.ino) - shows the different event handlers
+- [MultipleButtons](https://github.com/LennartHennigs/Button2/blob/master/examples/MultipleButtons/MultipleButtons.ino) - how to use two buttons
+- [MultiHandler](https://github.com/LennartHennigs/Button2/blob/master/examples/MultiHandler/MultiHandler.ino) – how to use a single handler for multiple events
+- [MultiHandlerTwoButtons](https://github.com/LennartHennigs/Button2/blob/master/examples/MultiHandlerTwoButtons/MultiHandlerTwoButtons.ino) - a single handler for multiple buttons
+- [TrackDualButtonClick](https://github.com/LennartHennigs/Button2/blob/master/examples/TrackDualButtonClick/TrackDualButtonClick.ino) - how to detect when two buttons are clicked at the same time
+
 Notes
 -----
 
