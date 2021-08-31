@@ -1,7 +1,8 @@
 # Changelog
 
 ## Unreleased
--
+- added two new examples: [```MultiHandlerTwoButtons.ino```](https://github.com/LennartHennigs/Button2/blob/master/examples/MultiHandlerTwoButtons/MultiHandlerTwoButtons.ino) and [```TrackDualButtonClick.ino```](https://github.com/LennartHennigs/Button2/blob/master/examples/MultiHandlerTwoButtons/TrackDualButtonClick.ino) 
+
 
 ## [1.6.2] - 2021-06-22
 - initialized ```pin``` property to 255 instead of -1, as pointed out by [rin67630](https://github.com/rin67630) in issue [#26](https://github.com/LennartHennigs/Button2/issues/26)
