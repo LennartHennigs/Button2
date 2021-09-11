@@ -11,6 +11,7 @@
 
 /////////////////////////////////////////////////////////////////
 
+#include <functional>
 #include "Arduino.h"
 
 /////////////////////////////////////////////////////////////////
@@ -53,7 +54,7 @@ protected:
   unsigned int down_time_ms = 0;
   bool pressed_triggered = false;
 
-  typedef void (*CallbackFunction)(Button2 &);
+  typedef std::function<void(Button2 &btn)> CallbackFunction;
 
   CallbackFunction pressed_cb = NULL;
   CallbackFunction released_cb = NULL;
