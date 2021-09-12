@@ -33,6 +33,7 @@ void Button2::begin(byte attachTo, byte buttonMode /* = INPUT_PULLUP */, boolean
   } else {
     is_capacitive = true;
   }	
+  //  state = activeLow ? HIGH : LOW;
   state = _getState();
   prev_state = state ;
 }
@@ -177,7 +178,7 @@ byte Button2::getClickType() const {
 /////////////////////////////////////////////////////////////////
 
 byte Button2::_getState() {
-    byte state;
+    byte state = 0;
     if (!is_capacitive) {
       state = digitalRead(pin);
     } else {
