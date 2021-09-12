@@ -1,8 +1,12 @@
 # Changelog
+-
 
 ## Unreleased
-- added two new examples: [`MultiHandlerTwoButtons.ino`](https://github.com/LennartHennigs/Button2/blob/master/examples/MultiHandlerTwoButtons/MultiHandlerTwoButtons.ino) and [`TrackDualButtonClick.ino`](https://github.com/LennartHennigs/Button2/blob/master/examples/TrackDualButtonClick/TrackDualButtonClick.ino.ino)
+
+## [1.6.3] - 2021-09-12
+- added two new examples: `[MultiHandlerTwoButtons.ino](https://github.com/LennartHennigs/Button2/blob/master/examples/MultiHandlerTwoButtons/MultiHandlerTwoButtons.ino)` and `[TrackDualButtonClick.ino](https://github.com/LennartHennigs/Button2/blob/master/examples/TrackDualButtonClick/TrackDualButtonClick.ino.ino)`
 - added examples to the [README.md](https://github.com/LennartHennigs/Button2/blob/master/README.md)
+- initialized `pin` in `_getState()`
 - a bit of variable clean up
 - updated setting of inital state of `state` and `prev_state`
 
