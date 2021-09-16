@@ -10,8 +10,9 @@
 #define Button2_h
 
 /////////////////////////////////////////////////////////////////
-
-#include <functional>
+#if defined(ARDUINO_ARCH_ESP32) || defined(ESP8266)
+  #include <functional>
+#endif
 #include "Arduino.h"
 
 /////////////////////////////////////////////////////////////////
@@ -54,7 +55,11 @@ protected:
   unsigned int down_time_ms = 0;
   bool pressed_triggered = false;
 
+#if defined(ARDUINO_ARCH_ESP32) || defined(ESP8266)
   typedef std::function<void(Button2 &btn)> CallbackFunction;
+#else
+  typedef void (*CallbackFunction)(Button2 &);
+#endif
 
   CallbackFunction pressed_cb = NULL;
   CallbackFunction released_cb = NULL;

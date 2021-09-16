@@ -3,8 +3,11 @@
 
 ## Unreleased
 
+## [1.6.5] - 2021-09-12
+- Fixed problem with `std::function` as found by [ItsFlo](https://github.com/ItsFlo) in pull request [#29](https://github.com/LennartHennigs/Button2/pull/29)
+
 ## [1.6.4] - 2021-09-12
-- Use `std::function` to allow C++ 11 lambda functions
+- Use `std::function` to allow C++ 11 lambda functions as suggested by [jacobdekeizer](https://github.com/jacobdekeizer) in pull request [#29](https://github.com/LennartHennigs/Button2/pull/29)
 
 ## [1.6.3] - 2021-09-12
 - added two new examples: `[MultiHandlerTwoButtons.ino](https://github.com/LennartHennigs/Button2/blob/master/examples/MultiHandlerTwoButtons/MultiHandlerTwoButtons.ino)` and `[TrackDualButtonClick.ino](https://github.com/LennartHennigs/Button2/blob/master/examples/TrackDualButtonClick/TrackDualButtonClick.ino.ino)`
