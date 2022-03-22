@@ -21,8 +21,9 @@ Button2::Button2(byte attachTo, byte buttonMode /* = INPUT_PULLUP */, boolean is
 
 /////////////////////////////////////////////////////////////////
 
-void Button2::begin(byte attachTo, byte buttonMode /* = INPUT_PULLUP */, boolean isCapacitive /* = false */, boolean activeLow /* = true */) {  
+void Button2::begin(byte attachTo, byte index /* 0x0 */, byte buttonMode /* = INPUT_PULLUP */, boolean isCapacitive /* = false */, boolean activeLow /* = true */) {  
   pin = attachTo;
+  _index = index;
   longclick_detected_retriggerable = false;
   _pressedState = activeLow ? LOW : HIGH;
   setDebounceTime(DEBOUNCE_MS);
@@ -177,6 +178,12 @@ byte Button2::getClickType() const {
 
 /////////////////////////////////////////////////////////////////
 
+byte Button2::getIndex() const {
+    return _index;
+}
+
+/////////////////////////////////////////////////////////////////
+
 byte Button2::_getState() {
     byte state = 0;
     if (!is_capacitive) {
@@ -281,6 +288,7 @@ void Button2::loop() {
 
 void Button2::reset() {
   pin = UNDEFINED_PIN;
+  _index = 0;
   click_count = 0;
   last_click_type = 0;
   down_time_ms = 0;

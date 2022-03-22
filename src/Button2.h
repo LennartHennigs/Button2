@@ -75,7 +75,7 @@ public:
   Button2();
   Button2(byte attachTo, byte buttonMode = INPUT_PULLUP, boolean isCapacitive = false, boolean activeLow = true);
 
-  void begin(byte attachTo, byte buttonMode = INPUT_PULLUP, boolean isCapacitive = false , boolean activeLow  = true);
+  void begin(byte attachTo, byte index = 0x0, byte buttonMode = INPUT_PULLUP, boolean isCapacitive = false , boolean activeLow  = true);
 
   void setDebounceTime(unsigned int ms);
   void setLongClickTime(unsigned int ms);
@@ -108,6 +108,7 @@ public:
 
   byte getNumberOfClicks() const;
   byte getClickType() const;
+  byte getIndex() const;
 
   bool operator == (Button2 &rhs);
 
@@ -115,6 +116,7 @@ public:
 
 private: 
   byte _getState();
+  byte _index = 0;
 
 };
 /////////////////////////////////////////////////////////////////
