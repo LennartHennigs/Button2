@@ -26,7 +26,7 @@
 /////////////////////////////////////////////////////////////////
 
 
-enum clickTypes {
+enum clickType {
   single_click, 
   double_click, 
   triple_click, 
@@ -42,8 +42,7 @@ protected:
   byte state;
   byte prev_state;
   byte click_count = 0;
-  clickTypes last_click_type = undefined;
-  byte _pressedState;
+  clickType last_click_type = undefined;
   bool was_pressed = false;
   bool is_capacitive = false;
   unsigned long click_ms;
@@ -63,9 +62,13 @@ protected:
 
 #if defined(ARDUINO_ARCH_ESP32) || defined(ESP8266)
   typedef std::function<void(Button2 &btn)> CallbackFunction;
+  typedef std::function<byte()> StateCallbackFunction;
 #else
   typedef void (*CallbackFunction)(Button2 &);
+  typedef byte (*StateCallbackFunction)();
 #endif
+
+  StateCallbackFunction get_state_cb = NULL;
 
   CallbackFunction pressed_cb = NULL;
   CallbackFunction released_cb = NULL;
@@ -90,9 +93,11 @@ public:
   unsigned int getDebounceTime() const;
   unsigned int getLongClickTime() const;
   unsigned int getDoubleClickTime() const;
-  byte getAttachPin() const;
+  byte getPin() const;
 
   void reset();
+
+  void setGetStateFunction(StateCallbackFunction f);
 
   void setChangedHandler(CallbackFunction f);
   void setPressedHandler(CallbackFunction f);
@@ -109,15 +114,15 @@ public:
 
   unsigned int wasPressedFor() const;
   boolean isPressed() const;
-  virtual boolean isPressedRaw() const;
+  boolean isPressedRaw();
 
   bool wasPressed() const;
-  clickTypes read();
-  clickTypes wait();
+  clickType read(bool keepState = false);
+  clickType wait(bool keepState = false);
   
   byte getNumberOfClicks() const;
-  clickTypes getType() const;
-  String clickToString(clickTypes type) const;
+  clickType getType() const;
+  String clickToString(clickType type) const;
 
   int getID() const;
   void setID(int newID);
@@ -128,8 +133,9 @@ public:
 
 private: 
   static int _nextID;
-
-  virtual byte _getState();
+  
+  byte _pressedState;
+  byte _getState();
 };
 /////////////////////////////////////////////////////////////////
 #endif

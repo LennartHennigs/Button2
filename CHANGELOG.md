@@ -1,18 +1,28 @@
 # Changelog
 
 ## Unreleased - 2022-04-04
-- Refactored the conditions in `loop()` to make it more readable
-- Addes IDs to differentiate button instances
-    - `getID()`  returns an auto incremented `int` ID for the button, as suggest in [#34](https://github.com/LennartHennigs/Button2/pull/34). 
-    - `setID()` allows you to set your own IDs – but then you need to ensure its uniqeness.
+**Note:** Unreleased changes are checked in but not part of an official release (available through the Arduino IDE or PlatfomIO) yet. This allows you to test WiP features and give feedback to them.
+
+- House keeping
+    - Refactored `loop()` - cleaned up conditions, should be easier to understand now
+    - Renamed `getAttachedPin()`to `getPin()` (BREAKING CHANGE)
+- Possibility define your own "_getState" function for non standard buttons
+    - Refactored `isPressedRaw()` to also use `_getState()`
+    - Introduced a `VIRTUAL_PIN` constant – using it in the constructor or `begin()` will skip pin initalization
+    - Added `setGetStateFunction(StateCallbackFunction f)` to assign your own "_getState" function
 - Improved click type handling 
-    - Added `clickType` enum and removed constants for determining the click type (BREAKING CHANGE)
-    - Renamed `getClickType()` to `getType()`
+    - Added `clickType`      and removed constants for determining the click type (BREAKING CHANGE)
+    - Renamed `getClickType()` to `getType()` (BREAKING CHANGE)
     - Added `clickToString` function to print the `clickType` enum value
-- Added possibility to use the button class inside your main `loop()` function
-  - `wasPressed()` returns a boolean 
-  - `read()` returns the button press type and clears the internal `was_pressed` flag
-  - `wait()` combines `wasPressed()` and `read()` methods and halts execution until a button press took place
+    - Fixed a bug that the first click type was falsly returned by `getType()`
+- Added IDs button instances
+    - Added `getID()`, it returns an auto incremented `int` ID for the button, as suggest in [#34](https://github.com/LennartHennigs/Button2/pull/34)
+    - Added `setID()`, it allows you to set your own IDs – but then you need to ensure its uniqeness yourself
+- Added possibility to use the button class inside your main `loop()` function (instead of using callback handlers)
+  - Added `bool wasPressed()` function
+  - Added `read(bool keepState = false)`, it returns the button press type (as a `clickType` enum)
+  - Added `wait(bool keepState = false)`, it combines `wasPressed()` and `read()` methods and halts execution until a button press took place
+  - Added [ButtonLoop.ino](https://github.com/LennartHennigs/Button2/blob/master/examples/ButtonLoop/ButtonLoop.ino) example to showcase the "loop" functions
 
 ## [1.6.5] - 2021-09-12
 - Fixed problem with `std::function` as found by [ItsFlo](https://github.com/ItsFlo) in pull request [#29](https://github.com/LennartHennigs/Button2/pull/29)
@@ -21,7 +31,7 @@
 - Use `std::function` to allow C++ 11 lambda functions as suggested by [jacobdekeizer](https://github.com/jacobdekeizer) in pull request [#29](https://github.com/LennartHennigs/Button2/pull/29)
 
 ## [1.6.3] - 2021-09-12
-- added two new examples: `[MultiHandlerTwoButtons.ino](https://github.com/LennartHennigs/Button2/blob/master/examples/MultiHandlerTwoButtons/MultiHandlerTwoButtons.ino)` and `[TrackDualButtonClick.ino](https://github.com/LennartHennigs/Button2/blob/master/examples/TrackDualButtonClick/TrackDualButtonClick.ino.ino)`
+- added two new examples: [MultiHandlerTwoButtons.ino](https://github.com/LennartHennigs/Button2/blob/master/examples/MultiHandlerTwoButtons/MultiHandlerTwoButtons.ino) and [TrackDualButtonClick.ino](https://github.com/LennartHennigs/Button2/blob/master/examples/TrackDualButtonClick/TrackDualButtonClick.ino)
 - added examples to the [README.md](https://github.com/LennartHennigs/Button2/blob/master/README.md)
 - initialized `pin` in `_getState()`
 - a bit of variable clean up

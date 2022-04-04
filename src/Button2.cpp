@@ -37,7 +37,9 @@ void Button2::begin(byte attachTo, byte buttonMode /* = INPUT_PULLUP */, boolean
   setLongClickTime(LONGCLICK_MS);
   setDoubleClickTime(DOUBLECLICK_MS);
   if (!isCapacitive) {
-    pinMode(attachTo, buttonMode);
+    if (attachTo != VIRTUAL_PIN) {
+      pinMode(attachTo, buttonMode);
+    }
   } else {
     is_capacitive = true;
   }	
@@ -84,14 +86,21 @@ unsigned int Button2::getDoubleClickTime() const {
 
 /////////////////////////////////////////////////////////////////
 
-byte Button2::getAttachPin() const {
+byte Button2::getPin() const {
   return pin;
 }
 
 /////////////////////////////////////////////////////////////////
 
+  void Button2::setGetStateFunction(StateCallbackFunction f) {
+  get_state_cb = f;
+
+}
+
+/////////////////////////////////////////////////////////////////
+
 bool Button2::operator == (Button2 &rhs) {
-  return (this==&rhs);    
+  return (this == &rhs);    
 }
       
 /////////////////////////////////////////////////////////////////
@@ -167,8 +176,8 @@ boolean Button2::isPressed() const {
 
 /////////////////////////////////////////////////////////////////
 
-boolean Button2::isPressedRaw() const {
-  return (digitalRead(pin) == _pressedState);
+boolean Button2::isPressedRaw() {
+  return (_getState() == _pressedState);
 }
 
 /////////////////////////////////////////////////////////////////
@@ -179,7 +188,7 @@ byte Button2::getNumberOfClicks() const {
 
 /////////////////////////////////////////////////////////////////
 
-clickTypes Button2::getType() const {
+clickType Button2::getType() const {
     return last_click_type;
 }
 
@@ -197,7 +206,7 @@ void Button2::setID(int newID) {
 
 /////////////////////////////////////////////////////////////////
 
-String Button2::clickToString(clickTypes type) const {
+String Button2::clickToString(clickType type) const {
   if (type == single_click) return "click";
   if (type == double_click) return "double click";
   if (type == long_click) return "long click";
@@ -213,30 +222,32 @@ bool Button2::wasPressed() const {
 
 /////////////////////////////////////////////////////////////////
 
-clickTypes Button2::read() {
-    was_pressed = false;
+clickType Button2::read(bool keepState /* = false */) {
+    if (!keepState) {
+      was_pressed = false;
+    }
     return last_click_type;
 }
 
 /////////////////////////////////////////////////////////////////
 
-clickTypes Button2::wait() {
+clickType Button2::wait(bool keepState /* = false */) {
     while(!wasPressed()) {
       loop();
     }
-    return read();
+    return read(keepState);
 }
 
 /////////////////////////////////////////////////////////////////
 
 byte Button2::_getState() {
-    byte state = 0;
+    if (get_state_cb != NULL) return get_state_cb();
     if (!is_capacitive) {
-      state = digitalRead(pin);
+      return digitalRead(pin);
     } else {
       #if defined(ARDUINO_ARCH_ESP32)
         int capa = touchRead(pin);
-        state = capa < CAPACITIVE_TOUCH_THRESHOLD ? LOW : HIGH;
+        return capa < CAPACITIVE_TOUCH_THRESHOLD ? LOW : HIGH;
       #endif
     }
     return state;
