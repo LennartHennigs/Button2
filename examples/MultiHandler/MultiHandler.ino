@@ -33,16 +33,16 @@ void loop() {
 /////////////////////////////////////////////////////////////////
 
 void handler(Button2& btn) {
-    switch (btn.getClickType()) {
-        case SINGLE_CLICK:
+    switch (btn.getType()) {
+        case single_click:
             break;
-        case DOUBLE_CLICK:
+        case double_click:
             Serial.print("double ");
             break;
-        case TRIPLE_CLICK:
+        case triple_click:
             Serial.print("triple ");
             break;
-        case LONG_CLICK:
+        case long_click:
             Serial.print("long");
             break;
     }
