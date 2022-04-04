@@ -94,7 +94,7 @@ Examples
 - [MultiHandler](https://github.com/LennartHennigs/Button2/blob/master/examples/MultiHandler/MultiHandler.ino) – how to use a single handler for multiple events
 - [MultiHandlerTwoButtons](https://github.com/LennartHennigs/Button2/blob/master/examples/MultiHandlerTwoButtons/MultiHandlerTwoButtons.ino) – a single handler for multiple buttons
 - [TrackDualButtonClick](https://github.com/LennartHennigs/Button2/blob/master/examples/TrackDualButtonClick/TrackDualButtonClick.ino) – how to detect when two buttons are clicked at the same time
-- [ButtonLoop](https://github.com/LennartHennigs/Button2/blob/master/examples/TrackDualButtonClick/ButtonLoop.ino) – how to use the button class in the main loop (I recommend using handlers, but well...)
+- [ButtonLoop](https://github.com/LennartHennigs/Button2/blob/master/examples/ButtonLoop/ButtonLoop.ino) – how to use the button class in the main loop (I recommend using handlers, but well...)
 
 Notes
 -----
