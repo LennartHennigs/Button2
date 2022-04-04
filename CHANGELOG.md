@@ -1,7 +1,18 @@
 # Changelog
--
 
-## Unreleased
+## Unreleased - 2022-04-04
+- Refactored the conditions in `loop()` to make it more readable
+- Addes IDs to differentiate button instances
+    - `getID()`  returns an auto incremented `int` ID for the button, as suggest in [#34](https://github.com/LennartHennigs/Button2/pull/34). 
+    - `setID()` allows you to set your own IDs – but then you need to ensure its uniqeness.
+- Improved click type handling 
+    - Added `clickType` enum and removed constants for determining the click type (BREAKING CHANGE)
+    - Renamed `getClickType()` to `getType()`
+    - Added `clickToString` function to print the `clickType` enum value
+- Added possibility to use the button class inside your main `loop()` function
+  - `wasPressed()` returns a boolean 
+  - `read()` returns the button press type and clears the internal `was_pressed` flag
+  - `wait()` combines `wasPressed()` and `read()` methods and halts execution until a button press took place
 
 ## [1.6.5] - 2021-09-12
 - Fixed problem with `std::function` as found by [ItsFlo](https://github.com/ItsFlo) in pull request [#29](https://github.com/LennartHennigs/Button2/pull/29)

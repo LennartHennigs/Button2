@@ -4,49 +4,85 @@ Button2
 Arduino/ESP library to simplify working with buttons.
 
 * Author: Lennart Hennigs (https://www.lennarthennigs.de)
-* Copyright (C) 2017-2021 Lennart Hennigs.
+* Copyright (C) 2017-2022 Lennart Hennigs.
 * Released under the MIT license.
 
 Description
 -----------
-This library allows you to use callback functions to track single, double, triple and long clicks. It takes care of debouncing. Using this lib will reduce and simplify your source code significantly. 
+This library allows you to use callback functions to track single, double, triple and long clicks. 
+It takes care of debouncing. Using this lib will reduce and simplify your source code significantly. 
 
 It has been tested with Arduino, ESP8266 and ESP32 devices.
 
+
 How To Use
 ----------
-
 This library allows you to define a button and uses callback functions to detect different types of button interactions.
 
+
 __Definition__
-- Define the button either using the ```constructor``` or the ```begin()``` function.
-- Per default the button pins are defined as ```INPUT_PULLUP```. You can override this upon creation.
+- Define the button either using the `constructor` or the `begin()` function.
+  ```
+  void begin(byte attachTo, byte buttonMode = INPUT_PULLUP, boolean isCapacitive = false , boolean activeLow  = true);
+  ```
+- You can also `reset()` a button definition if needed.
+
+
+__Button Types__
+- You can use the class for "real" buttons (*pullup*, *pulldown*, and *active low*) and capacative buttons that come with the ESP32
+- Per default the button pins are defined as `INPUT_PULLUP`. You can override this upon creation.
 - On an ESP32 you can use it with the built-in capacitive button pins.
 
 
 __Callback Handler__
+- Instead of frequently checking the button state in your main `loop` this class allows you to assign callback functions.
 - You can define callback functions to track various types of clicks:
-  - ```setTapHandler()``` will be be called when any click occurs.
-  - ```setLongClickHandler()``` will be called after the button has released.
-  - ```setLongClickDetectedHandler()``` will be called as soon as the long click timeout has passed.
-  - ```setDoubleClickHandler()``` and ```setTripleClickHandler()``` detect complex interactions.
-  - ```setChangedHandler()```, ```setPressedHandler()``` and ```setReleasedHandler()``` allow to detect basic interactions.
+  - `setTapHandler()` will be be called when any click occurs.
+  - `setChangedHandler()`, `setPressedHandler()` and `setReleasedHandler()` allow to detect basic interactions.
+  - `setLongClickDetectedHandler()` will be called as soon as the long click timeout has passed.
+  - `setLongClickHandler()` will be called after the button has released.
+  - `setDoubleClickHandler()` and `setTripleClickHandler()` detect complex interactions.
+ 
+- All callback function need a `Button2` reference parameter. There the reference to the triggered button is stored. This can used to call status fuctions, e.g. `wasPressedFor()`.
 
-- The callback function needs a ```Button2``` reference parameter. There the reference to the triggered button is stored. This can used to call status fuctions, e.g. ```wasPressedFor()```.
+- You can use handlers for single or for multiple buttons.
+- You can track individual or multiple events with a single handler.
+- Please take a look at the included examples (see below) to get an overview over the different callback handlers and their usage. 
 
-- Please take a look at the included examples to get an overview over the different callback handlers. 
+
+__Longpress Handling__
+  - There are two possible callback functions: `setLongClickDetectedHandler()` and `setLongClickHandler()`.
+  - `setLongClickDetectedHandler()` will be called as soon as the defined timeout has passed. 
+  - `setLongClickDetectedRetriggerable(bool retriggerable)` allows you to define if want to get multiple norifications for a single long click depeding on the timeout.
+
 
 __Timeouts__
+- The default timeouts for events are (in ms):
+  ```
+  #define DEBOUNCE_MS 50
+  #define LONGCLICK_MS 200
+  #define DOUBLECLICK_MS 300
+  ```
+
 - You can define your own timeouts by using these setter functions:
 
-  - ```void setDebounceTime(unsigned int ms);```
-  - ```void setLongClickTime(unsigned int ms);```
-  - ```void setDoubleClickTime(unsigned int ms);```
-    
+  - `void setDebounceTime(unsigned int ms)`
+  - `void setLongClickTime(unsigned int ms)`
+  - `void setDoubleClickTime(unsigned int ms)`
+  
+
+__IDs for Button Instances__
+  - Each button instance gets a unique (auto incremented) ID upon creation.
+  - You can get a buttons' ID via `int getID()`. 
+  - Alternatively, you can use `void setID(int newID)` to set a new one. But then you need to make sure that they are unique.
+  
 
 __The Loop__    
 - For the class to work, you need to call the button's `loop()` member function in your sketch's `loop()` function. 
-- Please see the examples for more details.
+- Please see the *examples* below for more details.
+
+
+The button class offers a few additional functions, please take a look at the *Class Definition* below.
 
 Examples
 -----
@@ -70,7 +106,7 @@ Notes
 Class Definition
 ----------------
 
-These are the constructors and the member functions the library provides:
+See below the constructors and member functions the library provides:
 
 ```
 Button2();
@@ -103,6 +139,7 @@ void setTripleClickHandler(CallbackFunction f);
 void setLongClickHandler(CallbackFunction f);
 void setLongClickDetectedHandler(CallbackFunction f);
 
+unsigned int wasPressed() const;
 unsigned int wasPressedFor() const;
 boolean isPressed() const;
 boolean isPressedRaw() const;
@@ -110,7 +147,10 @@ boolean isPressedRaw() const;
 byte getNumberOfClicks() const;
 byte getClickType() const;
 
-bool operator==(Button2 &rhs);
+int getID() const;
+void setID(int newID);
+
+bool operator == (Button2 &rhs);
 
 void loop();
 ```
@@ -126,7 +166,7 @@ License
 
 MIT License
 
-Copyright (c) 2017-2021 Lennart Hennigs
+Copyright (c) 2017-2022 Lennart Hennigs
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

@@ -8,13 +8,11 @@
 
 #ifndef Button2_h
 #define Button2_h
-
 /////////////////////////////////////////////////////////////////
 #if defined(ARDUINO_ARCH_ESP32) || defined(ESP8266)
   #include <functional>
 #endif
 #include "Arduino.h"
-
 /////////////////////////////////////////////////////////////////
 
 #define DEBOUNCE_MS 50
@@ -22,23 +20,31 @@
 #define DOUBLECLICK_MS 300
 #define CAPACITIVE_TOUCH_THRESHOLD 35
 
-#define SINGLE_CLICK 1
-#define DOUBLE_CLICK 2
-#define TRIPLE_CLICK 3
-#define LONG_CLICK 4
-
 #define UNDEFINED_PIN 255
+#define VIRTUAL_PIN 254
 
 /////////////////////////////////////////////////////////////////
 
+
+enum clickTypes {
+  single_click, 
+  double_click, 
+  triple_click, 
+  long_click,
+  undefined
+};
+
 class Button2 {
+
 protected:
+  int id;
   byte pin;
   byte state;
   byte prev_state;
   byte click_count = 0;
-  byte last_click_type = 0;
+  clickTypes last_click_type = undefined;
   byte _pressedState;
+  bool was_pressed = false;
   bool is_capacitive = false;
   unsigned long click_ms;
   unsigned long down_ms;
@@ -86,8 +92,6 @@ public:
   unsigned int getDoubleClickTime() const;
   byte getAttachPin() const;
 
-  void setLongClickDetectedRetriggerable(bool retriggerable);
-
   void reset();
 
   void setChangedHandler(CallbackFunction f);
@@ -101,21 +105,31 @@ public:
 
   void setLongClickHandler(CallbackFunction f);
   void setLongClickDetectedHandler(CallbackFunction f);
+  void setLongClickDetectedRetriggerable(bool retriggerable);
 
   unsigned int wasPressedFor() const;
   boolean isPressed() const;
-  boolean isPressedRaw() const;
+  virtual boolean isPressedRaw() const;
 
+  bool wasPressed() const;
+  clickTypes read();
+  clickTypes wait();
+  
   byte getNumberOfClicks() const;
-  byte getClickType() const;
+  clickTypes getType() const;
+  String clickToString(clickTypes type) const;
+
+  int getID() const;
+  void setID(int newID);
 
   bool operator == (Button2 &rhs);
 
   void loop();
 
 private: 
-  byte _getState();
+  static int _nextID;
 
+  virtual byte _getState();
 };
 /////////////////////////////////////////////////////////////////
 #endif
