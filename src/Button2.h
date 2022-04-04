@@ -97,7 +97,7 @@ public:
 
   void reset();
 
-  void setGetStateFunction(StateCallbackFunction f);
+  void setButtonStateFunction(StateCallbackFunction f);
 
   void setChangedHandler(CallbackFunction f);
   void setPressedHandler(CallbackFunction f);

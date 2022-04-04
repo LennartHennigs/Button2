@@ -92,7 +92,7 @@ byte Button2::getPin() const {
 
 /////////////////////////////////////////////////////////////////
 
-  void Button2::setGetStateFunction(StateCallbackFunction f) {
+  void Button2::setButtonStateFunction(StateCallbackFunction f) {
   get_state_cb = f;
 
 }

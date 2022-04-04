@@ -6,10 +6,10 @@
 - House keeping
     - Refactored `loop()` - cleaned up conditions, should be easier to understand now
     - Renamed `getAttachedPin()`to `getPin()` (BREAKING CHANGE)
-- Possibility define your own "_getState" function for non standard buttons
+- Possibility define your own "_getState" function for non standard buttons as suggested in [#32](https://github.com/LennartHennigs/Button2/issues/32)
     - Refactored `isPressedRaw()` to also use `_getState()`
     - Introduced a `VIRTUAL_PIN` constant – using it in the constructor or `begin()` will skip pin initalization
-    - Added `setGetStateFunction(StateCallbackFunction f)` to assign your own "_getState" function
+    - Added `setButtonStateFunction(StateCallbackFunction f)` to assign your own "_getState" function
 - Improved click type handling 
     - Added `clickType`      and removed constants for determining the click type (BREAKING CHANGE)
     - Renamed `getClickType()` to `getType()` (BREAKING CHANGE)
