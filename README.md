@@ -14,6 +14,7 @@ It takes care of debouncing. Using this lib will reduce and simplify your source
 
 It has been tested with Arduino, ESP8266 and ESP32 devices.
 
+To see the latest changes to the library please take a look at the [Changelog](https://github.com/LennartHennigs/Button2/blob/master/CHANGELOG.md).
 
 How To Use
 ----------
@@ -73,8 +74,8 @@ __Timeouts__
 
 __IDs for Button Instances__
   - Each button instance gets a unique (auto incremented) ID upon creation.
-  - You can get a buttons' ID via `int getID()`. 
-  - Alternatively, you can use `void setID(int newID)` to set a new one. But then you need to make sure that they are unique.
+  - You can get a buttons' ID via `getID()`. 
+  - Alternatively, you can use `setID(int newID)` to set a new one. But then you need to make sure that they are unique.
   
 
 __The Loop__    
@@ -93,6 +94,7 @@ Examples
 - [MultiHandler](https://github.com/LennartHennigs/Button2/blob/master/examples/MultiHandler/MultiHandler.ino) – how to use a single handler for multiple events
 - [MultiHandlerTwoButtons](https://github.com/LennartHennigs/Button2/blob/master/examples/MultiHandlerTwoButtons/MultiHandlerTwoButtons.ino) – a single handler for multiple buttons
 - [TrackDualButtonClick](https://github.com/LennartHennigs/Button2/blob/master/examples/TrackDualButtonClick/TrackDualButtonClick.ino) – how to detect when two buttons are clicked at the same time
+- [ButtonLoop](https://github.com/LennartHennigs/Button2/blob/master/examples/TrackDualButtonClick/ButtonLoop.ino) – how to use the button class in the main loop (I recommend using handlers, but well...)
 
 Notes
 -----
