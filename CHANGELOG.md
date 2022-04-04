@@ -10,6 +10,7 @@
     - Refactored `isPressedRaw()` to also use `_getState()`
     - Introduced a `VIRTUAL_PIN` constant – using it in the constructor or `begin()` will skip pin initalization
     - Added `setButtonStateFunction(StateCallbackFunction f)` to assign your own "_getState" function
+    - Added [CustomButtonStateHandler.ino](https://github.com/LennartHennigs/Button2/blob/master/examples/CustomButtonStateHandler/CustomButtonStateHandler.ino) example 
 - Improved click type handling 
     - Added `clickType`      and removed constants for determining the click type (BREAKING CHANGE)
     - Renamed `getClickType()` to `getType()` (BREAKING CHANGE)
