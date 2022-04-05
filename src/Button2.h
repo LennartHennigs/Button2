@@ -119,7 +119,11 @@ public:
   bool wasPressed() const;
   clickType read(bool keepState = false);
   clickType wait(bool keepState = false);
-  
+  void waitForClick(bool keepState = false);
+  void waitForDouble(bool keepState = false);
+  void waitForTriple(bool keepState = false);
+  void waitForLong(bool keepState = false);
+
   byte getNumberOfClicks() const;
   clickType getType() const;
   String clickToString(clickType type) const;

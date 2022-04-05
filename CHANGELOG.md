@@ -23,6 +23,7 @@
   - Added `bool wasPressed()` function
   - Added `read(bool keepState = false)`, it returns the button press type (as a `clickType` enum)
   - Added `wait(bool keepState = false)`, it combines `wasPressed()` and `read()` methods and halts execution until a button press took place
+  - Added `waitForClick()`, `waitForDouble()`, `waitForTriple()` and `waitForLong()` as well
   - Added [ButtonLoop.ino](https://github.com/LennartHennigs/Button2/blob/master/examples/ButtonLoop/ButtonLoop.ino) example to showcase the "loop" functions
 
 ## [1.6.5] - 2021-09-12

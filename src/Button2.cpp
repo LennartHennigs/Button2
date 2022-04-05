@@ -243,6 +243,44 @@ clickType Button2::wait(bool keepState /* = false */) {
 
 /////////////////////////////////////////////////////////////////
 
+  void Button2::waitForClick(bool keepState /* = false */) {
+    do {
+      while(!wasPressed()) {
+        loop();
+      }
+    } while(read() != single_click);
+  }
+
+/////////////////////////////////////////////////////////////////
+
+  void Button2::waitForDouble(bool keepState  /* = false */) {
+    do {
+      while(!wasPressed()) {
+        loop();
+      }
+    } while(read() != double_click);
+  }
+/////////////////////////////////////////////////////////////////
+
+  void Button2::waitForTriple(bool keepState /* = false */) {
+    do {
+      while(!wasPressed()) {
+        loop();
+      }
+    } while(read() != triple_click);
+  }
+/////////////////////////////////////////////////////////////////
+
+  void Button2::waitForLong(bool keepState  /* = false */) {
+    do {
+      while(!wasPressed()) {
+        loop();
+      }
+    } while(read() != long_click);
+  }
+
+/////////////////////////////////////////////////////////////////
+
 byte Button2::_getState() {
     if (get_state_cb != NULL) return get_state_cb();
     if (!is_capacitive) {
