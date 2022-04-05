@@ -9,8 +9,8 @@ Arduino/ESP library to simplify working with buttons.
 
 Description
 -----------
-This library allows you to use callback functions to track single, double, triple and long clicks. 
-It takes care of debouncing. Using this lib will reduce and simplify your source code significantly. 
+This library allows you to use callback functions to track single, double, triple and long clicks. Alternatively, it provides function to use in your main `loop()`.
+The library also takes care of debouncing. Using this lib will reduce and simplify your source code significantly. 
 
 It has been tested with Arduino, ESP8266 and ESP32 devices.
 
@@ -72,16 +72,43 @@ __Timeouts__
   - `void setDoubleClickTime(unsigned int ms)`
   
 
+__Using Button2 in the main `loop()`__
+- Even though I suggest to use handlers for tracking events, you can also use Button2 to check button's state in the main loop
+- `bool wasPressed()` allows you to check whether the button was pressed
+- `clickType read(bool keepState = false)` gives you the type of click that took place
+- `clickType wait(bool keepState = false)` combines this and halts execution until a button click was detected
+- The `clickType` is an enum defined as...
+  ```
+    enum clickType {
+      single_click, 
+      double_click, 
+      triple_click, 
+      long_click,
+      empty
+    }; 
+- There are also dedicated waits (`waitForClick()`, `waitForDouble()`, `waitForTriple()` and `waitForLong()`) to detect a sepcific type
+- The `read()` and the *wait* fuctions will reset the state of `wasPressed()` unless specified otherwise (via a `bool` parameter)
+
+- Check out the [ButtonLoop](https://github.com/LennartHennigs/Button2/blob/master/examples/ButtonLoop/ButtonLoop.ino) example to see it in action
+
+
 __IDs for Button Instances__
   - Each button instance gets a unique (auto incremented) ID upon creation.
   - You can get a buttons' ID via `getID()`. 
   - Alternatively, you can use `setID(int newID)` to set a new one. But then you need to make sure that they are unique.
-  
+
+ __Adding A Custom Button State Handler__
+ 
+- Out of the box *Button2* supports regular hardware buttons as well as the built-in capacative touch ones of the ESP32.
+- If you want to add other button type you need to define your own `byte _getState()` function
+- Use `setButtonStateFunction()` to assign it to your *Button2 *instance
+- Don't forget to initalize the button as this cannot be handled by *Button2*
+- See [CustomButtonStateHandler.ino](https://github.com/LennartHennigs/Button2/blob/master/examples/CustomButtonStateHandler/CustomButtonStateHandler.ino) example for more details
+ 
 
 __The Loop__    
 - For the class to work, you need to call the button's `loop()` member function in your sketch's `loop()` function. 
 - Please see the *examples* below for more details.
-
 
 The button class offers a few additional functions, please take a look at the *Class Definition* below.
 
@@ -95,6 +122,8 @@ Examples
 - [MultiHandlerTwoButtons](https://github.com/LennartHennigs/Button2/blob/master/examples/MultiHandlerTwoButtons/MultiHandlerTwoButtons.ino) – a single handler for multiple buttons
 - [TrackDualButtonClick](https://github.com/LennartHennigs/Button2/blob/master/examples/TrackDualButtonClick/TrackDualButtonClick.ino) – how to detect when two buttons are clicked at the same time
 - [ButtonLoop](https://github.com/LennartHennigs/Button2/blob/master/examples/ButtonLoop/ButtonLoop.ino) – how to use the button class in the main loop (I recommend using handlers, but well...)
+- [CustomButtonStateHandler.ino](https://github.com/LennartHennigs/Button2/blob/master/examples/CustomButtonStateHandler/CustomButtonStateHandler.ino) - how to assign your own button handler
+
 
 Notes
 -----
@@ -123,11 +152,11 @@ void setDoubleClickTime(unsigned int ms);
 unsigned int getDebounceTime();
 unsigned int getLongClickTime();
 unsigned int getDoubleClickTime();
-byte getAttachPin();
-
-void setLongClickDetectedRetriggerable(bool retriggerable);
+byte getPin();
 
 void reset();
+
+void setButtonStateFunction(StateCallbackFunction f);
 
 void setChangedHandler(CallbackFunction f);
 void setPressedHandler(CallbackFunction f);
@@ -140,14 +169,23 @@ void setTripleClickHandler(CallbackFunction f);
 
 void setLongClickHandler(CallbackFunction f);
 void setLongClickDetectedHandler(CallbackFunction f);
+void setLongClickDetectedRetriggerable(bool retriggerable);
 
-unsigned int wasPressed() const;
 unsigned int wasPressedFor() const;
 boolean isPressed() const;
 boolean isPressedRaw() const;
 
+bool wasPressed() const;
+clickType read(bool keepState = false);
+clickType wait(bool keepState = false);
+void waitForClick(bool keepState = false);
+void waitForDouble(bool keepState = false);
+void waitForTriple(bool keepState = false);
+void waitForLong(bool keepState = false);
+
 byte getNumberOfClicks() const;
-byte getClickType() const;
+byte getType() const;
+String clickToString(clickType type) const;
 
 int getID() const;
 void setID(int newID);

@@ -6,7 +6,7 @@ setDoubleClickTime	KEYWORD2
 getDebounceTime	KEYWORD2
 getLongClickTime	KEYWORD2
 getDoubleClickTime	KEYWORD2
-getAttachPin	KEYWORD2
+getPin	KEYWORD2
 setLongClickDetectedRetriggerable	KEYWORD2
 reset	KEYWORD2
 setChangedHandler	KEYWORD2
@@ -29,8 +29,12 @@ setID	KEYWORD2
 wasPressed	KEYWORD2
 read	KEYWORD2
 wait	KEYWORD2
+waitForClick	KEYWORD2
+waitForDouble	KEYWORD2
+waitForTriple	KEYWORD2
+waitForLong	KEYWORD2
 loop	KEYWORD2
 DEBOUNCE_MS	LITERAL1
 LONGCLICK_MS	LITERAL1
 DOUBLECLICK_MS	LITERAL1
-clickTypes	LITERAL1
+clickType	LITERAL1
