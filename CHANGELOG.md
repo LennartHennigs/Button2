@@ -6,6 +6,7 @@
 - House keeping
     - Refactored `loop()` - cleaned up conditions, should be easier to understand now
     - Renamed `getAttachedPin()`to `getPin()` (BREAKING CHANGE)
+    - Fixed a bug that the first click type was falsly returned by `getClickType()`
 - Possibility define your own "_getState" function for non standard buttons as suggested in [#32](https://github.com/LennartHennigs/Button2/issues/32)
     - Refactored `isPressedRaw()` to also use `_getState()`
     - Introduced a `VIRTUAL_PIN` constant – using it in the constructor or `begin()` will skip pin initalization
@@ -15,7 +16,6 @@
     - Added `clickType`      and removed constants for determining the click type (BREAKING CHANGE)
     - Renamed `getClickType()` to `getType()` (BREAKING CHANGE)
     - Added `clickToString` function to print the `clickType` enum value
-    - Fixed a bug that the first click type was falsly returned by `getType()`
 - Added IDs button instances
     - Added `getID()`, it returns an auto incremented `int` ID for the button, as suggest in [#34](https://github.com/LennartHennigs/Button2/pull/34)
     - Added `setID()`, it allows you to set your own IDs – but then you need to ensure its uniqeness yourself

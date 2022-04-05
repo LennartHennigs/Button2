@@ -211,7 +211,7 @@ String Button2::clickToString(clickType type) const {
   if (type == double_click) return "double click";
   if (type == long_click) return "long click";
   if (type == triple_click) return "triple click";
-  return "undefined";
+  return "empty";
  }
 
 /////////////////////////////////////////////////////////////////
@@ -224,7 +224,10 @@ bool Button2::wasPressed() const {
 
 clickType Button2::read(bool keepState /* = false */) {
     if (!keepState) {
+      clickType res = last_click_type;
+      last_click_type = empty;
       was_pressed = false;
+      return res;
     }
     return last_click_type;
 }
@@ -353,7 +356,7 @@ void Button2::loop() {
 void Button2::reset() {
   pin = UNDEFINED_PIN;
   click_count = 0;
-  last_click_type = undefined;
+  last_click_type = empty;
   down_time_ms = 0;
   pressed_triggered = false;
   longclick_detected = false;

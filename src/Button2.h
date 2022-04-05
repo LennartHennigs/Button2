@@ -31,7 +31,7 @@ enum clickType {
   double_click, 
   triple_click, 
   long_click,
-  undefined
+  empty
 };
 
 class Button2 {
@@ -42,7 +42,7 @@ protected:
   byte state;
   byte prev_state;
   byte click_count = 0;
-  clickType last_click_type = undefined;
+  clickType last_click_type = empty;
   bool was_pressed = false;
   bool is_capacitive = false;
   unsigned long click_ms;
