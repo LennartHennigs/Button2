@@ -30,9 +30,14 @@ __Definition__
 
 
 __Button Types__
-- You can use the class for "real" buttons (*pullup*, *pulldown*, and *active low*) and capacative buttons that come with the ESP32
+- You can use the class for "real" buttons (*pullup*, *pulldown*, and *active low*) and capacative buttons that come with the ESP32.
 - Per default the button pins are defined as `INPUT_PULLUP`. You can override this upon creation.
-- On an ESP32 you can use it with the built-in capacitive button pins.
+- To use it for the ESPs' built-on capacitive button pins do something like this:
+   ```
+   Button2 button;
+   button.begin(BUTTON_PIN,, true);
+   ```
+
 
 
 __Callback Handler__
