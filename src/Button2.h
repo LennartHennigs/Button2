@@ -48,7 +48,7 @@ protected:
   unsigned long down_ms;
 
   bool longclick_detected_retriggerable;
-  uint16_t longclick_detected_counter;
+  uint16_t longclick_detected_counter = 0;
   bool longclick_detected = false;
   bool longclick_detected_reported = false;
   
