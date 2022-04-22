@@ -5,7 +5,7 @@
 -
 
 ## [2.0.1] - 2022-04-22
-- Fixed bug – `longclick_detected_counter` is not properly initalized
+- Fixed bug – `longclick_detected_counter` is not properly initalized as mentioned in [#37](https://github.com/LennartHennigs/Button2/pull/37)
 
 ## [2.0.0] - 2022-04-04
 - House keeping
