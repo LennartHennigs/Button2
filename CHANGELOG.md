@@ -4,6 +4,9 @@
 - **Note:** Unreleased changes are checked in but not part of an official release (available through the Arduino IDE or PlatfomIO) yet. This allows you to test WiP features and give feedback to them.
 -
 
+## [2.0.1] - 2022-04-22
+- Fixed bug – `longclick_detected_counter` is not properly initalized
+
 ## [2.0.0] - 2022-04-04
 - House keeping
     - Refactored `loop()` - cleaned up conditions, should be easier to understand now

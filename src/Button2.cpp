@@ -31,6 +31,7 @@ Button2::Button2(byte attachTo, byte buttonMode /* = INPUT_PULLUP */, boolean is
 
 void Button2::begin(byte attachTo, byte buttonMode /* = INPUT_PULLUP */, boolean isCapacitive /* = false */, boolean activeLow /* = true */) {  
   pin = attachTo;
+  longclick_detected_counter = 0;
   longclick_detected_retriggerable = false;
   _pressedState = activeLow ? LOW : HIGH;
   setDebounceTime(DEBOUNCE_MS);
@@ -92,9 +93,8 @@ byte Button2::getPin() const {
 
 /////////////////////////////////////////////////////////////////
 
-  void Button2::setButtonStateFunction(StateCallbackFunction f) {
+void Button2::setButtonStateFunction(StateCallbackFunction f) {
   get_state_cb = f;
-
 }
 
 /////////////////////////////////////////////////////////////////
@@ -243,55 +243,57 @@ clickType Button2::wait(bool keepState /* = false */) {
 
 /////////////////////////////////////////////////////////////////
 
-  void Button2::waitForClick(bool keepState /* = false */) {
-    do {
-      while(!wasPressed()) {
-        loop();
-      }
-    } while(read() != single_click);
-  }
+void Button2::waitForClick(bool keepState /* = false */) {
+  do {
+    while(!wasPressed()) {
+      loop();
+    }
+  } while(read() != single_click);
+}
 
 /////////////////////////////////////////////////////////////////
 
-  void Button2::waitForDouble(bool keepState  /* = false */) {
-    do {
-      while(!wasPressed()) {
-        loop();
-      }
-    } while(read() != double_click);
-  }
+void Button2::waitForDouble(bool keepState  /* = false */) {
+  do {
+    while(!wasPressed()) {
+      loop();
+    }
+  } while(read() != double_click);
+}
+
 /////////////////////////////////////////////////////////////////
 
-  void Button2::waitForTriple(bool keepState /* = false */) {
-    do {
-      while(!wasPressed()) {
-        loop();
-      }
-    } while(read() != triple_click);
-  }
+void Button2::waitForTriple(bool keepState /* = false */) {
+  do {
+    while(!wasPressed()) {
+      loop();
+    }
+  } while(read() != triple_click);
+}
+
 /////////////////////////////////////////////////////////////////
 
-  void Button2::waitForLong(bool keepState  /* = false */) {
-    do {
-      while(!wasPressed()) {
-        loop();
-      }
-    } while(read() != long_click);
-  }
+void Button2::waitForLong(bool keepState  /* = false */) {
+  do {
+    while(!wasPressed()) {
+      loop();
+    }
+  } while(read() != long_click);
+}
 
 /////////////////////////////////////////////////////////////////
 
 byte Button2::_getState() {
-    if (get_state_cb != NULL) return get_state_cb();
-    if (!is_capacitive) {
-      return digitalRead(pin);
-    } else {
-      #if defined(ARDUINO_ARCH_ESP32)
-        int capa = touchRead(pin);
-        return capa < CAPACITIVE_TOUCH_THRESHOLD ? LOW : HIGH;
-      #endif
-    }
-    return state;
+  if (get_state_cb != NULL) return get_state_cb();
+  if (!is_capacitive) {
+    return digitalRead(pin);
+  } else {
+    #if defined(ARDUINO_ARCH_ESP32)
+      int capa = touchRead(pin);
+      return capa < CAPACITIVE_TOUCH_THRESHOLD ? LOW : HIGH;
+    #endif
+  }
+  return state;
 }
 
 /////////////////////////////////////////////////////////////////
@@ -399,7 +401,8 @@ void Button2::reset() {
   pressed_triggered = false;
   longclick_detected = false;
   longclick_detected_reported = false;
-	
+  longclick_detected_counter = 0;
+  
   pressed_cb = NULL;
   released_cb = NULL;
   change_cb = NULL;
