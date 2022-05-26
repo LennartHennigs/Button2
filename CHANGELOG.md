@@ -4,11 +4,11 @@
 
 - **Note:** Unreleased changes are checked in but not part of an official release (available through the Arduino IDE or PlatfomIO) yet. This allows you to test WiP features and give feedback to them.
 
-## [2.0.4] - 2022-05-26
+## [2.0.3] - 2022-05-26
 
 - Fixed bug with the button ID as pointed out by [Jon](https://github.com/mscreations) in [#39](https://github.com/LennartHennigs/Button2/pull/39)
 
-## [2.0.3] - 2022-05-21
+## [2.0.2] - 2022-05-21
 
 - Added example for the [M5Stack Core2](https://github.com/LennartHennigs/Button2/blob/master/examples/M5StackCore2CustomHandler/M5StackCore2CustomHandler.ino) - showing how to add a custom handler for the touch buttons
 
