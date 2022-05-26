@@ -24,6 +24,7 @@ Button2::Button2() {
 // contructor
 
 Button2::Button2(byte attachTo, byte buttonMode /* = INPUT_PULLUP */, boolean isCapacitive /* = false */, boolean activeLow /* = true */) {
+  id = _nextID++;
   begin(attachTo, buttonMode, isCapacitive, activeLow);
 }
 
