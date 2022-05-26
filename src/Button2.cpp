@@ -24,7 +24,6 @@ Button2::Button2() {
 // contructor
 
 Button2::Button2(byte attachTo, byte buttonMode /* = INPUT_PULLUP */, boolean isCapacitive /* = false */, boolean activeLow /* = true */) {
-  id = _nextID++;
   begin(attachTo, buttonMode, isCapacitive, activeLow);
 }
 
@@ -32,6 +31,7 @@ Button2::Button2(byte attachTo, byte buttonMode /* = INPUT_PULLUP */, boolean is
 
 void Button2::begin(byte attachTo, byte buttonMode /* = INPUT_PULLUP */, boolean isCapacitive /* = false */, boolean activeLow /* = true */) {  
   pin = attachTo;
+  id = _nextID++;
   longclick_detected_counter = 0;
   longclick_detected_retriggerable = false;
   _pressedState = activeLow ? LOW : HIGH;

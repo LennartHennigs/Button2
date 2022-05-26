@@ -1,6 +1,6 @@
 {
 	"name": "Button2",
-	"version": "2.0.2",
+	"version": "2.0.4",
 	"keywords": "button",
 	"description": "Arduino Library to simplify working with buttons.",
 	"homepage": "https://github.com/LennartHennigs/Button2",
