@@ -15,6 +15,9 @@ It has been tested with Arduino, ESP8266 and ESP32 devices.
 
 To see the latest changes to the library please take a look at the [Changelog](https://github.com/LennartHennigs/Button2/blob/master/CHANGELOG.md).
 
+If you find this library helpful please consider giving it a star at [GitHub](https://github.com/LennartHennigs/Button2) and/or [buy me a coffee](https://ko-fi.com/lennart0815). Thanks!
+
+
 ## How To Use
 
 This library allows you to define a button and uses callback functions to detect different types of button interactions.
@@ -134,11 +137,6 @@ The button class offers a few additional functions, please take a look at the *C
 - [ButtonLoop](https://github.com/LennartHennigs/Button2/blob/master/examples/ButtonLoop/ButtonLoop.ino) – how to use the button class in the main loop (I recommend using handlers, but well...)
 - [CustomButtonStateHandler.ino](https://github.com/LennartHennigs/Button2/blob/master/examples/CustomButtonStateHandler/CustomButtonStateHandler.ino) - how to assign your own button handler
 - [M5StackCore2CustomHandler](https://github.com/LennartHennigs/Button2/blob/master/examples/M5StackCore2CustomHandler/M5StackCore2CustomHandler.ino) - example for the M5Stack Core2 touch buttons
-
-## Notes
-
-- To see the latest changes to the library please take a look at the [Changelog](https://github.com/LennartHennigs/Button2/blob/master/CHANGELOG.md).
-- And if you find this library helpful, please consider giving it a star at [GitHub](https://github.com/LennartHennigs/Button2). Thanks!
 
 ## Class Definition
 
