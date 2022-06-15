@@ -15,7 +15,7 @@ It has been tested with Arduino, ESP8266 and ESP32 devices.
 
 To see the latest changes to the library please take a look at the [Changelog](https://github.com/LennartHennigs/Button2/blob/master/CHANGELOG.md).
 
-If you find this library helpful please consider giving it a ⭐️ at [GitHub](https://github.com/LennartHennigs/Button2) and/or [buy me a coffee](https://ko-fi.com/lennart0815). Thanks!
+If you find this library helpful please consider giving it a ⭐️ at [GitHub](https://github.com/LennartHennigs/Button2) and/or [buy me a ☕️](https://ko-fi.com/lennart0815). Thanks!
 
 ## How To Use
 
