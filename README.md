@@ -15,8 +15,7 @@ It has been tested with Arduino, ESP8266 and ESP32 devices.
 
 To see the latest changes to the library please take a look at the [Changelog](https://github.com/LennartHennigs/Button2/blob/master/CHANGELOG.md).
 
-If you find this library helpful please consider giving it a star at [GitHub](https://github.com/LennartHennigs/Button2) and/or [buy me a coffee](https://ko-fi.com/lennart0815). Thanks!
-
+If you find this library helpful please consider giving it a ⭐️ at [GitHub](https://github.com/LennartHennigs/Button2) and/or [buy me a coffee](https://ko-fi.com/lennart0815). Thanks!
 
 ## How To Use
 
@@ -36,7 +35,7 @@ If you don't want to use callback there are also functions available for using i
 ### Button Types
 
 - You can use the class for "real" buttons (*pullup*, *pulldown*, and *active low*) and capacative buttons that come with the ESP32.
--_ Per default the button pins are defined as `INPUT_PULLUP`. You can override this upon creation.
+- Per default the button pins are defined as `INPUT_PULLUP`. You can override this upon creation.
 - To use it for the ESPs' built-on capacitive button pins do something like this:
 
 ```cc++
