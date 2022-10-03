@@ -19,7 +19,8 @@ void setup() {
   
   button.begin(BUTTON_PIN);
   button.setClickHandler(handler);
-  button.setLongClickHandler(handler);
+  // button.setLongClickHandler(handler);       // this will only be called upon release
+  button.setLongClickDetectedHandler(handler);  // this will only be called upon detection
   button.setDoubleClickHandler(handler);
   button.setTripleClickHandler(handler);
 }

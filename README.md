@@ -64,7 +64,8 @@ If you don't want to use callback there are also functions available for using i
 
 - There are two possible callback functions: `setLongClickDetectedHandler()` and `setLongClickHandler()`.
 - `setLongClickDetectedHandler()` will be called as soon as the defined timeout has passed.
-- `setLongClickDetectedRetriggerable(bool retriggerable)` allows you to define if want to get multiple norifications for a single long click depeding on the timeout.
+- `setLongClickHandler()` will only be called after the button has been released.
+- `setLongClickDetectedRetriggerable(bool retriggerable)` allows you to define whether want to get multiple notifications for a single long click depeding on the timeout.
 
 ### Timeouts
 
@@ -109,12 +110,13 @@ If you don't want to use callback there are also functions available for using i
 - You can get a buttons' ID via `getID()`.
 - Alternatively, you can use `setID(int newID)` to set a new one. But then you need to make sure that they are unique.
 
-### Adding A Custom Button State Handler
+### Creating A Custom Button State Handler
 
 - Out of the box *Button2* supports regular hardware buttons as well as the built-in capacative touch ones of the ESP32.
-- If you want to add other button type you need to define your own `byte _getState()` function
+- If you want to add other button types you need to define your own `byte _getState()` function for it.
 - Use `setButtonStateFunction()` to assign it to your *Button2* instance
 - Don't forget to initalize the button as this cannot be handled by *Button2*
+- and make the button pin 'VIRTUAL', e.g. via  `button.begin(VIRTUAL_PIN);`
 - See [CustomButtonStateHandler.ino](https://github.com/LennartHennigs/Button2/blob/master/examples/CustomButtonStateHandler/CustomButtonStateHandler.ino) and [M5StackCore2CustomHandler](https://github.com/LennartHennigs/Button2/blob/master/examples/M5StackCore2CustomHandler/M5StackCore2CustomHandler.ino) examples for more details
 
 ### The Loop
