@@ -147,15 +147,19 @@ void Button2::setLongClickHandler(CallbackFunction f) {
 
 /////////////////////////////////////////////////////////////////
 
+#ifndef _IGNORE_DOUBLE
 void Button2::setDoubleClickHandler(CallbackFunction f) {
   double_cb = f;
 }
+#endif
 
 /////////////////////////////////////////////////////////////////
 
+#ifndef _IGNORE_TRIPLE
 void Button2::setTripleClickHandler(CallbackFunction f) {
   triple_cb = f;
 }
+#endif
 
 /////////////////////////////////////////////////////////////////
 
@@ -209,9 +213,13 @@ void Button2::setID(int newID) {
 
 String Button2::clickToString(clickType type) const {
   if (type == single_click) return "click";
+#ifndef _IGNORE_DOUBLE
   if (type == double_click) return "double click";
+#endif
   if (type == long_click) return "long click";
+#ifndef _IGNORE_TRIPLE
   if (type == triple_click) return "triple click";
+#endif  
   return "empty";
  }
 
@@ -254,6 +262,7 @@ void Button2::waitForClick(bool keepState /* = false */) {
 
 /////////////////////////////////////////////////////////////////
 
+#ifndef _IGNORE_DOUBLE
 void Button2::waitForDouble(bool keepState  /* = false */) {
   do {
     while(!wasPressed()) {
@@ -261,9 +270,11 @@ void Button2::waitForDouble(bool keepState  /* = false */) {
     }
   } while(read() != double_click);
 }
+#endif
 
 /////////////////////////////////////////////////////////////////
 
+#ifndef _IGNORE_TRIPLE
 void Button2::waitForTriple(bool keepState /* = false */) {
   do {
     while(!wasPressed()) {
@@ -271,6 +282,7 @@ void Button2::waitForTriple(bool keepState /* = false */) {
     }
   } while(read() != triple_click);
 }
+#endif
 
 /////////////////////////////////////////////////////////////////
 
@@ -373,14 +385,18 @@ void Button2::loop() {
               last_click_type = single_click;
               if (click_cb != NULL) click_cb (*this);
               break;
+#ifndef _IGNORE_DOUBLE
             case 2: 
               last_click_type = double_click;
               if (double_cb != NULL) double_cb (*this);
               break;
+#endif
+#ifndef _IGNORE_TRIPLE
             case 3: 
               last_click_type = triple_click;
               if (triple_cb != NULL) triple_cb (*this);
               break;
+#endif
           }
           was_pressed = true;
         }
@@ -410,8 +426,12 @@ void Button2::reset() {
   tap_cb = NULL;
   click_cb = NULL;
   long_cb = NULL;
+#ifndef _IGNORE_DOUBLE
   double_cb = NULL;
+#endif
+#ifndef _IGNORE_TRIPLE
   triple_cb = NULL;
+#endif
   longclick_detected_cb = NULL;
 }
 

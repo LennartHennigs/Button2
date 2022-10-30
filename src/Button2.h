@@ -8,11 +8,30 @@
 
 #ifndef Button2_h
 #define Button2_h
+
 /////////////////////////////////////////////////////////////////
+
 #if defined(ARDUINO_ARCH_ESP32) || defined(ESP8266)
   #include <functional>
 #endif
-#include "Arduino.h"
+#include <Arduino.h>
+
+/////////////////////////////////////////////////////////////////
+// WiP – possibility to restrict click detection
+
+// #define _IGNORE_DOUBLE
+// #define _IGNORE_TRIPLE
+// #define _IGNORE_LONG     // TBD
+
+/////////////////////////////////////////////////////////////////
+
+#if defined(_IGNORE_DOUBLE)
+  #pragma message "Ignoring Double Clicks"
+#endif
+#if defined(_IGNORE_TRIPLE)
+  #pragma message "Ignoring Triple Clicks"
+#endif
+
 /////////////////////////////////////////////////////////////////
 
 #define DEBOUNCE_MS 50
@@ -27,8 +46,12 @@
 
 enum clickType {
   single_click, 
+#ifndef _IGNORE_DOUBLE
   double_click, 
+#endif
+#ifndef _IGNORE_TRIPLE
   triple_click, 
+#endif
   long_click,
   empty
 };
@@ -75,8 +98,12 @@ protected:
   CallbackFunction tap_cb = NULL;
   CallbackFunction click_cb = NULL;
   CallbackFunction long_cb = NULL;
+#ifndef _IGNORE_DOUBLE
   CallbackFunction double_cb = NULL;
+#endif
+#ifndef _IGNORE_TRIPLE
   CallbackFunction triple_cb = NULL;
+#endif
   CallbackFunction longclick_detected_cb = NULL;
 
 public:
@@ -88,7 +115,7 @@ public:
   void setDebounceTime(unsigned int ms);
   void setLongClickTime(unsigned int ms);
   void setDoubleClickTime(unsigned int ms);
-  
+
   unsigned int getDebounceTime() const;
   unsigned int getLongClickTime() const;
   unsigned int getDoubleClickTime() const;
@@ -104,9 +131,12 @@ public:
 
   void setTapHandler(CallbackFunction f);
   void setClickHandler(CallbackFunction f);
+#ifndef _IGNORE_DOUBLE 
   void setDoubleClickHandler(CallbackFunction f);
+#endif
+#ifndef _IGNORE_TRIPLE
   void setTripleClickHandler(CallbackFunction f);
-
+#endif
   void setLongClickHandler(CallbackFunction f);
   void setLongClickDetectedHandler(CallbackFunction f);
   void setLongClickDetectedRetriggerable(bool retriggerable);
@@ -119,8 +149,12 @@ public:
   clickType read(bool keepState = false);
   clickType wait(bool keepState = false);
   void waitForClick(bool keepState = false);
+#ifndef _IGNORE_DOUBLE
   void waitForDouble(bool keepState = false);
+#endif
+#ifndef _IGNORE_TRIPLE
   void waitForTriple(bool keepState = false);
+#endif
   void waitForLong(bool keepState = false);
 
   byte getNumberOfClicks() const;
@@ -136,8 +170,8 @@ public:
 
 private: 
   static int _nextID;
-  
   byte _pressedState;
+
   byte _getState();
 };
 /////////////////////////////////////////////////////////////////
