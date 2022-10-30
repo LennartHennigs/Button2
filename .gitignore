@@ -3,6 +3,9 @@
 # vs code files
 .vscode
 *.code-workspace
+# platformio ini file
+platformio.ini
+.pio
 # arduino_ci unit test binaries and artifacts
 *.bin
 *.bin.dSYM
