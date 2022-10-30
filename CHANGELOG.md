@@ -2,6 +2,7 @@
 
 ## Unreleased
 - (Hope) I clarified the difference between the `setLongClickHandler` and the `setLongClickDetectedHandler` in the README and the [MultiHandler](https://github.com/LennartHennigs/Button2/blob/master/examples/MultiHandler/MultiHandler.ino) example. (the first waits until you release the button) as mentioned in [#41](https://github.com/LennartHennigs/Button2/issues/41)]
+- Added compiler switches to remove double / triple click detection code (TO DO: long click) as mentioned in [#44](https://github.com/LennartHennigs/Button2/issues/44)
 
 **Note:** Unreleased changes are checked in but not part of an official release (available through the Arduino IDE or PlatfomIO) yet. This allows you to test WiP features and give feedback to them.
 
