@@ -184,7 +184,7 @@ private:
   static int _nextID;
   byte _pressedState;
 
-  byte _getState();
+  byte _getState() const;
 };
 /////////////////////////////////////////////////////////////////
 #endif

@@ -305,7 +305,7 @@ void Button2::waitForLong(bool keepState  /* = false */) {
 
 /////////////////////////////////////////////////////////////////
 
-byte Button2::_getState() {
+byte Button2::_getState() const {
   if (get_state_cb != NULL) return get_state_cb();
   if (!is_capacitive) {
     return digitalRead(pin);
