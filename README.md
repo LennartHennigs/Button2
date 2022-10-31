@@ -47,7 +47,7 @@ If you don't want to use callback there are also functions available for using i
 
 ### Callback Handler
 
-- Instead of frequently checking the button state in your main `loop` this class allows you to assign callback functions.
+- Instead of frequently checking the button state in your main `loop()` this class allows you to assign callback functions.
 - You can define callback functions to track various types of clicks:
   - `setTapHandler()` will be be called when any click occurs.
   - `setChangedHandler()`, `setPressedHandler()` and `setReleasedHandler()` allow to detect basic interactions.
@@ -67,6 +67,11 @@ If you don't want to use callback there are also functions available for using i
 - `setLongClickHandler()` will only be called after the button has been released.
 - `setLongClickDetectedRetriggerable(bool retriggerable)` allows you to define whether want to get multiple notifications for a single long click depeding on the timeout.
 
+### The Loop
+
+- For the class to work, you need to call the button's `loop()` member function in your sketch's `loop()` function.
+- Please see the *examples* below for more details.
+
 ### Timeouts
 
 - The default timeouts for events are (in ms):
@@ -81,6 +86,7 @@ If you don't want to use callback there are also functions available for using i
   - `void setDebounceTime(unsigned int ms)`
   - `void setLongClickTime(unsigned int ms)`
   - `void setDoubleClickTime(unsigned int ms)`
+- There are also getter functions available, if needed.
   
 ### Using Button2 in the main `loop()`
 
@@ -119,12 +125,19 @@ If you don't want to use callback there are also functions available for using i
 - and make the button pin 'VIRTUAL', e.g. via  `button.begin(VIRTUAL_PIN);`
 - See [CustomButtonStateHandler.ino](https://github.com/LennartHennigs/Button2/blob/master/examples/CustomButtonStateHandler/CustomButtonStateHandler.ino) and [M5StackCore2CustomHandler](https://github.com/LennartHennigs/Button2/blob/master/examples/M5StackCore2CustomHandler/M5StackCore2CustomHandler.ino) examples for more details
 
-### The Loop
+### Removing detection of click types for good
 
-- For the class to work, you need to call the button's `loop()` member function in your sketch's `loop()` function.
-- Please see the *examples* below for more details.
+- If you don't want to track certain click types, just don't use the handlers.
+- But if you really don't want it in your compiled code, there is the possibility to tell the compiler to leave it out.
+- In [Button2.h](https://github.com/LennartHennigs/Button2/blob/master/src/Button2.h) there are three definitions in the beginning of the file:
 
-The button class offers a few additional functions, please take a look at the *Class Definition* below.
+```c++
+// #define _IGNORE_DOUBLE
+// #define _IGNORE_TRIPLE
+// #define _IGNORE_LONG
+```
+
+- Uncommenting one of them will remove parts of the click detection code.
 
 ## Examples
 
@@ -140,6 +153,8 @@ The button class offers a few additional functions, please take a look at the *C
 - [M5StackCore2CustomHandler](https://github.com/LennartHennigs/Button2/blob/master/examples/M5StackCore2CustomHandler/M5StackCore2CustomHandler.ino) - example for the M5Stack Core2 touch buttons
 
 ## Class Definition
+
+The button class offers a few additional functions, please take a look at the *Class Definition* below.
 
 See below the constructors and member functions the library provides:
 
