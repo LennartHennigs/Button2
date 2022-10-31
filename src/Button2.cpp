@@ -404,7 +404,11 @@ void Button2::loop() {
               if (click_cb != NULL) click_cb (*this);
               break;
 #ifndef _IGNORE_DOUBLE
+#ifdef _IGNORE_TRIPLE // all multi-clicks are now identified as double
+            default:
+#else            
             case 2: 
+#endif
               last_click_type = double_click;
               if (double_cb != NULL) double_cb (*this);
               break;
