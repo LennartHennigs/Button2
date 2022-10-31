@@ -10,6 +10,14 @@
 #define Button2_h
 
 /////////////////////////////////////////////////////////////////
+// uncommenting one of these compiler switches will remove the 
+//  code for one of these click types
+
+// #define _IGNORE_DOUBLE
+// #define _IGNORE_TRIPLE
+// #define _IGNORE_LONG
+
+/////////////////////////////////////////////////////////////////
 
 #if defined(ARDUINO_ARCH_ESP32) || defined(ESP8266)
   #include <functional>
@@ -17,19 +25,15 @@
 #include <Arduino.h>
 
 /////////////////////////////////////////////////////////////////
-// WiP – possibility to restrict click detection
 
-// #define _IGNORE_DOUBLE
-// #define _IGNORE_TRIPLE
-// #define _IGNORE_LONG     // TBD
-
-/////////////////////////////////////////////////////////////////
-
-#if defined(_IGNORE_DOUBLE)
-  #pragma message "Ignoring Double Clicks"
+#ifdef _IGNORE_DOUBLE
+  #pragma message "Not compiling double click code"
 #endif
-#if defined(_IGNORE_TRIPLE)
-  #pragma message "Ignoring Triple Clicks"
+#ifdef _IGNORE_TRIPLE
+  #pragma message "Not compiling triple click code"
+#endif
+#ifdef _IGNORE_LONG
+  #pragma message "Not compiling long click code"
 #endif
 
 /////////////////////////////////////////////////////////////////
@@ -45,14 +49,16 @@
 /////////////////////////////////////////////////////////////////
 
 enum clickType {
-  single_click, 
+  single_click,
 #ifndef _IGNORE_DOUBLE
-  double_click, 
+  double_click,
 #endif
 #ifndef _IGNORE_TRIPLE
-  triple_click, 
+  triple_click,
 #endif
+#ifndef _IGNORE_LONG
   long_click,
+#endif
   empty
 };
 
@@ -70,10 +76,12 @@ protected:
   unsigned long click_ms;
   unsigned long down_ms;
 
+#ifndef _IGNORE_LONG
   bool longclick_detected_retriggerable;
   uint16_t longclick_detected_counter = 0;
   bool longclick_detected = false;
   bool longclick_detected_reported = false;
+#endif
   
   unsigned int debounce_time_ms;
   unsigned int longclick_time_ms;
@@ -97,14 +105,16 @@ protected:
   CallbackFunction change_cb = NULL;
   CallbackFunction tap_cb = NULL;
   CallbackFunction click_cb = NULL;
+#ifndef _IGNORE_LONG
   CallbackFunction long_cb = NULL;
+  CallbackFunction longclick_detected_cb = NULL;
+#endif
 #ifndef _IGNORE_DOUBLE
   CallbackFunction double_cb = NULL;
 #endif
 #ifndef _IGNORE_TRIPLE
   CallbackFunction triple_cb = NULL;
 #endif
-  CallbackFunction longclick_detected_cb = NULL;
 
 public:
   Button2();
@@ -137,10 +147,11 @@ public:
 #ifndef _IGNORE_TRIPLE
   void setTripleClickHandler(CallbackFunction f);
 #endif
+#ifndef _IGNORE_LONG
   void setLongClickHandler(CallbackFunction f);
   void setLongClickDetectedHandler(CallbackFunction f);
   void setLongClickDetectedRetriggerable(bool retriggerable);
-
+#endif
   unsigned int wasPressedFor() const;
   boolean isPressed() const;
   boolean isPressedRaw();
@@ -155,8 +166,9 @@ public:
 #ifndef _IGNORE_TRIPLE
   void waitForTriple(bool keepState = false);
 #endif
+#ifndef _IGNORE_LONG
   void waitForLong(bool keepState = false);
-
+#endif
   byte getNumberOfClicks() const;
   clickType getType() const;
   String clickToString(clickType type) const;
