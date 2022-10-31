@@ -310,7 +310,7 @@ byte Button2::_getState() const {
   if (!is_capacitive) {
     return digitalRead(pin);
   } else {
-    #if defined(ARDUINO_ARCH_ESP32)
+    #ifdef ARDUINO_ARCH_ESP32
       int capa = touchRead(pin);
       return capa < CAPACITIVE_TOUCH_THRESHOLD ? LOW : HIGH;
     #endif
