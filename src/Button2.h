@@ -15,8 +15,8 @@
 //  code for one of these click types
 
 // #define _IGNORE_DOUBLE
- #define _IGNORE_TRIPLE
- #define _IGNORE_LONG
+// #define _IGNORE_TRIPLE
+// #define _IGNORE_LONG
 
 /////////////////////////////////////////////////////////////////
 
