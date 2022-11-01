@@ -2,7 +2,7 @@
 #include "Button2.h"
 /////////////////////////////////////////////////////////////////
 
-#if !defined(ESP32) 
+#if !defined(ESP32)
   #error This sketch needs an ESP32
 #endif
 
