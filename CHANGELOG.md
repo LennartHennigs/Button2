@@ -1,7 +1,7 @@
 # Changelog
 
 ## Unreleased
-
+- Added timer interrupt example [ESP32TimerInterrupt](https://github.com/LennartHennigs/Button2/blob/master/examples/ESP32TimerInterrupt/ESP32TimerInterrupt.ino)
 - Added compiler switches in `Button.h` to remove click detection code, as mentioned in [#44](https://github.com/LennartHennigs/Button2/issues/44).
 - Clarified the difference between the `setLongClickHandler` and the `setLongClickDetectedHandler` in the README and the [MultiHandler](https://github.com/LennartHennigs/Button2/blob/master/examples/MultiHandler/MultiHandler.ino) example as mentioned in [#41](https://github.com/LennartHennigs/Button2/issues/41). (The handler set via `setLongClickHandler` waits until you release the button, the second one is called as soon as the defined long-click time has passed.)
 - Made `byte _getState()` into a `const` function.
