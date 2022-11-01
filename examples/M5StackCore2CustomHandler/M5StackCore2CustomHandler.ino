@@ -7,6 +7,7 @@ Button2 button;
 bool cleared = false;
 
 /////////////////////////////////////////////////////////////////
+
 byte myButtonStateHandler() {
   return !(M5.BtnA.isPressed());
 }
