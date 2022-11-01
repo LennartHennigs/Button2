@@ -21,10 +21,10 @@ void setup() {
   // button.setLongClickTime(1000);
   // button.setDoubleClickTime(400);
 
-  Serial.println(" Longpress Time: " + String(button.getLongClickTime()) + "ms");
-  Serial.println(" DoubleClick Time: " + String(button.getDoubleClickTime()) + "ms");
+  Serial.println(" Longpress Time:\t" + String(button.getLongClickTime()) + "ms");
+  Serial.println(" DoubleClick Time:\t" + String(button.getDoubleClickTime()) + "ms");
   Serial.println();
-  
+
   // button.setChangedHandler(changed);
   // button.setPressedHandler(pressed);
   button.setReleasedHandler(released);
