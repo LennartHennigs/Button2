@@ -2,6 +2,12 @@
 #include "Button2.h"
 /////////////////////////////////////////////////////////////////
 
+#if !defined(ESP32) 
+  #error This sketch needs an ESP32
+#endif
+
+/////////////////////////////////////////////////////////////////
+
 #define BUTTON_PIN 39
 
 /////////////////////////////////////////////////////////////////
@@ -31,7 +37,7 @@ void setup() {
   
   timer = timerBegin(0, 80, true);
   timerAttachInterrupt(timer, &onTimer, true);
-  timerAlarmWrite(timer, 100000, true); // every 0.1 seconds
+  timerAlarmWrite(timer, 10000, true); // every 0.1 seconds
   timerAlarmEnable(timer);
 }
 
