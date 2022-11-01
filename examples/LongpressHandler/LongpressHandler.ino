@@ -20,7 +20,9 @@ void setup() {
   Serial.println("\n\nLongpress Handler Demo");
 
   button.begin(BUTTON_PIN);
-  button.setLongClickHandler(longpress);
+  button.setLongClickHandler(longClick);
+  button.setLongClickDetectedHandler(longClickDetected);
+
 }
 
 /////////////////////////////////////////////////////////////////
@@ -31,7 +33,7 @@ void loop() {
 
 /////////////////////////////////////////////////////////////////
 
-void longpress(Button2& btn) {
+void longClick(Button2& btn) {
     unsigned int time = btn.wasPressedFor();
     Serial.print("You clicked ");
     if (time > 1500) {
@@ -46,6 +48,12 @@ void longpress(Button2& btn) {
     Serial.print(" (");        
     Serial.print(time);        
     Serial.println(" ms)");
+}
+
+/////////////////////////////////////////////////////////////////
+
+void longClickDetected(Button2& btn) {
+    Serial.println("long click detected");
 }
 
 /////////////////////////////////////////////////////////////////
