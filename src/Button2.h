@@ -82,9 +82,9 @@ protected:
   bool longclick_detected_reported = false;
 #endif
   
-  unsigned int debounce_time_ms;
-  unsigned int longclick_time_ms;
-  unsigned int doubleclick_time_ms;
+  unsigned int debounce_time_ms = DEBOUNCE_MS;
+  unsigned int longclick_time_ms = LONGCLICK_MS;
+  unsigned int doubleclick_time_ms = DOUBLECLICK_MS;
   
   unsigned int down_time_ms = 0;
   bool pressed_triggered = false;

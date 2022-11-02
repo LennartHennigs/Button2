@@ -37,9 +37,6 @@ void Button2::begin(byte attachTo, byte buttonMode /* = INPUT_PULLUP */, boolean
   longclick_detected_retriggerable = false;
 #endif
   _pressedState = activeLow ? LOW : HIGH;
-  setDebounceTime(DEBOUNCE_MS);
-  setLongClickTime(LONGCLICK_MS);
-  setDoubleClickTime(DOUBLECLICK_MS);
   if (attachTo != VIRTUAL_PIN) {
     pinMode(attachTo, buttonMode);
   }
@@ -434,7 +431,6 @@ void Button2::reset() {
   longclick_detected_reported = false;
   longclick_detected_counter = 0;
 #endif
-
   pressed_cb = NULL;
   released_cb = NULL;
   change_cb = NULL;
