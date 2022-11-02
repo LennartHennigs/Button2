@@ -42,7 +42,6 @@
 #define DEBOUNCE_MS 50
 #define LONGCLICK_MS 200
 #define DOUBLECLICK_MS 300
-#define CAPACITIVE_TOUCH_THRESHOLD 35
 
 #define UNDEFINED_PIN 255
 #define VIRTUAL_PIN 254
@@ -73,7 +72,6 @@ protected:
   byte click_count = 0;
   clickType last_click_type = empty;
   bool was_pressed = false;
-  bool is_capacitive = false;
   unsigned long click_ms;
   unsigned long down_ms;
 
@@ -119,9 +117,9 @@ protected:
 
 public:
   Button2();
-  Button2(byte attachTo, byte buttonMode = INPUT_PULLUP, boolean isCapacitive = false, boolean activeLow = true);
+  Button2(byte attachTo, byte buttonMode = INPUT_PULLUP, boolean activeLow = true);
 
-  void begin(byte attachTo, byte buttonMode = INPUT_PULLUP, boolean isCapacitive = false , boolean activeLow  = true);
+  void begin(byte attachTo, byte buttonMode = INPUT_PULLUP, boolean activeLow  = true);
 
   void setDebounceTime(unsigned int ms);
   void setLongClickTime(unsigned int ms);

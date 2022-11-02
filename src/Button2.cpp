@@ -23,13 +23,13 @@ Button2::Button2() {
 /////////////////////////////////////////////////////////////////
 // contructor
 
-Button2::Button2(byte attachTo, byte buttonMode /* = INPUT_PULLUP */, boolean isCapacitive /* = false */, boolean activeLow /* = true */) {
-  begin(attachTo, buttonMode, isCapacitive, activeLow);
+Button2::Button2(byte attachTo, byte buttonMode /* = INPUT_PULLUP */, boolean activeLow /* = true */) {
+  begin(attachTo, buttonMode, activeLow);
 }
 
 /////////////////////////////////////////////////////////////////
 
-void Button2::begin(byte attachTo, byte buttonMode /* = INPUT_PULLUP */, boolean isCapacitive /* = false */, boolean activeLow /* = true */) {  
+void Button2::begin(byte attachTo, byte buttonMode /* = INPUT_PULLUP */, boolean activeLow /* = true */) {  
   pin = attachTo;
   id = _nextID++;
 #ifndef _IGNORE_LONG  
@@ -40,13 +40,9 @@ void Button2::begin(byte attachTo, byte buttonMode /* = INPUT_PULLUP */, boolean
   setDebounceTime(DEBOUNCE_MS);
   setLongClickTime(LONGCLICK_MS);
   setDoubleClickTime(DOUBLECLICK_MS);
-  if (!isCapacitive) {
-    if (attachTo != VIRTUAL_PIN) {
-      pinMode(attachTo, buttonMode);
-    }
-  } else {
-    is_capacitive = true;
-  }	
+  if (attachTo != VIRTUAL_PIN) {
+    pinMode(attachTo, buttonMode);
+  }
   //  state = activeLow ? HIGH : LOW;
   state = _getState();
   prev_state = state ;
@@ -306,16 +302,11 @@ void Button2::waitForLong(bool keepState  /* = false */) {
 /////////////////////////////////////////////////////////////////
 
 byte Button2::_getState() const {
-  if (get_state_cb != NULL) return get_state_cb();
-  if (!is_capacitive) {
-    return digitalRead(pin);
+  if (get_state_cb != NULL) {
+    return get_state_cb();
   } else {
-    #ifdef ARDUINO_ARCH_ESP32
-      int capa = touchRead(pin);
-      return capa < CAPACITIVE_TOUCH_THRESHOLD ? LOW : HIGH;
-    #endif
+    return digitalRead(pin);
   }
-  return state;
 }
 
 /////////////////////////////////////////////////////////////////

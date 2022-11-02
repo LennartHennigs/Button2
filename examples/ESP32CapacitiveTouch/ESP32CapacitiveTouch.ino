@@ -1,0 +1,40 @@
+#include "Button2.h"
+
+/////////////////////////////////////////////////////////////////
+
+Button2 button;
+byte pin = 4;
+
+/////////////////////////////////////////////////////////////////
+
+byte capStateHandler() {
+    int capa = touchRead(pin);
+    return capa < button.getDebounceTime() ? LOW : HIGH;
+}
+
+/////////////////////////////////////////////////////////////////
+
+void setup() {
+    Serial.begin(9600);
+    delay(50);
+    Serial.println("\n\nCapacitive Touch Demo");
+
+    button.setDebounceTime(35);
+    button.setButtonStateFunction(capStateHandler);
+    button.setClickHandler(click);
+    button.begin(VIRTUAL_PIN);
+}
+
+/////////////////////////////////////////////////////////////////
+
+void loop() {
+    button.loop();
+}
+
+/////////////////////////////////////////////////////////////////
+
+void click(Button2& btn) {
+    Serial.println("click\n");
+}
+
+/////////////////////////////////////////////////////////////////
