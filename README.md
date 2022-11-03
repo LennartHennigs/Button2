@@ -29,29 +29,28 @@ If you don't want to use callback there are also functions available for using i
 - Define the button either using the `constructor` or the `begin()` function.
 
 ```c++
-  void begin(byte attachTo, byte buttonMode = INPUT_PULLUP, boolean isCapacitive = false , boolean activeLow  = true);
+  void begin(byte attachTo, byte buttonMode = INPUT_PULLUP, boolean activeLow  = true);
 ```
 
 - You can also `reset()` a button definition if needed.
 
 ### Button Types
 
-- You can use the class for "real" buttons (*pullup*, *pulldown*, and *active low*) and capacative buttons that come with the ESP32.
+- You can use the class for "real" buttons (*pullup*, *pulldown*, and *active low*).
 - Per default the button pins are defined as `INPUT_PULLUP`. You can override this upon creation.
-- To use it for the ESPs' built-on capacitive button pins do something like this:
 
 ```cc++
    Button2 button;
-   button.begin(BUTTON_PIN,, true);
+   button.begin(BUTTON_PIN, INPUT, true);
 ```
 
-- You can also add a custom handler for other types of buttons, e.g. handled via I2C or touch. See the section on defining custom handler below.
+- You can also the library with other types of buttons, e.g. capacitive touch or ones handled via I2C. See the section on defining custom handlers below.
 
 ### Callback Handler
 
 - Instead of frequently checking the button state in your main `loop()` this class allows you to assign callback functions.
 - You can define callback functions to track various types of clicks:
-  - `setTapHandler()` will be be called when any click occurs.
+  - `setTapHandler()` will be be called when any click occurs. This is the most basic handler. It ignores all timings built-in the library for double or triple click detection.
   - `setChangedHandler()`, `setPressedHandler()` and `setReleasedHandler()` allow to detect basic interactions.
   - `setLongClickDetectedHandler()` will be called as soon as the long click timeout has passed.
   - `setLongClickHandler()` will be called after the button has released.
@@ -73,6 +72,13 @@ If you don't want to use callback there are also functions available for using i
 
 - For the class to work, you need to call the button's `loop()` member function in your sketch's `loop()` function.
 - Please see the *examples* below for more details.
+
+### Using an timer interrupt instead
+
+- Alternatively, you can call the button's `loop()` function via a timer interrupt.
+- I haven't tried this extensively, so you are on your own here.
+- You need make sure that the interval is quick enough that it can detect your timeouts (see below).
+- There is an example for the ESP32 [ESP32TimerInterrupt.ino](https://github.com/LennartHennigs/Button2/blob/master/examples/ESP32TimerInterrupt/ESP32TimerInterrupt.ino) that I tested.
 
 ### Timeouts
 
@@ -120,12 +126,12 @@ If you don't want to use callback there are also functions available for using i
 
 ### Creating A Custom Button State Handler
 
-- Out of the box *Button2* supports regular hardware buttons as well as the built-in capacative touch ones of the ESP32.
-- If you want to add other button types you need to define your own `byte _getState()` function for it.
+- Out of the box *Button2* supports regular hardware buttons.
+- If you want to add other button types you need to define your own function that tracks the state of the button.
 - Use `setButtonStateFunction()` to assign it to your *Button2* instance
-- Don't forget to initalize the button as this cannot be handled by *Button2*
-- and make the button pin 'VIRTUAL', e.g. via  `button.begin(VIRTUAL_PIN);`
-- See [CustomButtonStateHandler.ino](https://github.com/LennartHennigs/Button2/blob/master/examples/CustomButtonStateHandler/CustomButtonStateHandler.ino) and [M5StackCore2CustomHandler](https://github.com/LennartHennigs/Button2/blob/master/examples/M5StackCore2CustomHandler/M5StackCore2CustomHandler.ino) examples for more details
+- Make the button pin 'VIRTUAL', i.e. by calling  `button.begin(VIRTUAL_PIN);`
+- And don't forget to initalize the button as this cannot be handled by *Button2*
+- See [ESP32CapacitiveTouch.ino](https://github.com/LennartHennigs/Button2/blob/master/examples/ESP32CapacitiveTouch/ESP32CapacitiveTouch.ino), [M5StackCore2CustomHandler](https://github.com/LennartHennigs/Button2/blob/master/examples/M5StackCore2CustomHandler/M5StackCore2CustomHandler.ino), and [CustomButtonStateHandler.ino](https://github.com/LennartHennigs/Button2/blob/master/examples/CustomButtonStateHandler/CustomButtonStateHandler.ino) as examples.
 
 ### Removing detection of click types for good
 
@@ -162,9 +168,9 @@ See below the constructors and member functions the library provides:
 
 ```c++
 Button2();
-Button2(byte attachTo, byte buttonMode = INPUT_PULLUP, boolean isCapacitive = false, boolean activeLow = true);
+Button2(byte attachTo, byte buttonMode = INPUT_PULLUP, boolean activeLow = true);
 
-void begin(byte attachTo, byte buttonMode = INPUT_PULLUP, boolean isCapacitive = false , boolean activeLow  = true);
+void begin(byte attachTo, byte buttonMode = INPUT_PULLUP, boolean activeLow  = true);
 
 void setDebounceTime(unsigned int ms);
 void setLongClickTime(unsigned int ms);
