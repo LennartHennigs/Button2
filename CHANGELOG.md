@@ -2,13 +2,15 @@
 
 ## Unreleased
 
+**Note:** Unreleased changes are checked in but not part of an official release (available through the Arduino IDE or PlatfomIO) yet. This allows you to test WiP features and give feedback to them.
+
+## [2.1.0] - 2022-11-03
+
 - Removed the capacitive touch functionality out of main library. (BREAKING CHANGE). The constructor and `begin()` lost a parameter. Instead I provide a custom handler example for cap. touch [ESP32CapacitiveTouch.ino](https://github.com/LennartHennigs/Button2/blob/master/examples/ESP32CapacitiveTouch/ESP32CapacitiveTouch.ino). For reasons, see [#45](https://github.com/LennartHennigs/Button2/issues/45).
 - Added an ESP32 timer interrupt example [ESP32TimerInterrupt.ino](https://github.com/LennartHennigs/Button2/blob/master/examples/ESP32TimerInterrupt/ESP32TimerInterrupt.ino) based on [#43](https://github.com/LennartHennigs/Button2/issues/43).
 - Added compiler switches in `Button.h` to remove click detection code, as mentioned in [#44](https://github.com/LennartHennigs/Button2/issues/44).
 - Clarified the difference between the `setLongClickHandler` and the `setLongClickDetectedHandler` in the README and the [MultiHandler](https://github.com/LennartHennigs/Button2/blob/master/examples/MultiHandler/MultiHandler.ino) example as mentioned in [#41](https://github.com/LennartHennigs/Button2/issues/41). (The handler set via `setLongClickHandler` waits until you release the button, the second one is called as soon as the defined long-click time has passed.)
 - Made `byte _getState()` into a `const` function.
-
-**Note:** Unreleased changes are checked in but not part of an official release (available through the Arduino IDE or PlatfomIO) yet. This allows you to test WiP features and give feedback to them.
 
 ## [2.0.3] - 2022-05-26
 
