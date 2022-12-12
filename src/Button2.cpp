@@ -381,14 +381,16 @@ void Button2::_validKeypress() {
 #ifndef _IGNORE_LONG
 void Button2::_checkForLongClick(long now) {
   if (longclick_detected_cb != NULL) {
-    // has the longclick_ms period has been exceeded?
-    if (!longclick_reported && (now - down_ms >= (longclick_time_ms * (longclick_counter + 1)))) {
-      longclick_detected = true;
+    if (longclick_reported) return;      
+    // has the longclick_ms period has been exceeded?    
+    if (now - down_ms >= (longclick_time_ms * (longclick_counter + 1))) {
+      // report mutliple?
       if (!longclick_retriggerable) {
         longclick_reported = true;
       }
       longclick_counter++;
       longclick_detected_cb(*this);
+      longclick_detected = true;
     }
   }
 }
