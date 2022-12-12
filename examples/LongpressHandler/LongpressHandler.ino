@@ -18,11 +18,12 @@ void setup() {
     delay(20);
   }
   Serial.println("\n\nLongpress Handler Demo");
-
   button.begin(BUTTON_PIN);
+
+  // button.setLongClickDetectedRetriggerable(true);
+
   button.setLongClickHandler(longClick);
   button.setLongClickDetectedHandler(longClickDetected);
-
 }
 
 /////////////////////////////////////////////////////////////////
@@ -48,12 +49,14 @@ void longClick(Button2& btn) {
     Serial.print(" (");        
     Serial.print(time);        
     Serial.println(" ms)");
-}
+    }
 
 /////////////////////////////////////////////////////////////////
 
 void longClickDetected(Button2& btn) {
-    Serial.println("long click detected");
+    Serial.print("long click #");
+    Serial.print(btn.getLongClickCount());
+    Serial.println(" detected");
 }
 
 /////////////////////////////////////////////////////////////////

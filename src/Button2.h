@@ -76,10 +76,10 @@ protected:
   unsigned long down_ms;
 
 #ifndef _IGNORE_LONG
-  bool longclick_detected_retriggerable;
-  uint16_t longclick_detected_counter = 0;
+  bool longclick_retriggerable;
+  uint16_t longclick_counter = 0;
   bool longclick_detected = false;
-  bool longclick_detected_reported = false;
+  bool longclick_reported = false;
 #endif
   
   unsigned int debounce_time_ms = DEBOUNCE_MS;
@@ -115,6 +115,17 @@ protected:
   CallbackFunction triple_cb = NULL;
 #endif
 
+  void _handlePress(long now);
+  void _handleRelease(long now);
+  void _releasedNow(long now);
+  void _pressedNow(long now);
+  void _validKeypress();
+#ifndef _IGNORE_LONG
+  void _checkForLongClick(long now);
+  void _reportLongClick();
+#endif
+  void _reportSingleClicks();
+
 public:
   Button2();
   Button2(byte attachTo, byte buttonMode = INPUT_PULLUP, boolean activeLow = true);
@@ -142,14 +153,18 @@ public:
   void setClickHandler(CallbackFunction f);
 #ifndef _IGNORE_DOUBLE 
   void setDoubleClickHandler(CallbackFunction f);
+  void waitForDouble(bool keepState = false);
 #endif
 #ifndef _IGNORE_TRIPLE
   void setTripleClickHandler(CallbackFunction f);
+  void waitForTriple(bool keepState = false);
 #endif
 #ifndef _IGNORE_LONG
+  void waitForLong(bool keepState = false);
   void setLongClickHandler(CallbackFunction f);
   void setLongClickDetectedHandler(CallbackFunction f);
   void setLongClickDetectedRetriggerable(bool retriggerable);
+  byte getLongClickCount();
 #endif
   unsigned int wasPressedFor() const;
   boolean isPressed() const;
@@ -159,15 +174,6 @@ public:
   clickType read(bool keepState = false);
   clickType wait(bool keepState = false);
   void waitForClick(bool keepState = false);
-#ifndef _IGNORE_DOUBLE
-  void waitForDouble(bool keepState = false);
-#endif
-#ifndef _IGNORE_TRIPLE
-  void waitForTriple(bool keepState = false);
-#endif
-#ifndef _IGNORE_LONG
-  void waitForLong(bool keepState = false);
-#endif
   byte getNumberOfClicks() const;
   clickType getType() const;
   String clickToString(clickType type) const;
@@ -182,7 +188,6 @@ public:
 private: 
   static int _nextID;
   byte _pressedState;
-
   byte _getState() const;
 };
 /////////////////////////////////////////////////////////////////

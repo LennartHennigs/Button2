@@ -4,6 +4,12 @@
 
 **Note:** Unreleased changes are checked in but not part of an official release (available through the Arduino IDE or PlatfomIO) yet. This allows you to test WiP features and give feedback to them.
 
+## Unreleased
+- Refactored the main `loop()`
+- Cleaned up the long press handling
+- Added `byte getLongClickCount()` function
+- Updated the [LongpressHandler](https://github.com/LennartHennigs/Button2/blob/master/examples/LongpressHandler/LongpressHandler.ino) example
+
 ## [2.1.0] - 2022-11-03
 
 - Removed the capacitive touch functionality out of main library. (BREAKING CHANGE). The constructor and `begin()` lost a parameter. Instead I provide a custom handler example for cap. touch [ESP32CapacitiveTouch.ino](https://github.com/LennartHennigs/Button2/blob/master/examples/ESP32CapacitiveTouch/ESP32CapacitiveTouch.ino). For reasons, see [#45](https://github.com/LennartHennigs/Button2/issues/45).

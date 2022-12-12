@@ -67,6 +67,7 @@ If you don't want to use callback there are also functions available for using i
 - `setLongClickDetectedHandler()` will be called as soon as the defined timeout has passed.
 - `setLongClickHandler()` will only be called after the button has been released.
 - `setLongClickDetectedRetriggerable(bool retriggerable)` allows you to define whether want to get multiple notifications for a single long click depeding on the timeout.
+- `getLongClickCount()` gets you the number of long clicks – this is useful when `retriggerable` is set.
 
 ### The Loop
 
@@ -199,6 +200,7 @@ void setTripleClickHandler(CallbackFunction f);
 void setLongClickHandler(CallbackFunction f);
 void setLongClickDetectedHandler(CallbackFunction f);
 void setLongClickDetectedRetriggerable(bool retriggerable);
+void byte getLongClickCount();
 
 unsigned int wasPressedFor() const;
 boolean isPressed() const;
