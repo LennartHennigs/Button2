@@ -17,7 +17,7 @@ int Button2::_nextID = 0;
 
 Button2::Button2() {  
   pin = UNDEFINED_PIN;
-  id = _nextID++;
+  _setID();
 }
 
 /////////////////////////////////////////////////////////////////
@@ -25,13 +25,13 @@ Button2::Button2() {
 
 Button2::Button2(byte attachTo, byte buttonMode /* = INPUT_PULLUP */, boolean activeLow /* = true */) {
   begin(attachTo, buttonMode, activeLow);
+  _setID();
 }
 
 /////////////////////////////////////////////////////////////////
 
 void Button2::begin(byte attachTo, byte buttonMode /* = INPUT_PULLUP */, boolean activeLow /* = true */) {  
   pin = attachTo;
-  id = _nextID++;
   longclick_counter = 0;
   longclick_retriggerable = false;
   _pressedState = activeLow ? LOW : HIGH;
@@ -334,6 +334,13 @@ void Button2::_handlePress(long now) {
 
 /////////////////////////////////////////////////////////////////
 
+void Button2::_setID() {
+  id = _nextID;
+  _nextID++;
+}
+
+/////////////////////////////////////////////////////////////////
+
 void Button2::_handleRelease(long now) {
   // is it released right now?
   if (prev_state == _pressedState) {
@@ -384,7 +391,7 @@ void Button2::_checkForLongClick(long now) {
 
 /////////////////////////////////////////////////////////////////
 
-byte Button2::getLongClickCount() {
+byte Button2::getLongClickCount() const {
   return longclick_counter;
 }
 

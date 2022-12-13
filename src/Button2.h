@@ -92,6 +92,7 @@ protected:
   void _validKeypress();
   void _checkForLongClick(long now);
   void _reportClicks();
+  void _setID();
 
 public:
   Button2();
@@ -137,7 +138,7 @@ public:
   void waitForLong(bool keepState = false);
 
   byte getNumberOfClicks() const;
-  byte getLongClickCount();
+  byte getLongClickCount() const;
 
   clickType getType() const;
   String clickToString(clickType type) const;
