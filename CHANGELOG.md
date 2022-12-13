@@ -2,13 +2,15 @@
 
 ## Unreleased
 
-**Note:** Unreleased changes are checked in but not part of an official release (available through the Arduino IDE or PlatfomIO) yet. This allows you to test WiP features and give feedback to them.
-
-## Unreleased
 - Refactored the main `loop()`
 - Cleaned up the long press handling
+- Rewrote click detection
+- Defaults (x>3)-clicks to triple
+- Removed compiler switches – as they made the code unreadable and they did not save a lot of space
 - Added `byte getLongClickCount()` function
 - Updated the [LongpressHandler](https://github.com/LennartHennigs/Button2/blob/master/examples/LongpressHandler/LongpressHandler.ino) example
+
+**Note:** Unreleased changes are checked in but not part of an official release (available through the Arduino IDE or PlatfomIO) yet. This allows you to test WiP features and give feedback to them.
 
 ## [2.1.0] - 2022-11-03
 
