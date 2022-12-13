@@ -200,7 +200,7 @@ void setTripleClickHandler(CallbackFunction f);
 void setLongClickHandler(CallbackFunction f);
 void setLongClickDetectedHandler(CallbackFunction f);
 void setLongClickDetectedRetriggerable(bool retriggerable);
-void byte getLongClickCount();
+void byte getLongClickCount() const;
 
 unsigned int wasPressedFor() const;
 boolean isPressed() const;

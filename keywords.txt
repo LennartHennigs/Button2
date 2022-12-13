@@ -28,6 +28,7 @@ getID	KEYWORD2
 setID	KEYWORD2
 wasPressed	KEYWORD2
 read	KEYWORD2
+getLongClickCount	KEYWORD2
 wait	KEYWORD2
 waitForClick	KEYWORD2
 waitForDouble	KEYWORD2
