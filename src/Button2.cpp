@@ -329,7 +329,7 @@ void Button2::_handlePress(long now) {
       _validKeypress();
     }
   }
-  if (click_count == 0) {
+  if (click_count == 1) {
     _checkForLongClick(now);
   }
 }
