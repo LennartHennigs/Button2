@@ -329,7 +329,9 @@ void Button2::_handlePress(long now) {
       _validKeypress();
     }
   }
-  _checkForLongClick(now);
+  if (click_count == 0) {
+    _checkForLongClick(now);
+  }
 }
 
 /////////////////////////////////////////////////////////////////
@@ -349,7 +351,7 @@ void Button2::_handleRelease(long now) {
   } 
 
   if (now - click_ms > doubleclick_time_ms) {
-    if (click_count) {
+    if (click_count > 0) {
       _reportClicks();
     }
   }
@@ -403,8 +405,6 @@ void Button2::_reportClicks() {
       if (longclick_detected) {
           last_click_type = long_click;
           if (long_cb != NULL) long_cb (*this);
-          longclick_detected = false;
-          longclick_reported = false;
           longclick_counter = 0;
       } else {
         last_click_type = single_click;
@@ -429,6 +429,9 @@ void Button2::_reportClicks() {
     }
     click_count = 0;
     click_ms = 0;
+    longclick_detected = false;
+    longclick_reported = false;
+
 }
 
 /////////////////////////////////////////////////////////////////
