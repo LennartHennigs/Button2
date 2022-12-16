@@ -6,7 +6,7 @@
 
 **Note:** Unreleased changes are checked in but not part of an official release (available through the Arduino IDE or PlatfomIO) yet. This allows you to test WiP features and give feedback to them.
 
-## [2.2.1] - 2022-12-13
+## [2.2.1] - 2022-12-16
 
 - Fixed bug [#46](https://github.com/LennartHennigs/Button2/issues/46) that in some instances long clicks are wrongly triggered
 
