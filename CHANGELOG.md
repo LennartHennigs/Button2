@@ -4,6 +4,8 @@
 
 -
 
+**Note:** Unreleased changes are checked in but not part of an official release (available through the Arduino IDE or PlatfomIO) yet. This allows you to test WiP features and give feedback to them.
+
 ## [2.2.1] - 2022-12-13
 
 - Fixed bug [#46](https://github.com/LennartHennigs/Button2/issues/46) that in some instances long clicks are wrongly triggered
@@ -13,13 +15,11 @@
 - Refactored the main `loop()`
 - Rewrote click detection
 - Cleaned up the long press handling
-- Removed compiler switches – they made the code unreadable and they only saved a few bytes
+- Removed compiler switches – they made the code unreadable and they only saved a few bytes (could be a BREAKING CHANGE)
 - Added `byte getLongClickCount()` function
 - Updated the [LongpressHandler](https://github.com/LennartHennigs/Button2/blob/master/examples/LongpressHandler/LongpressHandler.ino) example
 - Defaults (x>3)-clicks to triple
 - Fixed bug with button ID
-
-**Note:** Unreleased changes are checked in but not part of an official release (available through the Arduino IDE or PlatfomIO) yet. This allows you to test WiP features and give feedback to them.
 
 ## [2.1.0] - 2022-11-03
 
