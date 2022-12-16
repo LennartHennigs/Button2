@@ -4,6 +4,10 @@
 
 -
 
+## [2.2.1] - 2022-12-13
+
+- Fixed bug [#46](https://github.com/LennartHennigs/Button2/issues/46) that in some instances long clicks are wrongly triggered
+
 ## [2.2.0] - 2022-12-13
 
 - Refactored the main `loop()`
