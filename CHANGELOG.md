@@ -8,9 +8,9 @@
 
 ## [2.2.2] - 2022-12-16
 
-- Another stab at the bug [#46](https://github.com/LennartHennigs/Button2/issues/46) 
+- Another stab at the bug [#46](https://github.com/LennartHennigs/Button2/issues/46)
 
-## [2.2.2] - 2022-12-16
+## [2.2.1] - 2022-12-16
 
 - Fixed bug [#46](https://github.com/LennartHennigs/Button2/issues/46) that in some instances long clicks are wrongly triggered
 

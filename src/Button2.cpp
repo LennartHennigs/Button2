@@ -322,13 +322,14 @@ void Button2::_handlePress(long now) {
     _pressedNow(now);
     return;
   }
-
+  // is it pressed for a while?
   if (!pressed_triggered) {
     if (now - down_ms >= debounce_time_ms) {
       pressed_triggered = true;
       _validKeypress();
     }
   }
+  // only check for longpress on the first click
   if (click_count == 1) {
     _checkForLongClick(now);
   }
