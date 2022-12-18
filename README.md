@@ -26,20 +26,27 @@ If you don't want to use callback there are also functions available for using i
 
 ### Definition
 
+- Include the library on top
+
+```c++
+ #include "Button2.h"
+```
+
 - Define the button either using the `constructor` or the `begin()` function.
 
 ```c++
   void begin(byte attachTo, byte buttonMode = INPUT_PULLUP, boolean activeLow  = true);
 ```
 
-- You can also `reset()` a button definition if needed.
-
 ### Button Types
 
 - You can use the class for "real" buttons (*pullup*, *pulldown*, and *active low*).
 - Per default the button pins are defined as `INPUT_PULLUP`. You can override this upon creation.
 
-```cc++
+```c++
+   #include "Button2.h"
+   #define BUTTON_PIN D3
+
    Button2 button;
    button.begin(BUTTON_PIN, INPUT, true);
 ```
@@ -51,13 +58,16 @@ If you don't want to use callback there are also functions available for using i
 - Instead of frequently checking the button state in your main `loop()` this class allows you to assign callback functions.
 - You can define callback functions to track various types of clicks:
   - `setTapHandler()` will be be called when any click occurs. This is the most basic handler. It ignores all timings built-in the library for double or triple click detection.
+  - `setClickHandler()` will be triggered after a single click occured.
   - `setChangedHandler()`, `setPressedHandler()` and `setReleasedHandler()` allow to detect basic interactions.
   - `setLongClickDetectedHandler()` will be called as soon as the long click timeout has passed.
   - `setLongClickHandler()` will be called after the button has released.
   - `setDoubleClickHandler()` and `setTripleClickHandler()` detect complex interactions.
-- All callback function need a `Button2` reference parameter. There the reference to the triggered button is stored. This can used to call status fuctions, e.g. `wasPressedFor()`.
 
-- You can use handlers for single or for multiple buttons.
+- All callback function need a `Button2` reference parameter. There the reference to the triggered button is stored. This can used to call status fuctions, e.g. `wasPressedFor()`.
+- **Note:** You will experience a short delay with `setClickHandler()` and `setLongClickHandler()` as need to check whether a long or multi-click is in progress. For immediate feedback use `setTapHandler()`or `setLongClickDetectedHandler()`
+
+- You can assign callback functions for single or for multiple buttons.
 - You can track individual or multiple events with a single handler.
 - Please take a look at the included examples (see below) to get an overview over the different callback handlers and their usage.
 
