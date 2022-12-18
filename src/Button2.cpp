@@ -203,7 +203,7 @@ void Button2::setID(int newID) {
 
 String Button2::clickToString(clickType type) const {
   if (type == single_click) return "click";
-  if (type == long_click) return "long click";
+  if (type == long_click)   return "long click";
   if (type == double_click) return "double click";
   if (type == triple_click) return "triple click";
   return "none";
@@ -230,10 +230,10 @@ clickType Button2::read(bool keepState /* = false */) {
 /////////////////////////////////////////////////////////////////
 
 clickType Button2::wait(bool keepState /* = false */) {
-    while(!wasPressed()) {
-      loop();
-    }
-    return read(keepState);
+  while(!wasPressed()) {
+    loop();
+  }
+  return read(keepState);
 }
 
 /////////////////////////////////////////////////////////////////
@@ -350,7 +350,7 @@ void Button2::_handleRelease(long now) {
     _releasedNow(now);
     return;
   } 
-
+  // report click after double click time has passed
   if (now - click_ms > doubleclick_time_ms) {
     if (click_count > 0) {
       _reportClicks();
