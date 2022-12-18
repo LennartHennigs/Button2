@@ -48,7 +48,10 @@ If you don't want to use callback there are also functions available for using i
    #define BUTTON_PIN D3
 
    Button2 button;
-   button.begin(BUTTON_PIN, INPUT, true);
+
+   void setup() {
+     button.begin(BUTTON_PIN);
+  }
 ```
 
 - You can also the library with other types of buttons, e.g. capacitive touch or ones handled via I2C. See the section on defining custom handlers below.
@@ -82,7 +85,33 @@ If you don't want to use callback there are also functions available for using i
 ### The Loop
 
 - For the class to work, you need to call the button's `loop()` member function in your sketch's `loop()` function.
+
+```c++
+   #include "Button2.h"
+   #define BUTTON_PIN D3
+
+   Button2 button;
+
+   void handleTap(Button2& b) {
+    // check for really long clicks
+    if (b.wasPressedFor() > 1000) {
+    // do something
+    }
+   }
+
+   void setup() {
+     button.begin(BUTTON_PIN);
+     button.setTapHandler(handleTap);
+  }
+
+  void loop() {
+     button.loop();
+  }
+```
+
+- As the `loop()`function needs to be called continously, `delay()` and other blocking functions will interfer with the detection of clicks. Consider cleaning up your loop or call the `loop()` function via an interrupt.
 - Please see the *examples* below for more details.
+
 
 ### Using an timer interrupt instead
 
