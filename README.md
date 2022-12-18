@@ -134,20 +134,6 @@ If you don't want to use callback there are also functions available for using i
 - And don't forget to initalize the button as this cannot be handled by *Button2*
 - See [ESP32CapacitiveTouch.ino](https://github.com/LennartHennigs/Button2/blob/master/examples/ESP32CapacitiveTouch/ESP32CapacitiveTouch.ino), [M5StackCore2CustomHandler](https://github.com/LennartHennigs/Button2/blob/master/examples/M5StackCore2CustomHandler/M5StackCore2CustomHandler.ino), and [CustomButtonStateHandler.ino](https://github.com/LennartHennigs/Button2/blob/master/examples/CustomButtonStateHandler/CustomButtonStateHandler.ino) as examples.
 
-### Removing detection of click types for good
-
-- If you don't want to track certain click types, just don't use the handlers.
-- But if you really don't want it in your compiled code, there is the possibility to tell the compiler to leave it out.
-- In [Button2.h](https://github.com/LennartHennigs/Button2/blob/master/src/Button2.h) there are three definitions in the beginning of the file:
-
-```c++
-// #define _IGNORE_DOUBLE
-// #define _IGNORE_TRIPLE
-// #define _IGNORE_LONG
-```
-
-- Uncommenting one of them will remove parts of the click detection code.
-
 ## Examples
 
 - [SingleButtonSimple](https://github.com/LennartHennigs/Button2/blob/master/examples/SingleButtonSimple/SingleButtonSimple.ino) – the most basic example, shows how to assign event handlers
