@@ -121,13 +121,15 @@ public:
   void setClickHandler(CallbackFunction f);
   void setDoubleClickHandler(CallbackFunction f);
   void setTripleClickHandler(CallbackFunction f);
+  
   void setLongClickHandler(CallbackFunction f);
   void setLongClickDetectedHandler(CallbackFunction f);
+
   void setLongClickDetectedRetriggerable(bool retriggerable);
 
   unsigned int wasPressedFor() const;
   boolean isPressed() const;
-  boolean isPressedRaw();
+  boolean isPressedRaw() const;
 
   bool wasPressed() const;
   clickType read(bool keepState = false);

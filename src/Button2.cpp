@@ -171,7 +171,7 @@ boolean Button2::isPressed() const {
 
 /////////////////////////////////////////////////////////////////
 
-boolean Button2::isPressedRaw() {
+boolean Button2::isPressedRaw() const {
   return (_getState() == _pressedState);
 }
 
