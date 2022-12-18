@@ -60,16 +60,16 @@ If you don't want to use callback there are also functions available for using i
   - `setTapHandler()` will be be called when any click occurs. This is the most basic handler. It ignores all timings built-in the library for double or triple click detection.
   - `setClickHandler()` will be triggered after a single click occured.
   - `setChangedHandler()`, `setPressedHandler()` and `setReleasedHandler()` allow to detect basic interactions.
-  - `setLongClickDetectedHandler()` will be called as soon as the long click timeout has passed.
-  - `setLongClickHandler()` will be called after the button has released.
+  - `setLongClickDetectedHandler()` will be triggered as soon as the long click timeout has passed.
+  - `setLongClickHandler()` will be triggered after the button has released.
   - `setDoubleClickHandler()` and `setTripleClickHandler()` detect complex interactions.
 
-- All callback function need a `Button2` reference parameter. There the reference to the triggered button is stored. This can used to call status fuctions, e.g. `wasPressedFor()`.
 - **Note:** You will experience a short delay with `setClickHandler()` and `setLongClickHandler()` as need to check whether a long or multi-click is in progress. For immediate feedback use `setTapHandler()`or `setLongClickDetectedHandler()`
 
 - You can assign callback functions for single or for multiple buttons.
 - You can track individual or multiple events with a single handler.
 - Please take a look at the included examples (see below) to get an overview over the different callback handlers and their usage.
+- All callback functions need a `Button2` reference parameter. There the reference to the triggered button is stored. This can used to call status fuctions, e.g. `wasPressedFor()`.
 
 ### Longpress Handling
 
