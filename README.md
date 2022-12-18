@@ -112,7 +112,6 @@ If you don't want to use callback there are also functions available for using i
 - As the `loop()`function needs to be called continously, `delay()` and other blocking functions will interfer with the detection of clicks. Consider cleaning up your loop or call the `loop()` function via an interrupt.
 - Please see the *examples* below for more details.
 
-
 ### Using an timer interrupt instead
 
 - Alternatively, you can call the button's `loop()` function via a timer interrupt.
