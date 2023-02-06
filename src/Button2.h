@@ -11,13 +11,9 @@
 #define Button2_h
 
 /////////////////////////////////////////////////////////////////
-// uncommenting one of these compiler switches will remove the 
-//  code for one of these click types
-
-/////////////////////////////////////////////////////////////////
 
 #if defined(ARDUINO_ARCH_ESP32) || defined(ESP8266)
-  #include <functional>
+#include <functional>
 #endif
 #include <Arduino.h>
 
@@ -41,8 +37,7 @@ enum clickType {
 };
 
 class Button2 {
-
-protected:
+ protected:
   int id;
   byte pin;
   byte state;
@@ -57,11 +52,11 @@ protected:
   uint16_t longclick_counter = 0;
   bool longclick_detected = false;
   bool longclick_reported = false;
-  
+
   unsigned int debounce_time_ms = DEBOUNCE_MS;
   unsigned int longclick_time_ms = LONGCLICK_MS;
   unsigned int doubleclick_time_ms = DOUBLECLICK_MS;
-  
+
   unsigned int down_time_ms = 0;
   bool pressed_triggered = false;
 
@@ -94,11 +89,11 @@ protected:
   void _reportClicks();
   void _setID();
 
-public:
+ public:
   Button2();
   Button2(byte attachTo, byte buttonMode = INPUT_PULLUP, boolean activeLow = true);
 
-  void begin(byte attachTo, byte buttonMode = INPUT_PULLUP, boolean activeLow  = true);
+  void begin(byte attachTo, byte buttonMode = INPUT_PULLUP, boolean activeLow = true);
 
   void setDebounceTime(unsigned int ms);
   void setLongClickTime(unsigned int ms);
@@ -121,7 +116,7 @@ public:
   void setClickHandler(CallbackFunction f);
   void setDoubleClickHandler(CallbackFunction f);
   void setTripleClickHandler(CallbackFunction f);
-  
+
   void setLongClickHandler(CallbackFunction f);
   void setLongClickDetectedHandler(CallbackFunction f);
 
@@ -148,11 +143,11 @@ public:
   int getID() const;
   void setID(int newID);
 
-  bool operator == (Button2 &rhs);
+  bool operator==(Button2 &rhs);
 
   void loop();
 
-private: 
+ private:
   static int _nextID;
   byte _pressedState;
   byte _getState() const;

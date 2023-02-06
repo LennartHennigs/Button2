@@ -15,7 +15,7 @@ int Button2::_nextID = 0;
 /////////////////////////////////////////////////////////////////
 //  default contructor
 
-Button2::Button2() {  
+Button2::Button2() {
   pin = UNDEFINED_PIN;
   _setID();
 }
@@ -30,7 +30,7 @@ Button2::Button2(byte attachTo, byte buttonMode /* = INPUT_PULLUP */, boolean ac
 
 /////////////////////////////////////////////////////////////////
 
-void Button2::begin(byte attachTo, byte buttonMode /* = INPUT_PULLUP */, boolean activeLow /* = true */) {  
+void Button2::begin(byte attachTo, byte buttonMode /* = INPUT_PULLUP */, boolean activeLow /* = true */) {
   pin = attachTo;
   longclick_counter = 0;
   longclick_retriggerable = false;
@@ -40,7 +40,7 @@ void Button2::begin(byte attachTo, byte buttonMode /* = INPUT_PULLUP */, boolean
   }
   //  state = activeLow ? HIGH : LOW;
   state = _getState();
-  prev_state = state ;
+  prev_state = state;
 }
 
 /////////////////////////////////////////////////////////////////
@@ -48,7 +48,7 @@ void Button2::begin(byte attachTo, byte buttonMode /* = INPUT_PULLUP */, boolean
 void Button2::setDebounceTime(unsigned int ms) {
   debounce_time_ms = ms;
 }
-    
+
 /////////////////////////////////////////////////////////////////
 
 void Button2::setLongClickTime(unsigned int ms) {
@@ -93,28 +93,28 @@ void Button2::setButtonStateFunction(StateCallbackFunction f) {
 
 /////////////////////////////////////////////////////////////////
 
-bool Button2::operator == (Button2 &rhs) {
-  return (this == &rhs);    
+bool Button2::operator==(Button2 &rhs) {
+  return (this == &rhs);
 }
-      
+
 /////////////////////////////////////////////////////////////////
 
 void Button2::setChangedHandler(CallbackFunction f) {
   change_cb = f;
 }
-    
+
 /////////////////////////////////////////////////////////////////
 
 void Button2::setPressedHandler(CallbackFunction f) {
-  pressed_cb = f; 
+  pressed_cb = f;
 }
 
 /////////////////////////////////////////////////////////////////
 
 void Button2::setReleasedHandler(CallbackFunction f) {
-  released_cb = f; 
+  released_cb = f;
 }
-        
+
 /////////////////////////////////////////////////////////////////
 
 void Button2::setClickHandler(CallbackFunction f) {
@@ -178,36 +178,36 @@ boolean Button2::isPressedRaw() const {
 /////////////////////////////////////////////////////////////////
 
 byte Button2::getNumberOfClicks() const {
-    return click_count;
+  return click_count;
 }
 
 /////////////////////////////////////////////////////////////////
 
 clickType Button2::getType() const {
-    return last_click_type;
+  return last_click_type;
 }
 
 /////////////////////////////////////////////////////////////////
 
 int Button2::getID() const {
-   return id;
- }
+  return id;
+}
 
 /////////////////////////////////////////////////////////////////
 
 void Button2::setID(int newID) {
   id = newID;
- }
+}
 
 /////////////////////////////////////////////////////////////////
 
 String Button2::clickToString(clickType type) const {
   if (type == single_click) return "click";
-  if (type == long_click)   return "long click";
+  if (type == long_click) return "long click";
   if (type == double_click) return "double click";
   if (type == triple_click) return "triple click";
   return "none";
- }
+}
 
 /////////////////////////////////////////////////////////////////
 
@@ -230,7 +230,7 @@ clickType Button2::read(bool keepState /* = false */) {
 /////////////////////////////////////////////////////////////////
 
 clickType Button2::wait(bool keepState /* = false */) {
-  while(!wasPressed()) {
+  while (!wasPressed()) {
     loop();
   }
   return read(keepState);
@@ -240,40 +240,40 @@ clickType Button2::wait(bool keepState /* = false */) {
 
 void Button2::waitForClick(bool keepState /* = false */) {
   do {
-    while(!wasPressed()) {
+    while (!wasPressed()) {
       loop();
     }
-  } while(read() != single_click);
+  } while (read() != single_click);
 }
 
 /////////////////////////////////////////////////////////////////
 
-void Button2::waitForDouble(bool keepState  /* = false */) {
+void Button2::waitForDouble(bool keepState /* = false */) {
   do {
-    while(!wasPressed()) {
+    while (!wasPressed()) {
       loop();
     }
-  } while(read() != double_click);
+  } while (read() != double_click);
 }
 
 /////////////////////////////////////////////////////////////////
 
 void Button2::waitForTriple(bool keepState /* = false */) {
   do {
-    while(!wasPressed()) {
+    while (!wasPressed()) {
       loop();
     }
-  } while(read() != triple_click);
+  } while (read() != triple_click);
 }
 
 /////////////////////////////////////////////////////////////////
 
-void Button2::waitForLong(bool keepState  /* = false */) {
+void Button2::waitForLong(bool keepState /* = false */) {
   do {
-    while(!wasPressed()) {
+    while (!wasPressed()) {
       loop();
     }
-  } while(read() != long_click);
+  } while (read() != long_click);
 }
 
 /////////////////////////////////////////////////////////////////
@@ -349,7 +349,7 @@ void Button2::_handleRelease(long now) {
   if (prev_state == _pressedState) {
     _releasedNow(now);
     return;
-  } 
+  }
   // report click after double click time has passed
   if (now - click_ms > doubleclick_time_ms) {
     if (click_count > 0) {
@@ -361,25 +361,25 @@ void Button2::_handleRelease(long now) {
 /////////////////////////////////////////////////////////////////
 
 void Button2::_pressedNow(long now) {
-    down_ms = now;
-    pressed_triggered = false;
-    click_ms = down_ms;
+  down_ms = now;
+  pressed_triggered = false;
+  click_ms = down_ms;
 }
 
 /////////////////////////////////////////////////////////////////
 
 void Button2::_validKeypress() {
   click_count++;
-  if (change_cb != NULL) change_cb (*this);      
-  if (pressed_cb != NULL) pressed_cb (*this);
+  if (change_cb != NULL) change_cb(*this);
+  if (pressed_cb != NULL) pressed_cb(*this);
 }
 
 /////////////////////////////////////////////////////////////////
 
 void Button2::_checkForLongClick(long now) {
   if (longclick_detected_cb != NULL) {
-    if (longclick_reported) return;      
-    // has the longclick_ms period has been exceeded?    
+    if (longclick_reported) return;
+    // has the longclick_ms period has been exceeded?
     if (now - down_ms >= (longclick_time_ms * (longclick_counter + 1))) {
       // report mutliple?
       if (!longclick_retriggerable) {
@@ -404,35 +404,34 @@ void Button2::_reportClicks() {
   switch (click_count) {
     case 1:
       if (longclick_detected) {
-          last_click_type = long_click;
-          if (long_cb != NULL) long_cb (*this);
-          longclick_counter = 0;
+        last_click_type = long_click;
+        if (long_cb != NULL) long_cb(*this);
+        longclick_counter = 0;
       } else {
         last_click_type = single_click;
-        if (click_cb != NULL) click_cb (*this);
+        if (click_cb != NULL) click_cb(*this);
         was_pressed = true;
       }
       break;
 
-    case 2: 
+    case 2:
       last_click_type = double_click;
-      if (double_cb != NULL) double_cb (*this);
+      if (double_cb != NULL) double_cb(*this);
       was_pressed = true;
       break;
 
     case 3:
     // detect x-clicks as triple
-    default: 
+    default:
       last_click_type = triple_click;
-      if (triple_cb != NULL) triple_cb (*this);
+      if (triple_cb != NULL) triple_cb(*this);
       was_pressed = true;
       break;
-    }
-    click_count = 0;
-    click_ms = 0;
-    longclick_detected = false;
-    longclick_reported = false;
-
+  }
+  click_count = 0;
+  click_ms = 0;
+  longclick_detected = false;
+  longclick_reported = false;
 }
 
 /////////////////////////////////////////////////////////////////
@@ -442,11 +441,11 @@ void Button2::_releasedNow(long now) {
   // is it beyond debounce time?
   if (down_time_ms >= debounce_time_ms) {
     last_click_type = single_click;
-    // trigger release        
-    if (change_cb != NULL) change_cb (*this);
-    if (released_cb != NULL) released_cb (*this);
+    // trigger release
+    if (change_cb != NULL) change_cb(*this);
+    if (released_cb != NULL) released_cb(*this);
     // trigger tap
-    if (tap_cb != NULL) tap_cb (*this);        
+    if (tap_cb != NULL) tap_cb(*this);
     // was it a longclick? (preceeds single / double / triple clicks)
     if (down_time_ms >= longclick_time_ms) {
       longclick_detected = true;
