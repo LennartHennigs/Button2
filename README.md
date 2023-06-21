@@ -3,7 +3,7 @@
 Arduino/ESP library to simplify working with buttons.
 
 - Author: Lennart Hennigs (<https://www.lennarthennigs.de>)
-- Copyright (C) 2017-2022 Lennart Hennigs.
+- Copyright (C) 2017-2023 Lennart Hennigs.
 - Released under the MIT license.
 
 ## Description
