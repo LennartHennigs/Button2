@@ -1,10 +1,11 @@
 # Changelog
 
+**Note:** Unreleased changes are checked in but not part of an official release (available through the Arduino IDE or PlatfomIO) yet. This allows you to test WiP features and give feedback to them.
+
 ## Unreleased
 
--
-
-**Note:** Unreleased changes are checked in but not part of an official release (available through the Arduino IDE or PlatfomIO) yet. This allows you to test WiP features and give feedback to them.
+- `getNumberOfClicks()` now works inside a callback and after the `wait()`statement(s).
+- Refactored code in `Button2.cpp`
 
 ## [2.2.3] - 2023-06-21
 
