@@ -4,6 +4,8 @@
 
 ## Unreleased
 
+## [2.2.4[] - 2023-06-22
+
 - `getNumberOfClicks()` now works inside a callback and after the `wait()`statement(s).
 - Refactored code in `Button2.cpp`
 
