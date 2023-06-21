@@ -409,9 +409,9 @@ void Button2::_reportClicks() {
         longclick_counter = 0;
       } else {
         last_click_type = single_click;
-        if (click_cb != NULL) click_cb(*this);
-        was_pressed = true;
+        if (click_cb != NULL) click_cb (*this);
       }
+      was_pressed = true;
       break;
 
     case 2:
