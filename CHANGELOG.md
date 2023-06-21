@@ -6,6 +6,10 @@
 
 **Note:** Unreleased changes are checked in but not part of an official release (available through the Arduino IDE or PlatfomIO) yet. This allows you to test WiP features and give feedback to them.
 
+## [2.2.3] - 2023-06-21
+
+- Included PR for issue [#54](https://github.com/LennartHennigs/Button2/issues/54)
+
 ## [2.2.2] - 2022-12-16
 
 - Another stab at the bug [#46](https://github.com/LennartHennigs/Button2/issues/46)
