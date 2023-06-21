@@ -61,7 +61,7 @@ If you don't want to use callback there are also functions available for using i
 - Instead of frequently checking the button state in your main `loop()` this class allows you to assign callback functions.
 - You can define callback functions to track various types of clicks:
   - `setTapHandler()` will be be called when any click occurs. This is the most basic handler. It ignores all timings built-in the library for double or triple click detection.
-  - `setClickHandler()` will be triggered after a single click occured.
+  - `setClickHandler()` will be triggered after a single click occurred.
   - `setChangedHandler()`, `setPressedHandler()` and `setReleasedHandler()` allow to detect basic interactions.
   - `setLongClickDetectedHandler()` will be triggered as soon as the long click timeout has passed.
   - `setLongClickHandler()` will be triggered after the button has released.
@@ -72,14 +72,14 @@ If you don't want to use callback there are also functions available for using i
 - You can assign callback functions for single or for multiple buttons.
 - You can track individual or multiple events with a single handler.
 - Please take a look at the included examples (see below) to get an overview over the different callback handlers and their usage.
-- All callback functions need a `Button2` reference parameter. There the reference to the triggered button is stored. This can used to call status fuctions, e.g. `wasPressedFor()`.
+- All callback functions need a `Button2` reference parameter. There the reference to the triggered button is stored. This can used to call status functions, e.g. `wasPressedFor()`.
 
 ### Longpress Handling
 
 - There are two possible callback functions: `setLongClickDetectedHandler()` and `setLongClickHandler()`.
 - `setLongClickDetectedHandler()` will be called as soon as the defined timeout has passed.
 - `setLongClickHandler()` will only be called after the button has been released.
-- `setLongClickDetectedRetriggerable(bool retriggerable)` allows you to define whether want to get multiple notifications for a single long click depeding on the timeout.
+- `setLongClickDetectedRetriggerable(bool retriggerable)` allows you to define whether want to get multiple notifications for a single long click depending on the timeout.
 - `getLongClickCount()` gets you the number of long clicks – this is useful when `retriggerable` is set.
 
 ### The Loop
@@ -109,13 +109,13 @@ If you don't want to use callback there are also functions available for using i
   }
 ```
 
-- As the `loop()`function needs to be called continously, `delay()` and other blocking functions will interfer with the detection of clicks. Consider cleaning up your loop or call the `loop()` function via an interrupt.
+- As the `loop()`function needs to be called continuously, `delay()` and other blocking functions will interfere with the detection of clicks. Consider cleaning up your loop or call the `loop()` function via an interrupt.
 - Please see the *examples* below for more details.
 
 ### Using an timer interrupt instead
 
 - Alternatively, you can call the button's `loop()` function via a timer interrupt.
-- I haven't tried this extensively, so you are on your own here.
+- I haven't tried this extensively, USE THIS AT YOUR OWN RISK!
 - You need make sure that the interval is quick enough that it can detect your timeouts (see below).
 - There is an example for the ESP32 [ESP32TimerInterrupt.ino](https://github.com/LennartHennigs/Button2/blob/master/examples/ESP32TimerInterrupt/ESP32TimerInterrupt.ino) that I tested.
 
@@ -153,9 +153,22 @@ If you don't want to use callback there are also functions available for using i
     };
 ```
 
-- There are also dedicated waits (`waitForClick()`, `waitForDouble()`, `waitForTriple()` and `waitForLong()`) to detect a sepcific type
-- The `read()` and the *wait* fuctions will reset the state of `wasPressed()` unless specified otherwise (via a `bool` parameter)
+- There are also dedicated waits (`waitForClick()`, `waitForDouble()`, `waitForTriple()` and `waitForLong()`) to detect a specific type
+- The `read()` and the *wait* functions will reset the state of `wasPressed()` unless specified otherwise (via a `bool` parameter)
 - Check out the [ButtonLoop.ino](https://github.com/LennartHennigs/Button2/blob/master/examples/ButtonLoop/ButtonLoop.ino) example to see it in action
+
+### Status Functions
+
+- There are several status functions available to check the status of a button:
+
+``` c++
+unsigned int wasPressedFor() const;
+byte getNumberOfClicks() const;
+byte getType() const;
+boolean isPressed() const;
+boolean isPressedRaw() const;
+bool wasPressed() const;
+```
 
 ### IDs for Button Instances
 
@@ -169,7 +182,7 @@ If you don't want to use callback there are also functions available for using i
 - If you want to add other button types you need to define your own function that tracks the state of the button.
 - Use `setButtonStateFunction()` to assign it to your *Button2* instance
 - Make the button pin 'VIRTUAL', i.e. by calling  `button.begin(VIRTUAL_PIN);`
-- And don't forget to initalize the button as this cannot be handled by *Button2*
+- And don't forget to initialize the button as this cannot be handled by *Button2*
 - See [ESP32CapacitiveTouch.ino](https://github.com/LennartHennigs/Button2/blob/master/examples/ESP32CapacitiveTouch/ESP32CapacitiveTouch.ino), [M5StackCore2CustomHandler.ino](https://github.com/LennartHennigs/Button2/blob/master/examples/M5StackCore2CustomHandler/M5StackCore2CustomHandler.ino), and [CustomButtonStateHandler.ino](https://github.com/LennartHennigs/Button2/blob/master/examples/CustomButtonStateHandler/CustomButtonStateHandler.ino) as examples.
 
 ## Examples
