@@ -352,9 +352,7 @@ void Button2::_handleRelease(long now) {
   }
   // report click after double click time has passed
   if (now - click_ms > doubleclick_time_ms) {
-    if (click_count > 0) {
-      _reportClicks();
-    }
+    _reportClicks();
   }
 }
 
@@ -401,37 +399,39 @@ byte Button2::getLongClickCount() const {
 /////////////////////////////////////////////////////////////////
 
 void Button2::_reportClicks() {
-  switch (click_count) {
-    case 1:
-      if (longclick_detected) {
-        last_click_type = long_click;
-        if (long_cb != NULL) long_cb(*this);
-        longclick_counter = 0;
-      } else {
-        last_click_type = single_click;
-        if (click_cb != NULL) click_cb (*this);
-      }
-      was_pressed = true;
-      break;
+  if (click_count > 0) {
+    switch (click_count) {
+      case 1:
+        if (longclick_detected) {
+          last_click_type = long_click;
+          if (long_cb != NULL) long_cb(*this);
+          longclick_counter = 0;
+        } else {
+          last_click_type = single_click;
+          if (click_cb != NULL) click_cb (*this);
+        }
+        was_pressed = true;
+        break;
 
-    case 2:
-      last_click_type = double_click;
-      if (double_cb != NULL) double_cb(*this);
-      was_pressed = true;
-      break;
+      case 2:
+        last_click_type = double_click;
+        if (double_cb != NULL) double_cb(*this);
+        was_pressed = true;
+        break;
 
-    case 3:
-    // detect x-clicks as triple
-    default:
-      last_click_type = triple_click;
-      if (triple_cb != NULL) triple_cb(*this);
-      was_pressed = true;
-      break;
+      case 3:
+      // detect x-clicks as triple
+      default:
+        last_click_type = triple_click;
+        if (triple_cb != NULL) triple_cb(*this);
+        was_pressed = true;
+        break;
+    }
+    click_count = 0;
+    click_ms = 0;
+    longclick_detected = false;
+    longclick_reported = false;
   }
-  click_count = 0;
-  click_ms = 0;
-  longclick_detected = false;
-  longclick_reported = false;
 }
 
 /////////////////////////////////////////////////////////////////
