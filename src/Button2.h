@@ -43,6 +43,7 @@ class Button2 {
   byte state;
   byte prev_state;
   byte click_count = 0;
+  byte last_click_count = 0;
   clickType last_click_type = empty;
   bool was_pressed = false;
   unsigned long click_ms;

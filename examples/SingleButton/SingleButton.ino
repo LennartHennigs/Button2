@@ -33,6 +33,7 @@ void setup() {
   button.setClickHandler(click);
   button.setLongClickDetectedHandler(longClickDetected);
   button.setLongClickHandler(longClick);
+  button.setLongClickDetectedRetriggerable(false);
   
   button.setDoubleClickHandler(doubleClick);
   button.setTripleClickHandler(tripleClick);
@@ -70,6 +71,7 @@ void doubleClick(Button2& btn) {
 }
 void tripleClick(Button2& btn) {
     Serial.println("triple click\n");
+    Serial.println(btn.getNumberOfClicks());
 }
 void tap(Button2& btn) {
     Serial.println("tap");

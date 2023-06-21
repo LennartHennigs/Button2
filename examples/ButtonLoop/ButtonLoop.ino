@@ -27,6 +27,7 @@ void loop() {
 
   
   Serial.println(button.clickToString(button.wait()));
+  Serial.println(button.getNumberOfClicks());
 
 /* 
  *  or replace the above line with (keep the loop):
