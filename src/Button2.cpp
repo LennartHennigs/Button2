@@ -410,8 +410,8 @@ void Button2::_reportClicks() {
       } else {
         last_click_type = single_click;
         if (click_cb != NULL) click_cb (*this);
-        was_pressed = true;
       }
+      was_pressed = true;
       break;
 
     case 2: 
