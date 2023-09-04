@@ -1,25 +1,33 @@
 /////////////////////////////////////////////////////////////////
 
 #if !defined(ESP32)
-  #error This sketch needs an ESP32 S2 or S3
+  #error This sketch needs an ESP32 Classic
 #else
 
 /////////////////////////////////////////////////////////////////
 
 #include "Button2.h"
 
-#define TOUCH_PIN T5 // Must declare the touch assignment, not the pin.
+#define TOUCH_PIN T0 // Must declare the touch assignment, not the pin. For example, T0 is GPIO4 and T3 is GPIO 15. 
+// You can look up the touch assignment in the datasheet: https://www.espressif.com/sites/default/files/documentation/esp32_datasheet_en.pdf
 
-int threshold = 1500;   // ESP32S2 
-bool touchdetected = false; 
+int threshold = 40;   // ESP32
+bool touchActive = false;
+bool lastTouchActive = false;
+bool testingLower = true; 
 byte buttonState = HIGH;// HIGH is for unpressed, pressed = LOW
 /////////////////////////////////////////////////////////////////
 
 Button2 button;
 
 /////////////////////////////////////////////////////////////////
-void gotTouch() {
-  touchdetected = true;
+void gotTouchEvent(){
+  if (lastTouchActive != testingLower) {
+    touchActive = !touchActive;
+    testingLower = !testingLower;
+    // Touch ISR will be inverted: Lower <--> Higher than the Threshold after ISR event is noticed
+    touchInterruptSetThresholdDirection(testingLower);
+  }
 }
 
 
@@ -33,7 +41,10 @@ void setup() {
     Serial.begin(115200);
     delay(50);
     Serial.println("\n\nCapacitive Touch Demo");
-    touchAttachInterrupt(TOUCH_PIN, gotTouch, threshold); 
+    touchAttachInterrupt(TOUCH_PIN, gotTouchEvent, threshold);
+
+    // Touch ISR will be activated when touchRead is lower than the Threshold
+    touchInterruptSetThresholdDirection(testingLower);
     button.setDebounceTime(35);
     button.setButtonStateFunction(capStateHandler);
     button.setClickHandler(click);
@@ -44,9 +55,9 @@ void setup() {
 
 void loop() {
   button.loop();
-  if (touchdetected) {
-    touchdetected = false;
-    if (touchInterruptGetLastStatus(TOUCH_PIN)) {
+  if(lastTouchActive != touchActive){
+    lastTouchActive = touchActive;
+    if (touchActive) {
       buttonState = LOW;
     } else {
       buttonState = HIGH;
