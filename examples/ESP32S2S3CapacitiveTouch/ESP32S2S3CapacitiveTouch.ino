@@ -11,8 +11,8 @@
 #define TOUCH_PIN T5 // Must declare the touch assignment, not the pin.
 
 int threshold = 1500;   // ESP32S2 
-bool touchdetected = false; // true is for unpressed, pressed = false;
-byte buttonState = HIGH;
+bool touchdetected = false; 
+byte buttonState = HIGH;// HIGH is for unpressed, pressed = LOW
 /////////////////////////////////////////////////////////////////
 
 Button2 button;
