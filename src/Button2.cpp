@@ -23,20 +23,22 @@ Button2::Button2() {
 /////////////////////////////////////////////////////////////////
 // constructor
 
-Button2::Button2(byte attachTo, byte buttonMode /* = INPUT_PULLUP */, boolean activeLow /* = true */) {
-  begin(attachTo, buttonMode, activeLow);
+Button2::Button2(byte attachTo, byte buttonMode /* = INPUT_PULLUP */, boolean activeLow /* = true */, Hardware *hardware /* = ArduinoHardware() */) {
+  begin(attachTo, buttonMode, activeLow, hardware);
   _setID();
 }
 
 /////////////////////////////////////////////////////////////////
 
-void Button2::begin(byte attachTo, byte buttonMode /* = INPUT_PULLUP */, boolean activeLow /* = true */) {
+void Button2::begin(byte attachTo, byte buttonMode /* = INPUT_PULLUP */, boolean activeLow /* = true */, Hardware *hardware /* = ArduinoHardware() */) {
+  hw = hardware;
   pin = attachTo;
   longclick_counter = 0;
   longclick_retriggerable = false;
   _pressedState = activeLow ? LOW : HIGH;
+
   if (attachTo != BTN_VIRTUAL_PIN) {
-    pinMode(attachTo, buttonMode);
+    hw->pinMode(attachTo, buttonMode);
   }
   //  state = activeLow ? HIGH : LOW;
   state = _getState();
@@ -215,14 +217,22 @@ bool Button2::wasPressed() const {
   return was_pressed;
 }
 
+
+/////////////////////////////////////////////////////////////////
+
+void Button2::resetPressedState() {
+  last_click_count = 0;
+  was_pressed = false;
+  last_click_type = empty;
+}
+
 /////////////////////////////////////////////////////////////////
 
 clickType Button2::read(bool keepState /* = false */) {
   if (keepState) return last_click_type;
 
   clickType res = last_click_type;
-  last_click_type = empty;
-  was_pressed = false;
+  resetPressedState();
   return res;
 }
 
@@ -279,11 +289,10 @@ void Button2::waitForLong(bool keepState /* = false */) {
 
 void Button2::reset() {
   pin = BTN_UNDEFINED_PIN;
-  click_count = 0;
-  last_click_count = 0;
-  last_click_type = empty;
-  down_time_ms = 0;
 
+  resetPressedState();
+  click_count = 0;
+  down_time_ms = 0;
   pressed_triggered = false;
   longclick_detected = false;
   longclick_reported = false;
@@ -459,7 +468,7 @@ byte Button2::_getState() const {
   if (get_state_cb != NULL) {
     return get_state_cb();
   } else {
-    return digitalRead(pin);
+    return hw->digitalRead(pin);
   }
 }
 

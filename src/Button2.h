@@ -17,6 +17,8 @@
 #endif
 #include <Arduino.h>
 
+#include "Hardware.h"
+
 /////////////////////////////////////////////////////////////////
 
 const unsigned int BTN_DEBOUNCE_MS = 50;
@@ -92,9 +94,9 @@ class Button2 {
 
  public:
   Button2();
-  Button2(byte attachTo, byte buttonMode = INPUT_PULLUP, boolean activeLow = true);
+  Button2(byte attachTo, byte buttonMode = INPUT_PULLUP, boolean activeLow = true, Hardware* hardware = new ArduinoHardware());
 
-  void begin(byte attachTo, byte buttonMode = INPUT_PULLUP, boolean activeLow = true);
+  void begin(byte attachTo, byte buttonMode = INPUT_PULLUP, boolean activeLow = true, Hardware* hardware = new ArduinoHardware());
 
   void setDebounceTime(unsigned int ms);
   void setLongClickTime(unsigned int ms);
@@ -126,6 +128,7 @@ class Button2 {
   unsigned int wasPressedFor() const;
   boolean isPressed() const;
   boolean isPressedRaw() const;
+  void resetPressedState();
 
   bool wasPressed() const;
   clickType read(bool keepState = false);
@@ -152,6 +155,8 @@ class Button2 {
   static int _nextID;
   byte _pressedState;
   byte _getState() const;
+  Hardware* hw;
+
 };
 /////////////////////////////////////////////////////////////////
 #endif
