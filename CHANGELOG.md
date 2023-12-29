@@ -4,6 +4,10 @@
 
 ## Unreleased
 
+- added `Hardware.h` – it implements hardware pin abstraction. Needed for unit testing
+- renamed Button2 constants, they now start with `BTN_`
+- added `resetPressedState()` function
+
 ## [2.2.4] - 2023-06-22
 
 - `getNumberOfClicks()` now works inside a callback and after the `wait()`statement(s).
