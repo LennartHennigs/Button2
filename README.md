@@ -124,9 +124,9 @@ If you don't want to use callback there are also functions available for using i
 - The default timeouts for events are (in ms):
 
 ```c++
-  #define DEBOUNCE_MS 50
-  #define LONGCLICK_MS 200
-  #define DOUBLECLICK_MS 300
+  #define BTN_DEBOUNCE_MS 50
+  #define BTN_LONGCLICK_MS 200
+  #define BTN_DOUBLECLICK_MS 300
 ```
 
 - You can define your own timeouts by using these setter functions:
@@ -272,7 +272,7 @@ Or download the ZIP archive (<https://github.com/lennarthennigs/Button2/zipball/
 
 MIT License
 
-Copyright (c) 2017-2022 Lennart Hennigs
+Copyright (c) 2017-2023 Lennart Hennigs
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

@@ -16,7 +16,7 @@ int Button2::_nextID = 0;
 //  default constructor
 
 Button2::Button2() {
-  pin = UNDEFINED_PIN;
+  pin = BTN_UNDEFINED_PIN;
   _setID();
 }
 
@@ -35,7 +35,7 @@ void Button2::begin(byte attachTo, byte buttonMode /* = INPUT_PULLUP */, boolean
   longclick_counter = 0;
   longclick_retriggerable = false;
   _pressedState = activeLow ? LOW : HIGH;
-  if (attachTo != VIRTUAL_PIN) {
+  if (attachTo != BTN_VIRTUAL_PIN) {
     pinMode(attachTo, buttonMode);
   }
   //  state = activeLow ? HIGH : LOW;
@@ -278,7 +278,7 @@ void Button2::waitForLong(bool keepState /* = false */) {
 /////////////////////////////////////////////////////////////////
 
 void Button2::reset() {
-  pin = UNDEFINED_PIN;
+  pin = BTN_UNDEFINED_PIN;
   click_count = 0;
   last_click_count = 0;
   last_click_type = empty;
@@ -303,7 +303,7 @@ void Button2::reset() {
 /////////////////////////////////////////////////////////////////
 
 void Button2::loop() {
-  if (pin == UNDEFINED_PIN) return;
+  if (pin == BTN_UNDEFINED_PIN) return;
   
   prev_state = state;
   state = _getState();

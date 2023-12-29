@@ -19,12 +19,12 @@
 
 /////////////////////////////////////////////////////////////////
 
-#define DEBOUNCE_MS 50
-#define LONGCLICK_MS 200
-#define DOUBLECLICK_MS 300
+const unsigned int BTN_DEBOUNCE_MS = 50;
+const unsigned int BTN_LONGCLICK_MS = 200;
+const unsigned int BTN_DOUBLECLICK_MS = 300;
 
-#define UNDEFINED_PIN 255
-#define VIRTUAL_PIN 254
+const unsigned int BTN_UNDEFINED_PIN = 255;
+const unsigned int BTN_VIRTUAL_PIN = 254;
 
 /////////////////////////////////////////////////////////////////
 
@@ -54,9 +54,9 @@ class Button2 {
   bool longclick_detected = false;
   bool longclick_reported = false;
 
-  unsigned int debounce_time_ms = DEBOUNCE_MS;
-  unsigned int longclick_time_ms = LONGCLICK_MS;
-  unsigned int doubleclick_time_ms = DOUBLECLICK_MS;
+  unsigned int debounce_time_ms = BTN_DEBOUNCE_MS;
+  unsigned int longclick_time_ms = BTN_LONGCLICK_MS;
+  unsigned int doubleclick_time_ms = BTN_DOUBLECLICK_MS;
 
   unsigned int down_time_ms = 0;
   bool pressed_triggered = false;
