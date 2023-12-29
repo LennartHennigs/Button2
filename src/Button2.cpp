@@ -224,6 +224,12 @@ void Button2::resetPressedState() {
   last_click_count = 0;
   was_pressed = false;
   last_click_type = empty;
+  click_count = 0;
+  down_time_ms = 0;
+  pressed_triggered = false;
+  longclick_detected = false;
+  longclick_reported = false;
+  longclick_counter = 0;
 }
 
 /////////////////////////////////////////////////////////////////
@@ -291,12 +297,6 @@ void Button2::reset() {
   pin = BTN_UNDEFINED_PIN;
 
   resetPressedState();
-  click_count = 0;
-  down_time_ms = 0;
-  pressed_triggered = false;
-  longclick_detected = false;
-  longclick_reported = false;
-  longclick_counter = 0;
 
   pressed_cb = NULL;
   released_cb = NULL;
