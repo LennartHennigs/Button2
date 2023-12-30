@@ -79,7 +79,7 @@ If you don't want to use callback there are also functions available for using i
 - There are two possible callback functions: `setLongClickDetectedHandler()` and `setLongClickHandler()`.
 - `setLongClickDetectedHandler()` will be called as soon as the defined timeout has passed.
 - `setLongClickHandler()` will only be called after the button has been released.
-- `setLongClickDetectedRetriggerable(bool retriggerable)` allows you to define whether want to get multiple notifications for a single long click depending on the timeout.
+- `setLongClickDetectedRetriggerable(bool retriggerable)` allows you to define whether want to get multiple notifications for a **single** long click depending on the timeout.
 - `getLongClickCount()` gets you the number of long clicks – this is useful when `retriggerable` is set.
 
 ### The Loop
@@ -140,7 +140,7 @@ If you don't want to use callback there are also functions available for using i
 - Even though I suggest to use handlers for tracking events, you can also use Button2 to check button's state in the main loop
 - `bool wasPressed()` allows you to check whether the button was pressed
 - `clickType read(bool keepState = false)` gives you the type of click that took place
-- `clickType wait(bool keepState = false)` combines this and halts execution until a button click was detected
+- `clickType wait(bool keepState = false)` combines `read()` and `wasPressed()` and halts execution until a button click was detected. Thus, it is blocking code.
 - The `clickType` is an enum defined as...
 
 ```c++
@@ -155,6 +155,7 @@ If you don't want to use callback there are also functions available for using i
 
 - There are also dedicated waits (`waitForClick()`, `waitForDouble()`, `waitForTriple()` and `waitForLong()`) to detect a specific type
 - The `read()` and the *wait* functions will reset the state of `wasPressed()` unless specified otherwise (via a `bool` parameter)
+- `resetPressedState()` allows you to clear value returned by `wasPressed()` – it is similar to passing `keepState = false` for `read()` or `wait()`.
 - Check out the [ButtonLoop.ino](https://github.com/LennartHennigs/Button2/blob/master/examples/ButtonLoop/ButtonLoop.ino) example to see it in action
 
 ### Status Functions
@@ -240,6 +241,7 @@ void setLongClickDetectedRetriggerable(bool retriggerable);
 void byte getLongClickCount() const;
 
 unsigned int wasPressedFor() const;
+void resetPressedState();
 boolean isPressed() const;
 boolean isPressedRaw() const;
 
