@@ -38,7 +38,7 @@ void setup() {
     button.setDebounceTime(35);
     button.setButtonStateFunction(capStateHandler);
     button.setClickHandler(click);
-    button.begin(VIRTUAL_PIN);
+    button.begin(BTN_VIRTUAL_PIN);
 }
 
 /////////////////////////////////////////////////////////////////
