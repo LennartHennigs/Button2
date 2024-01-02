@@ -16,6 +16,7 @@
 
 /////////////////////////////////////////////////////////////////
 // disable warnings for unused parameters
+
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-parameter"
 
@@ -37,11 +38,9 @@ public:
     int digitalRead(int pin) {
         return ::digitalRead(pin);
     }
-
     void pinMode(int pin, int mode) {
         ::pinMode(pin, mode);
     }
-
     void digitalWrite(int pin, int value) {
         ::digitalWrite(pin, value);
     }
