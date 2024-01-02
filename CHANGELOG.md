@@ -6,6 +6,10 @@
 
 - nothing, so far
 
+## [2.3.1] - 2024-01-02
+
+- bugfix for RP2040, as pointed out by [kilrah](https://github.com/kilrah) in issue [#60](https://github.com/LennartHennigs/Button2/issues/60)
+
 ## [2.3.0] - 2024-01-02
 
 - renamed Button2 constants, they now start with `BTN_`  (BREAKING CHANGE)
