@@ -33,9 +33,26 @@ public:
 /////////////////////////////////////////////////////////////////
 // implementation for Arduino
 
+#ifdef ARDUINO_ARCH_RP2040
 class ArduinoHardware : public Hardware {
 public:
     int digitalRead(int pin) {
+        return ::digitalRead(pin);
+    }
+
+    void pinMode(int pin, int mode) {
+        ::pinMode(pin, static_cast<PinMode>(mode));
+    }
+
+    void digitalWrite(int pin, int value) {
+        ::digitalWrite(pin, static_cast<PinStatus>(value));
+    }
+};
+#else
+class ArduinoHardware : public Hardware {
+public:
+    int digitalRead(int pin) {
+        
         return ::digitalRead(pin);
     }
     void pinMode(int pin, int mode) {
@@ -45,7 +62,7 @@ public:
         ::digitalWrite(pin, value);
     }
 };
-
+#endif
 /////////////////////////////////////////////////////////////////
 // implementation for testing
 
