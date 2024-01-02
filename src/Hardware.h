@@ -11,8 +11,8 @@
 
 #pragma once
 
-#ifndef Button2Hardware_h
-#define Button2Hardware_h
+#ifndef AbstractHardware_h
+#define AbstractHardware_h
 
 /////////////////////////////////////////////////////////////////
 // disable warnings for unused parameters
