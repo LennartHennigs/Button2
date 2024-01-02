@@ -27,6 +27,7 @@ clickToString	KEYWORD2
 getID	KEYWORD2
 setID	KEYWORD2
 wasPressed	KEYWORD2
+resetPressedState   KEYWORD2
 read	KEYWORD2
 getLongClickCount	KEYWORD2
 wait	KEYWORD2
