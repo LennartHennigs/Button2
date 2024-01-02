@@ -204,10 +204,10 @@ void Button2::setID(int newID) {
 /////////////////////////////////////////////////////////////////
 
 String Button2::clickToString(clickType type) const {
-  if (type == single_click) return "click";
-  if (type == long_click) return "long click";
+  if (type == single_click) return "single click";
   if (type == double_click) return "double click";
   if (type == triple_click) return "triple click";
+  if (type == long_click) return "long click";
   return "none";
 }
 
@@ -391,6 +391,7 @@ void Button2::_checkForLongClick(long now) {
   // has the longclick_ms period has been exceeded?
   if (now - down_ms < (longclick_time_ms * (longclick_counter + 1))) return;
   // report multiple?
+
   if (!longclick_retriggerable) {
     longclick_reported = true;
   }
