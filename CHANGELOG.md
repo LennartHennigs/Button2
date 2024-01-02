@@ -6,6 +6,7 @@
 
 - renamed Button2 constants, they now start with `BTN_`  (BREAKING CHANGE)
 - added `Hardware.h` – it implements hardware pin abstraction. Needed for unit testing
+- added Unit Tests
 - added `resetPressedState()` function
 - added `ESP32S2S3CapacitiveTouch.ino` suggested by [ryancasler](https://github.com/ryancasler) in PR #57
 
