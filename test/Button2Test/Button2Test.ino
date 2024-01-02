@@ -1,4 +1,4 @@
-#line 2 "InitTest.ino"
+#line 2 "Button2Test.ino"
 /////////////////////////////////////////////////////////////////
 /*
   Unit tests for Button2 library.
