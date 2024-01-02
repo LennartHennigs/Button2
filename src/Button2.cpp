@@ -1,7 +1,8 @@
 /////////////////////////////////////////////////////////////////
 /*
   Button2.cpp - Arduino Library to simplify working with buttons.
-  Created by Lennart Hennigs.
+  Copyright (C) 2017-2023 Lennart Hennigs.
+  Released under the MIT license.
 */
 /////////////////////////////////////////////////////////////////
 
