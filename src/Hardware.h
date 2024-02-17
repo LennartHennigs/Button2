@@ -33,7 +33,7 @@ public:
 /////////////////////////////////////////////////////////////////
 // implementation for Arduino
 
-// for Arduino API version 2.0 – e.g. for UNO   R4, ro RP2040
+// for Arduino API version 2.0 – used by UNO R4, RP2040, ...
 #if defined(ARDUINO_API_VERSION)
 class ArduinoHardware : public Hardware {
 public:
