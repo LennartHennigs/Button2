@@ -33,7 +33,8 @@ public:
 /////////////////////////////////////////////////////////////////
 // implementation for Arduino
 
-#ifdef ARDUINO_ARCH_RP2040
+// for Arduino API version 2.0 – e.g. for UNO   R4, ro RP2040
+#if defined(ARDUINO_API_VERSION)
 class ArduinoHardware : public Hardware {
 public:
     int digitalRead(int pin) {
@@ -63,6 +64,7 @@ public:
     }
 };
 #endif
+
 /////////////////////////////////////////////////////////////////
 // implementation for testing
 
