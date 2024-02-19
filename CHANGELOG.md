@@ -6,6 +6,11 @@
 
 - nothing, so far
 
+## [2.3.2] - 2024-02-17
+
+- expanded condition to check for API version 2.0 (for UNO R4, RP2040, ...)
+
+
 ## [2.3.1] - 2024-01-02
 
 - bugfix for RP2040, as pointed out by [kilrah](https://github.com/kilrah) in issue [#60](https://github.com/LennartHennigs/Button2/issues/60)
