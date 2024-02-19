@@ -1,6 +1,6 @@
 {
 	"name": "Button2",
-	"version": "2.3.1",
+	"version": "2.3.2",
 	"keywords": "button",
 	"description": "Arduino/ESP Library to simplify working with buttons. It allows you to use callback functions to track single, double, triple and long clicks. Alternatively, it provides function to use in your main loop(). The library also takes care of debouncing. Using this lib will reduce and simplify your source code significantly.",
 	"homepage": "https://github.com/LennartHennigs/Button2",

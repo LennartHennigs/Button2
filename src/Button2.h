@@ -1,7 +1,7 @@
 /////////////////////////////////////////////////////////////////
 /*
   Button2.h - Arduino Library to simplify working with buttons.
-  Copyright (C) 2017-2023 Lennart Hennigs.
+  Copyright (C) 2017-2024 Lennart Hennigs.
   Released under the MIT license.
 
 */
