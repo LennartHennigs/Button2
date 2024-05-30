@@ -222,7 +222,6 @@ bool Button2::wasPressed() const {
 /////////////////////////////////////////////////////////////////
 
 void Button2::resetPressedState() {
-  last_click_count = 0;
   was_pressed = false;
   last_click_type = empty;
   click_count = 0;
@@ -231,6 +230,15 @@ void Button2::resetPressedState() {
   longclick_detected = false;
   longclick_reported = false;
   longclick_counter = 0;
+}
+
+
+/////////////////////////////////////////////////////////////////
+
+byte Button2::resetClickCount() {
+  byte tmp = last_click_count;
+  last_click_count = 0;
+  return tmp;
 }
 
 /////////////////////////////////////////////////////////////////
@@ -396,7 +404,8 @@ void Button2::_checkForLongClick(long now) {
   if (!longclick_retriggerable) {
     longclick_reported = true;
   }
-
+  last_click_count = 1;
+  last_click_type = long_click;
   longclick_counter++;
   longclick_detected_cb(*this);
   longclick_detected = true;

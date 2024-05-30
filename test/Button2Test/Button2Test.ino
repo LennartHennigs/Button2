@@ -86,7 +86,7 @@ void release() {
 }
 
 // emulate a button click
-void click(unsigned long duration) {
+void clickFor(unsigned long duration) {
   press();
   delay(duration);
   button.loop(); 
@@ -103,6 +103,29 @@ void resetHandlerVars() {
   changed = false;
   long_detected_count = 0;
 }
+
+// executes a single click
+int singleClick(bool waitItOut = true) {
+  int time = DEBOUNCE_MS + 10;
+  clickFor(time);
+  // wait out the double click time
+  if (waitItOut) {
+    delay(BTN_DOUBLECLICK_MS);
+    button.loop();  
+  }
+  return time;
+}
+
+// executes a long click
+int longClick() {
+  int time = BTN_LONGCLICK_MS + 10;
+  clickFor(time);
+   // wait out the double click time
+  delay(BTN_DOUBLECLICK_MS);
+  button.loop();  
+  return time;
+}
+
 
 /////////////////////////////////////////////////////////////////
 // BASICS
@@ -143,8 +166,9 @@ test(basics, equal_operator) {
 }
 
 /////////////////////////////////////////////////////////////////
-// BASICS
+// CLICKS
 /////////////////////////////////////////////////////////////////
+
 
 test(clicks, changed_handler) {
   button.resetPressedState();
@@ -213,7 +237,7 @@ test(clicks, not_a_click) {
   resetHandlerVars();
   button.resetPressedState();
   // click, but too short
-  click(BTN_DEBOUNCE_MS - 10);
+  clickFor(BTN_DEBOUNCE_MS - 10);
   delay(BTN_DOUBLECLICK_MS);
   button.loop();
   // run the tests
@@ -226,13 +250,10 @@ test(clicks, not_a_click) {
 test(clicks, single_click) {
   resetHandlerVars();
   button.resetPressedState();
-  // click
-  int time = DEBOUNCE_MS;
-  click(time);
-  // wait out the double click time
-  delay(BTN_DOUBLECLICK_MS);
-  button.loop();  
+
+  int time = singleClick();
   int pressedFor = button.wasPressedFor();
+
   // run the tests
   assertTrue(button.wasPressed());
   assertNear(time, pressedFor, 10);
@@ -246,13 +267,10 @@ test(clicks, single_click) {
 test(clicks, long_click) {
   resetHandlerVars();
   button.resetPressedState();
-  // long click
-  int time = BTN_LONGCLICK_MS + 10;
-  click(time);
-   // wait out the double click time
-  delay(BTN_DOUBLECLICK_MS);
-  button.loop();  
+  
+  int time = longClick();
   int pressedFor = button.wasPressedFor();
+
   // run the tests
   assertTrue(button.wasPressed());
   assertNear(time, pressedFor, 10);
@@ -265,15 +283,53 @@ test(clicks, long_click) {
 
 /////////////////////////////////////////////////////////////////
 
+test(clicks, first_single_then_long_click) {
+  resetHandlerVars();
+  button.resetPressedState();
+
+  singleClick();
+  int long_time = longClick();
+  int pressedFor = button.wasPressedFor();
+  
+  // run the tests
+  assertTrue(button.wasPressed());
+  assertNear(long_time, pressedFor, 10);
+  assertEqual(button.getType(), long_click);
+  assertEqual(button.getNumberOfClicks(), 1);
+  assertTrue(long_detected);
+  assertTrue(longclick);
+  assertTrue(tap);
+}
+
+/////////////////////////////////////////////////////////////////
+
+test(clicks, first_double_then_long_click) {
+  resetHandlerVars();
+  button.resetPressedState();
+
+  // double click
+  singleClick(false);
+  singleClick(true);
+  int long_time = longClick();
+  int pressedFor = button.wasPressedFor();
+  
+  // run the tests
+  assertTrue(button.wasPressed());
+  assertNear(long_time, pressedFor, 10);
+  assertEqual(button.getType(), long_click);
+  assertEqual(button.getNumberOfClicks(), 1);
+  assertTrue(long_detected);
+  assertTrue(longclick);
+  assertTrue(tap);
+}
+
+/////////////////////////////////////////////////////////////////
+
 test(clicks, double_click) {
   button.resetPressedState();
   // 2x click
-  int time = DEBOUNCE_MS;
-  click(time);
-  click(time);
-  // wait out the double click time
-  delay(BTN_DOUBLECLICK_MS);
-  button.loop();  
+  singleClick(false);
+  singleClick(true);
   // run the tests
   assertTrue(button.wasPressed());
   assertEqual(button.getType(), double_click);
@@ -285,13 +341,9 @@ test(clicks, double_click) {
 test(clicks, triple_click) {
   button.resetPressedState();
   // 3x click
-  int time = DEBOUNCE_MS;
-  click(time);
-  click(time);
-  click(time);
-  // wait out the double click time
-  delay(BTN_DOUBLECLICK_MS);
-  button.loop();  
+  singleClick(false);
+  singleClick(false);
+  singleClick(true);
   // run the tests
   assertTrue(button.wasPressed());
   assertEqual(button.getType(), triple_click);
@@ -303,14 +355,10 @@ test(clicks, triple_click) {
 test(clicks, more_than_3_click) {
   button.resetPressedState();
   // 4x click
-  int time = DEBOUNCE_MS;
-  click(time);
-  click(time);
-  click(time);
-  click(time);
-
-  delay(BTN_DOUBLECLICK_MS);
-  button.loop();  
+  singleClick(false);
+  singleClick(false);
+  singleClick(false);
+  singleClick(true);
   // run the tests
   assertTrue(button.wasPressed());
   assertEqual(button.getType(), triple_click);
@@ -322,17 +370,14 @@ test(clicks, more_than_3_click) {
 test (clicks, reset) {
   button.resetPressedState();
   // single click
-  int time = DEBOUNCE_MS;
-  click(time);
-  // wait out the double click time
-  delay(BTN_DOUBLECLICK_MS);
-  button.loop();  
+  singleClick();
   // run the tests
   assertTrue(button.wasPressed());
   assertEqual(button.getNumberOfClicks(), 1);
   // now reset the "click memory"
   button.resetPressedState();
   assertFalse(button.wasPressed());
+  button.resetClickCount();
   assertEqual(button.getNumberOfClicks(), 0);
 }
 
