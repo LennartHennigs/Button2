@@ -13,7 +13,7 @@ Button2 button;
 /////////////////////////////////////////////////////////////////
 
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(115200);
   delay(50);
   Serial.println("\n\nButton Demo");
 
