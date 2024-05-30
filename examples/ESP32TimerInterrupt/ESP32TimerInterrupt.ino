@@ -30,7 +30,7 @@ void click(Button2 &b) {
 /////////////////////////////////////////////////////////////////
 
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(115200);
 
   btn.begin(BUTTON_PIN);
   btn.setTapHandler(click);

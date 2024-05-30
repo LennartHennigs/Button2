@@ -4,8 +4,8 @@
 
 /////////////////////////////////////////////////////////////////
 
-#define BUTTON_PIN_1  3
-#define BUTTON_PIN_2  4
+#define BUTTON_PIN_1  37
+#define BUTTON_PIN_2  38
 
 /////////////////////////////////////////////////////////////////
 
@@ -17,7 +17,7 @@ byte counter = 0;
 /////////////////////////////////////////////////////////////////
 
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(115200);
   delay(50);
   Serial.println("\n\nTrack dual button press & release");
 

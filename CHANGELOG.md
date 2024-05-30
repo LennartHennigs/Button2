@@ -6,6 +6,13 @@
 
 - nothing, so far
 
+## [2.3.3] - 2024-05-30
+
+- fixed bug, that first long press was not properly detected, see issue [#72](https://github.com/LennartHennigs/Button2/issues/72)
+- added `byte resetClickCount()` function
+- click count is no longer resetted in `resetPressedState()`
+- updated examples
+
 ## [2.3.2] - 2024-02-17
 
 - expanded condition to check for API version 2.0 (for UNO R4, RP2040, ...)

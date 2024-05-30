@@ -4,8 +4,8 @@
 
 /////////////////////////////////////////////////////////////////
 
-#define BUTTON_PIN_1  3
-#define BUTTON_PIN_2  4
+#define BUTTON_PIN_1  37
+#define BUTTON_PIN_2  38
 
 /////////////////////////////////////////////////////////////////
 
@@ -14,7 +14,7 @@ Button2 button_1, button_2;
 /////////////////////////////////////////////////////////////////
 
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(115200);
   delay(50);
   Serial.println("\n\nMulti Handler Demo w/ 2 buttons");
 
@@ -38,16 +38,18 @@ void loop() {
 /////////////////////////////////////////////////////////////////
 
 void handler(Button2& btn) {
-    switch (btn.getType()) {
-        case single_click:
-            break;
-        case double_click:
-            Serial.print("double ");
-            break;
-    }
-    Serial.print("click ");
-    Serial.print("on button #");
-    Serial.print((btn == button_1) ? "1" : "2");
-    Serial.println();
+  switch (btn.getType()) {
+    case single_click:
+      break;
+    case double_click:
+      Serial.print("double ");
+      break;
+    default:
+      break;
+  }
+  Serial.print("click ");
+  Serial.print("on button #");
+  Serial.print((btn == button_1) ? "1" : "2");
+  Serial.println();
 }
 /////////////////////////////////////////////////////////////////
