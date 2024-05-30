@@ -242,6 +242,8 @@ void byte getLongClickCount() const;
 
 unsigned int wasPressedFor() const;
 void resetPressedState();
+byte resetClickCount();
+
 boolean isPressed() const;
 boolean isPressedRaw() const;
 

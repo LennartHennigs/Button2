@@ -131,6 +131,7 @@ class Button2 {
   boolean isPressed() const;
   boolean isPressedRaw() const;
   void resetPressedState();
+  byte resetClickCount();
 
   bool wasPressed() const;
   clickType read(bool keepState = false);
