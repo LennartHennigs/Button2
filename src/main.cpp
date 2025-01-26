@@ -5,7 +5,6 @@
 #if defined(PLATFORMIO)
 /////////////////////////////////////////////////////////////////
 
-
 #include "../examples/SingleButtonSimple/SingleButtonSimple.ino"
 #pragma message "compiling SingleButtonSimple.ino"
 
@@ -47,7 +46,6 @@
 
 // #include "../examples/ESP32ClassicCapacitiveTouch/ESP32ClassicCapacitiveTouch.ino"
 // #pragma message "compiling ESP32ClassicCapacitiveTouch.ino"
-
 /////////////////////////////////////////////////////////////////
 #endif
 /////////////////////////////////////////////////////////////////

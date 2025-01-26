@@ -12,6 +12,38 @@ Button2 button;
 
 /////////////////////////////////////////////////////////////////
 
+void pressed(Button2& btn) {
+    Serial.println("pressed");
+}
+void released(Button2& btn) {
+    Serial.print("released: ");
+    Serial.println(btn.wasPressedFor());
+}
+void changed(Button2& btn) {
+    Serial.println("changed");
+}
+void click(Button2& btn) {
+    Serial.println("click\n");
+}
+void longClickDetected(Button2& btn) {
+    Serial.println("long click detected");
+}
+void longClick(Button2& btn) {
+    Serial.println("long click\n");
+}
+void doubleClick(Button2& btn) {
+    Serial.println("double click\n");
+}
+void tripleClick(Button2& btn) {
+    Serial.println("triple click\n");
+    Serial.println(btn.getNumberOfClicks());
+}
+void tap(Button2& btn) {
+    Serial.println("tap");
+}
+
+/////////////////////////////////////////////////////////////////
+
 void setup() {
   Serial.begin(115200);
   delay(50);
@@ -43,38 +75,6 @@ void setup() {
 
 void loop() {
   button.loop();
-}
-
-/////////////////////////////////////////////////////////////////
-
-void pressed(Button2& btn) {
-    Serial.println("pressed");
-}
-void released(Button2& btn) {
-    Serial.print("released: ");
-    Serial.println(btn.wasPressedFor());
-}
-void changed(Button2& btn) {
-    Serial.println("changed");
-}
-void click(Button2& btn) {
-    Serial.println("click\n");
-}
-void longClickDetected(Button2& btn) {
-    Serial.println("long click detected");
-}
-void longClick(Button2& btn) {
-    Serial.println("long click\n");
-}
-void doubleClick(Button2& btn) {
-    Serial.println("double click\n");
-}
-void tripleClick(Button2& btn) {
-    Serial.println("triple click\n");
-    Serial.println(btn.getNumberOfClicks());
-}
-void tap(Button2& btn) {
-    Serial.println("tap");
 }
 
 /////////////////////////////////////////////////////////////////
