@@ -2,7 +2,7 @@
 /*
   Hardware.h - Implements Arduino Hardware Abstraction Layer.
   Part or Button2 library for Arduino.
-  Copyright (C) 2017-2024 Lennart Hennigs.
+  Copyright (C) 2017-2025 Lennart Hennigs.
   Released under the MIT license.
 */
 /////////////////////////////////////////////////////////////////
