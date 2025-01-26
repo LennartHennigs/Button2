@@ -2,11 +2,14 @@
 
 **Note:** Unreleased changes are checked in but not part of an official release (available through the Arduino IDE or PlatfomIO) yet. This allows you to test WiP features and give feedback to them.
 
-- added dummy file `main.cpp` to be able to compile lib in VSCode/PIO
 
 ## Unreleased
 
 - nothing, so far
+
+## [2.3.4] - 2025-01-26
+
+- added dummy file `main.cpp` to be able to compile lib in VSCode/PIO
 
 ## [2.3.3] - 2024-05-30
 
