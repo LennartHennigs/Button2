@@ -1,6 +1,7 @@
 /////////////////////////////////////////////////////////////////
 
 #include "Button2.h"
+#include <Arduino.h>
 
 /////////////////////////////////////////////////////////////////
 
@@ -9,6 +10,22 @@
 /////////////////////////////////////////////////////////////////
 
 Button2 button;
+
+/////////////////////////////////////////////////////////////////
+
+void pressed(Button2& btn) {
+    Serial.println("pressed");
+}
+void released(Button2& btn) {
+    Serial.print("released: ");
+    Serial.println(btn.wasPressedFor());
+}
+void changed(Button2& btn) {
+    Serial.println("changed");
+}
+void tap(Button2& btn) {
+    Serial.println("tap");
+}
 
 /////////////////////////////////////////////////////////////////
 
@@ -33,19 +50,3 @@ void loop() {
 }
 
 /////////////////////////////////////////////////////////////////
-
-void pressed(Button2& btn) {
-    Serial.println("pressed");
-}
-void released(Button2& btn) {
-    Serial.print("released: ");
-    Serial.println(btn.wasPressedFor());
-}
-void changed(Button2& btn) {
-    Serial.println("changed");
-}
-void tap(Button2& btn) {
-    Serial.println("tap");
-}
-/////////////////////////////////////////////////////////////////
-

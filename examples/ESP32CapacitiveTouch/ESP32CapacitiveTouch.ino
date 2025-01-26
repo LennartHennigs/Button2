@@ -22,6 +22,12 @@ byte capStateHandler() {
 
 /////////////////////////////////////////////////////////////////
 
+void click(Button2& btn) {
+    Serial.println("click\n");
+}
+
+/////////////////////////////////////////////////////////////////
+
 void setup() {
     Serial.begin(9600);
     delay(50);
@@ -30,19 +36,13 @@ void setup() {
     button.setDebounceTime(35);
     button.setButtonStateFunction(capStateHandler);
     button.setClickHandler(click);
-    button.begin(VIRTUAL_PIN);
+    button.begin(BTN_VIRTUAL_PIN);
 }
 
 /////////////////////////////////////////////////////////////////
 
 void loop() {
     button.loop();
-}
-
-/////////////////////////////////////////////////////////////////
-
-void click(Button2& btn) {
-    Serial.println("click\n");
 }
 
 /////////////////////////////////////////////////////////////////
