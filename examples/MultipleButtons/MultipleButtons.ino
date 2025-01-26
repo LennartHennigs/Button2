@@ -13,6 +13,16 @@ Button2 buttonA, buttonB;
 
 /////////////////////////////////////////////////////////////////
 
+void click(Button2& btn) {
+    if (btn == buttonA) {
+      Serial.println("A clicked");
+    } else if (btn == buttonB) {
+      Serial.println("B clicked");
+    }
+}
+
+/////////////////////////////////////////////////////////////////
+
 void setup() {
   Serial.begin(9600);
   delay(50);
@@ -30,16 +40,6 @@ void setup() {
 void loop() {
   buttonA.loop();
   buttonB.loop();
-}
-
-/////////////////////////////////////////////////////////////////
-
-void click(Button2& btn) {
-    if (btn == buttonA) {
-      Serial.println("A clicked");
-    } else if (btn == buttonB) {
-      Serial.println("B clicked");
-    }
 }
 
 /////////////////////////////////////////////////////////////////

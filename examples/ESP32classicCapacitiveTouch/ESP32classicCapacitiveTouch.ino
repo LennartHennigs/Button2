@@ -29,10 +29,15 @@ void gotTouchEvent(){
     touchInterruptSetThresholdDirection(testingLower);
   }
 }
-
-
+/////////////////////////////////////////////////////////////////
 byte capStateHandler() {
     return buttonState;
+}
+
+/////////////////////////////////////////////////////////////////
+
+void click(Button2& btn) {
+    Serial.println("click\n");
 }
 
 /////////////////////////////////////////////////////////////////
@@ -48,7 +53,7 @@ void setup() {
     button.setDebounceTime(35);
     button.setButtonStateFunction(capStateHandler);
     button.setClickHandler(click);
-    button.begin(VIRTUAL_PIN);
+    button.begin(BTN_VIRTUAL_PIN);
 }
 
 /////////////////////////////////////////////////////////////////
@@ -63,12 +68,6 @@ void loop() {
       buttonState = HIGH;
     }
   }
-}
-
-/////////////////////////////////////////////////////////////////
-
-void click(Button2& btn) {
-    Serial.println("click\n");
 }
 
 /////////////////////////////////////////////////////////////////

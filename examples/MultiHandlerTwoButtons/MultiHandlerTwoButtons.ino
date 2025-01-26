@@ -13,6 +13,24 @@ Button2 button_1, button_2;
 
 /////////////////////////////////////////////////////////////////
 
+void handler(Button2& btn) {
+  switch (btn.getType()) {
+    case single_click:
+      break;
+    case double_click:
+      Serial.print("double ");
+      break;
+    default:
+      break;
+  }
+  Serial.print("click ");
+  Serial.print("on button #");
+  Serial.print((btn == button_1) ? "1" : "2");
+  Serial.println();
+}
+
+/////////////////////////////////////////////////////////////////
+
 void setup() {
   Serial.begin(115200);
   delay(50);
@@ -35,21 +53,4 @@ void loop() {
   button_2.loop();
 }
 
-/////////////////////////////////////////////////////////////////
-
-void handler(Button2& btn) {
-  switch (btn.getType()) {
-    case single_click:
-      break;
-    case double_click:
-      Serial.print("double ");
-      break;
-    default:
-      break;
-  }
-  Serial.print("click ");
-  Serial.print("on button #");
-  Serial.print((btn == button_1) ? "1" : "2");
-  Serial.println();
-}
 /////////////////////////////////////////////////////////////////

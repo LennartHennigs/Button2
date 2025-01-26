@@ -16,29 +16,6 @@ byte counter = 0;
 
 /////////////////////////////////////////////////////////////////
 
-void setup() {
-  Serial.begin(115200);
-  delay(50);
-  Serial.println("\n\nTrack dual button press & release");
-
-  button_1.begin(BUTTON_PIN_1);
-  button_1.setPressedHandler(pressed);
-  button_1.setReleasedHandler(released);
-
-  button_2.begin(BUTTON_PIN_2);
-  button_2.setPressedHandler(pressed);
-  button_2.setReleasedHandler(released);
-}
-
-/////////////////////////////////////////////////////////////////
-
-void loop() {
-  button_1.loop();
-  button_2.loop();
-}
-
-/////////////////////////////////////////////////////////////////
-
 void pressed(Button2& btn) {
   counter++;
   if (counter == 2) {
@@ -59,6 +36,29 @@ void released(Button2& btn) {
     }
     now = 0;
   }
+}
+
+/////////////////////////////////////////////////////////////////
+
+void setup() {
+  Serial.begin(115200);
+  delay(50);
+  Serial.println("\n\nTrack dual button press & release");
+
+  button_1.begin(BUTTON_PIN_1);
+  button_1.setPressedHandler(pressed);
+  button_1.setReleasedHandler(released);
+
+  button_2.begin(BUTTON_PIN_2);
+  button_2.setPressedHandler(pressed);
+  button_2.setReleasedHandler(released);
+}
+
+/////////////////////////////////////////////////////////////////
+
+void loop() {
+  button_1.loop();
+  button_2.loop();
 }
 
 /////////////////////////////////////////////////////////////////
