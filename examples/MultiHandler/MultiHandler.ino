@@ -12,27 +12,6 @@ Button2 button;
 
 /////////////////////////////////////////////////////////////////
 
-void setup() {
-  Serial.begin(115200);
-  delay(50);
-  Serial.println("\n\nMulti Handler Demo");
-  
-  button.begin(BUTTON_PIN);
-  button.setClickHandler(handler);
-  //button.setLongClickHandler(handler);       // this will only be called upon release
-  button.setLongClickDetectedHandler(handler);  // this will only be called upon detection
-  button.setDoubleClickHandler(handler);
-  button.setTripleClickHandler(handler);
-}
-
-/////////////////////////////////////////////////////////////////
-
-void loop() {
-  button.loop();
-}
-
-/////////////////////////////////////////////////////////////////
-
 void handler(Button2& btn) {
     switch (btn.getType()) {
         case single_click:
@@ -54,4 +33,26 @@ void handler(Button2& btn) {
     Serial.print(btn.getNumberOfClicks());    
     Serial.println(")");
 }
+
+/////////////////////////////////////////////////////////////////
+
+void setup() {
+  Serial.begin(115200);
+  delay(50);
+  Serial.println("\n\nMulti Handler Demo");
+  
+  button.begin(BUTTON_PIN);
+  button.setClickHandler(handler);
+  //button.setLongClickHandler(handler);       // this will only be called upon release
+  button.setLongClickDetectedHandler(handler);  // this will only be called upon detection
+  button.setDoubleClickHandler(handler);
+  button.setTripleClickHandler(handler);
+}
+
+/////////////////////////////////////////////////////////////////
+
+void loop() {
+  button.loop();
+}
+
 /////////////////////////////////////////////////////////////////
