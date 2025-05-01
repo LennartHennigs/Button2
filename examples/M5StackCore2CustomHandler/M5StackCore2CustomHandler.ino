@@ -32,7 +32,7 @@ void setup() {
   button.setTripleClickHandler(tripleClick);
 
   button.setButtonStateFunction(myButtonStateHandler);
-  button.begin(VIRTUAL_PIN);
+  button.begin(BTN_VIRTUAL_PIN);
 
   M5.Lcd.clear();
   M5.Lcd.setTextSize(2);
