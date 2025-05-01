@@ -6,8 +6,8 @@
 ## Unreleased
 
 - fixed contant name in example `M5StackCore2CustomHandler.ino`
-- replaced `boolean` with `bool`
-- replaced `byte` with `uint_8`
+- replaced `boolean` with `bool` as requested in [#81](https://github.com/LennartHennigs/Button2/issues/81)
+- replaced `byte` with `uint_8` as requested in [#79](https://github.com/LennartHennigs/Button2/issues/79)
 
 ## [2.3.4] - 2025-01-26
 
