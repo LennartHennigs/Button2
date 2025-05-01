@@ -5,6 +5,7 @@
 
 ## Unreleased
 
+- fixed contant name in example `M5StackCore2CustomHandler.ino`
 - replaced `boolean` with `bool`
 - replaced `byte` with `uint_8`
 
