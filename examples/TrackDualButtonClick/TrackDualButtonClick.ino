@@ -12,7 +12,7 @@
 Button2 button_1, button_2;
 
 unsigned long now = 0;
-byte counter = 0;
+uint8_t counter = 0;
 
 /////////////////////////////////////////////////////////////////
 

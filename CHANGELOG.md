@@ -6,6 +6,7 @@
 ## Unreleased
 
 - replaced `boolean` with `bool`
+- replaced `byte` with `uint_8`
 
 ## [2.3.4] - 2025-01-26
 

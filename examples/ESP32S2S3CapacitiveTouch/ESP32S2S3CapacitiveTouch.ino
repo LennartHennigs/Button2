@@ -13,7 +13,7 @@
 
 int threshold = 1500;   // ESP32S2 
 bool touchdetected = false; 
-byte buttonState = HIGH;// HIGH is for unpressed, pressed = LOW
+uint8_t buttonState = HIGH;// HIGH is for unpressed, pressed = LOW
 /////////////////////////////////////////////////////////////////
 
 Button2 button;
@@ -24,7 +24,7 @@ void gotTouch() {
 }
 
 
-byte capStateHandler() {
+uint8_t capStateHandler() {
     return buttonState;
 }
 

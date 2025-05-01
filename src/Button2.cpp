@@ -24,14 +24,14 @@ Button2::Button2() {
 /////////////////////////////////////////////////////////////////
 // constructor
 
-Button2::Button2(byte attachTo, byte buttonMode /* = INPUT_PULLUP */, bool activeLow /* = true */, Hardware *hardware /* = ArduinoHardware() */) {
+Button2::Button2(uint8_t attachTo, uint8_t buttonMode /* = INPUT_PULLUP */, bool activeLow /* = true */, Hardware *hardware /* = ArduinoHardware() */) {
   begin(attachTo, buttonMode, activeLow, hardware);
   _setID();
 }
 
 /////////////////////////////////////////////////////////////////
 
-void Button2::begin(byte attachTo, byte buttonMode /* = INPUT_PULLUP */, bool activeLow /* = true */, Hardware *hardware /* = ArduinoHardware() */) {
+void Button2::begin(uint8_t attachTo, uint8_t buttonMode /* = INPUT_PULLUP */, bool activeLow /* = true */, Hardware *hardware /* = ArduinoHardware() */) {
   hw = hardware;
   pin = attachTo;
   longclick_counter = 0;
@@ -84,7 +84,7 @@ unsigned int Button2::getDoubleClickTime() const {
 
 /////////////////////////////////////////////////////////////////
 
-byte Button2::getPin() const {
+uint8_t Button2::getPin() const {
   return pin;
 }
 
@@ -180,7 +180,7 @@ bool Button2::isPressedRaw() const {
 
 /////////////////////////////////////////////////////////////////
 
-byte Button2::getNumberOfClicks() const {
+uint8_t Button2::getNumberOfClicks() const {
   return last_click_count;
 }
 
@@ -235,8 +235,8 @@ void Button2::resetPressedState() {
 
 /////////////////////////////////////////////////////////////////
 
-byte Button2::resetClickCount() {
-  byte tmp = last_click_count;
+uint8_t Button2::resetClickCount() {
+  uint8_t tmp = last_click_count;
   last_click_count = 0;
   return tmp;
 }
@@ -413,7 +413,7 @@ void Button2::_checkForLongClick(long now) {
 
 /////////////////////////////////////////////////////////////////
 
-byte Button2::getLongClickCount() const {
+uint8_t Button2::getLongClickCount() const {
   return longclick_counter;
 }
 
@@ -475,7 +475,7 @@ void Button2::_releasedNow(long now) {
 
 /////////////////////////////////////////////////////////////////
 
-byte Button2::_getState() const {
+uint8_t Button2::_getState() const {
   if (get_state_cb != NULL) {
     return get_state_cb();
   } else {

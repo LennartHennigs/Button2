@@ -6,7 +6,7 @@ Button2 button;
 
 /////////////////////////////////////////////////////////////////
 
-byte myButtonStateHandler() {
+uint8_t myButtonStateHandler() {
   return digitalRead(39);
 }
 

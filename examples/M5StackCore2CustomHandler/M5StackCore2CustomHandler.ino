@@ -8,7 +8,7 @@ bool cleared = false;
 
 /////////////////////////////////////////////////////////////////
 
-byte myButtonStateHandler() {
+uint8_t myButtonStateHandler() {
   return !(M5.BtnA.isPressed());
 }
 
