@@ -96,9 +96,9 @@ class Button2 {
 
  public:
   Button2();
-  Button2(byte attachTo, byte buttonMode = INPUT_PULLUP, boolean activeLow = true, Hardware* hardware = new ArduinoHardware());
+  Button2(byte attachTo, byte buttonMode = INPUT_PULLUP, bool activeLow = true, Hardware* hardware = new ArduinoHardware());
 
-  void begin(byte attachTo, byte buttonMode = INPUT_PULLUP, boolean activeLow = true, Hardware* hardware = new ArduinoHardware());
+  void begin(byte attachTo, byte buttonMode = INPUT_PULLUP, bool activeLow = true, Hardware* hardware = new ArduinoHardware());
 
   void setDebounceTime(unsigned int ms);
   void setLongClickTime(unsigned int ms);
@@ -128,8 +128,8 @@ class Button2 {
   void setLongClickDetectedRetriggerable(bool retriggerable);
 
   unsigned int wasPressedFor() const;
-  boolean isPressed() const;
-  boolean isPressedRaw() const;
+  bool isPressed() const;
+  bool isPressedRaw() const;
   void resetPressedState();
   byte resetClickCount();
 

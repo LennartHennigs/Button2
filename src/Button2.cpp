@@ -24,14 +24,14 @@ Button2::Button2() {
 /////////////////////////////////////////////////////////////////
 // constructor
 
-Button2::Button2(byte attachTo, byte buttonMode /* = INPUT_PULLUP */, boolean activeLow /* = true */, Hardware *hardware /* = ArduinoHardware() */) {
+Button2::Button2(byte attachTo, byte buttonMode /* = INPUT_PULLUP */, bool activeLow /* = true */, Hardware *hardware /* = ArduinoHardware() */) {
   begin(attachTo, buttonMode, activeLow, hardware);
   _setID();
 }
 
 /////////////////////////////////////////////////////////////////
 
-void Button2::begin(byte attachTo, byte buttonMode /* = INPUT_PULLUP */, boolean activeLow /* = true */, Hardware *hardware /* = ArduinoHardware() */) {
+void Button2::begin(byte attachTo, byte buttonMode /* = INPUT_PULLUP */, bool activeLow /* = true */, Hardware *hardware /* = ArduinoHardware() */) {
   hw = hardware;
   pin = attachTo;
   longclick_counter = 0;
@@ -168,13 +168,13 @@ unsigned int Button2::wasPressedFor() const {
 
 /////////////////////////////////////////////////////////////////
 
-boolean Button2::isPressed() const {
+bool Button2::isPressed() const {
   return (state == _pressedState);
 }
 
 /////////////////////////////////////////////////////////////////
 
-boolean Button2::isPressedRaw() const {
+bool Button2::isPressedRaw() const {
   return (_getState() == _pressedState);
 }
 

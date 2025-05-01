@@ -35,7 +35,7 @@ If you don't want to use callback there are also functions available for using i
 - Define the button either using the `constructor` or the `begin()` function.
 
 ```c++
-  void begin(byte attachTo, byte buttonMode = INPUT_PULLUP, boolean activeLow  = true);
+  void begin(byte attachTo, byte buttonMode = INPUT_PULLUP, bool activeLow  = true);
 ```
 
 ### Button Types
@@ -166,8 +166,8 @@ If you don't want to use callback there are also functions available for using i
 unsigned int wasPressedFor() const;
 byte getNumberOfClicks() const;
 byte getType() const;
-boolean isPressed() const;
-boolean isPressedRaw() const;
+bool isPressed() const;
+bool isPressedRaw() const;
 bool wasPressed() const;
 ```
 
@@ -209,9 +209,9 @@ See below the constructors and member functions the library provides:
 
 ```c++
 Button2();
-Button2(byte attachTo, byte buttonMode = INPUT_PULLUP, boolean activeLow = true);
+Button2(byte attachTo, byte buttonMode = INPUT_PULLUP, bool activeLow = true);
 
-void begin(byte attachTo, byte buttonMode = INPUT_PULLUP, boolean activeLow  = true);
+void begin(byte attachTo, byte buttonMode = INPUT_PULLUP, bool activeLow  = true);
 
 void setDebounceTime(unsigned int ms);
 void setLongClickTime(unsigned int ms);
@@ -244,8 +244,8 @@ unsigned int wasPressedFor() const;
 void resetPressedState();
 byte resetClickCount();
 
-boolean isPressed() const;
-boolean isPressedRaw() const;
+bool isPressed() const;
+bool isPressedRaw() const;
 
 bool wasPressed() const;
 clickType read(bool keepState = false);

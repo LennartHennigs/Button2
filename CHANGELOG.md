@@ -5,7 +5,7 @@
 
 ## Unreleased
 
-- nothing, so far
+- replaced `boolean` with `bool`
 
 ## [2.3.4] - 2025-01-26
 
