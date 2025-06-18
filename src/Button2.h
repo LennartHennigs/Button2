@@ -16,6 +16,7 @@
 
 #if defined(ARDUINO_ARCH_ESP32) || defined(ESP8266)
 #include <functional>
+#include <utility>
 #endif
 #include <Arduino.h>
 
@@ -68,9 +69,11 @@ class Button2 {
 #if defined(ARDUINO_ARCH_ESP32) || defined(ESP8266)
   typedef std::function<void(Button2 &btn)> CallbackFunction;
   typedef std::function<uint8_t()> StateCallbackFunction;
+  #define BUTTON2_MOVE(v) std::move(v)
 #else
   typedef void (*CallbackFunction)(Button2 &);
   typedef uint8_t (*StateCallbackFunction)();
+  #define BUTTON2_MOVE
 #endif
 
   StateCallbackFunction get_state_cb = NULL;
