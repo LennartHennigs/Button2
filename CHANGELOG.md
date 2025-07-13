@@ -5,7 +5,8 @@
 
 ## Unreleased
 
-nothing so far
+- Removed workaround file `main.cpp` to prevent compile warnings and undefined behavior in PlatformIO. The library now compiles correctly as a dependency in PlatformIO projects. [PR #83](https://github.com/LennartHennigs/Button2/issues/83)
+
 
 ## [2.3.5] - 2025-05-01
 
