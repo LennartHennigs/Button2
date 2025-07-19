@@ -14,9 +14,16 @@
 
 /////////////////////////////////////////////////////////////////
 
-#if defined(ARDUINO_ARCH_ESP32) || defined(ESP8266)
+#ifndef BUTTON2_HAS_STD_FUNCTION      // for user force enable std::function
+#ifndef BUTTON2_DISABLE_STD_FUNCTION  // for user force disable std::function
+#if __cplusplus >= 201103L && defined(ARDUINO_ARCH_ESP8266) && defined(ARDUINO_ARCH_ESP32)
 #include <functional>
+#include <utility>
+#define BUTTON2_HAS_STD_FUNCTION 1
 #endif
+#endif
+#endif
+
 #include <Arduino.h>
 
 #include "Hardware.h"
@@ -65,12 +72,14 @@ class Button2 {
   unsigned int down_time_ms = 0;
   bool pressed_triggered = false;
 
-#if defined(ARDUINO_ARCH_ESP32) || defined(ESP8266)
+#ifdef BUTTON2_HAS_STD_FUNCTION
   typedef std::function<void(Button2 &btn)> CallbackFunction;
   typedef std::function<uint8_t()> StateCallbackFunction;
+  #define BUTTON2_MOVE(v) std::move(v)
 #else
   typedef void (*CallbackFunction)(Button2 &);
   typedef uint8_t (*StateCallbackFunction)();
+  #define BUTTON2_MOVE
 #endif
 
   StateCallbackFunction get_state_cb = NULL;
