@@ -91,7 +91,7 @@ uint8_t Button2::getPin() const {
 /////////////////////////////////////////////////////////////////
 
 void Button2::setButtonStateFunction(StateCallbackFunction f) {
-  get_state_cb = f;
+  get_state_cb = BUTTON2_MOVE(f);
 }
 
 /////////////////////////////////////////////////////////////////
@@ -103,37 +103,37 @@ bool Button2::operator==(Button2 &rhs) {
 /////////////////////////////////////////////////////////////////
 
 void Button2::setChangedHandler(CallbackFunction f) {
-  change_cb = f;
+  change_cb = BUTTON2_MOVE(f);
 }
 
 /////////////////////////////////////////////////////////////////
 
 void Button2::setPressedHandler(CallbackFunction f) {
-  pressed_cb = f;
+  pressed_cb = BUTTON2_MOVE(f);
 }
 
 /////////////////////////////////////////////////////////////////
 
 void Button2::setReleasedHandler(CallbackFunction f) {
-  released_cb = f;
+  released_cb = BUTTON2_MOVE(f);
 }
 
 /////////////////////////////////////////////////////////////////
 
 void Button2::setClickHandler(CallbackFunction f) {
-  click_cb = f;
+  click_cb = BUTTON2_MOVE(f);
 }
 
 /////////////////////////////////////////////////////////////////
 
 void Button2::setTapHandler(CallbackFunction f) {
-  tap_cb = f;
+  tap_cb = BUTTON2_MOVE(f);
 }
 
 /////////////////////////////////////////////////////////////////
 
 void Button2::setLongClickHandler(CallbackFunction f) {
-  long_cb = f;
+  long_cb = BUTTON2_MOVE(f);
 }
 
 /////////////////////////////////////////////////////////////////
@@ -145,19 +145,19 @@ void Button2::setLongClickDetectedRetriggerable(bool retriggerable) {
 /////////////////////////////////////////////////////////////////
 
 void Button2::setLongClickDetectedHandler(CallbackFunction f) {
-  longclick_detected_cb = f;
+  longclick_detected_cb = BUTTON2_MOVE(f);
 }
 
 /////////////////////////////////////////////////////////////////
 
 void Button2::setDoubleClickHandler(CallbackFunction f) {
-  double_cb = f;
+  double_cb = BUTTON2_MOVE(f);
 }
 
 /////////////////////////////////////////////////////////////////
 
 void Button2::setTripleClickHandler(CallbackFunction f) {
-  triple_cb = f;
+  triple_cb = BUTTON2_MOVE(f);
 }
 
 /////////////////////////////////////////////////////////////////
