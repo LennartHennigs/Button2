@@ -186,6 +186,30 @@ bool wasPressed() const;
 - And don't forget to initialize the button as this cannot be handled by *Button2*
 - See [ESP32CapacitiveTouch.ino](https://github.com/LennartHennigs/Button2/blob/master/examples/ESP32CapacitiveTouch/ESP32CapacitiveTouch.ino), [M5StackCore2CustomHandler.ino](https://github.com/LennartHennigs/Button2/blob/master/examples/M5StackCore2CustomHandler/M5StackCore2CustomHandler.ino), and [CustomButtonStateHandler.ino](https://github.com/LennartHennigs/Button2/blob/master/examples/CustomButtonStateHandler/CustomButtonStateHandler.ino) as examples.
 
+
+## Callback Handler Support and Compatibility
+
+Button2 uses callback handlers for button events. On platforms that support C++11 and `<functional>` (such as ESP32 and ESP8266), Button2 uses `std::function` for maximum flexibility, allowing you to use lambdas and other advanced C++ features as handlers.
+
+On platforms that do not support `std::function` (such as AVR/Arduino Uno), Button2 falls back to using regular function pointers for handlers.
+
+### Forcing or Disabling `std::function` Support
+
+You can force-enable or disable `std::function` support by defining the following macros before including Button2:
+
+- To force-enable:  
+  `#define BUTTON2_HAS_STD_FUNCTION`
+- To force-disable:  
+  `#define BUTTON2_DISABLE_STD_FUNCTION`
+
+This is useful if you are using a custom toolchain or want to override the default detection logic.
+
+> **Note:** On platforms that use `std::function`, Button2 uses `std::move` internally when assigning handlers for better performance and efficiency.
+
+## Troubleshooting
+
+- If you see errors about `<functional>` not being found, your platform does not support `std::function`. Either use a supported board (ESP32/ESP8266) or force-disable with `#define BUTTON2_DISABLE_STD_FUNCTION` before including Button2.
+
 ## Examples
 
 - [SingleButtonSimple.ino](https://github.com/LennartHennigs/Button2/blob/master/examples/SingleButtonSimple/SingleButtonSimple.ino) – the most basic example, shows how to assign event handlers

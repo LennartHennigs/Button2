@@ -7,6 +7,7 @@
 
 - Removed workaround file `main.cpp` to prevent compile warnings and undefined behavior in PlatformIO. The library now compiles correctly as a dependency in PlatformIO projects. [PR #83](https://github.com/LennartHennigs/Button2/issues/83)
 
+- Improved callback handler performance and compatibility by using `std::move` for `std::function` assignments on supported platforms (ESP32/ESP8266). Users can now force-enable or disable `std::function` support via macros. [PR #84](https://github.com/LennartHennigs/Button2/pull/84)
 
 ## [2.3.5] - 2025-05-01
 
