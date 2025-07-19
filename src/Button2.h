@@ -16,7 +16,7 @@
 
 #ifndef BUTTON2_HAS_STD_FUNCTION      // for user force enable std::function
 #ifndef BUTTON2_DISABLE_STD_FUNCTION  // for user force disable std::function
-#if __cplusplus >= 201103L
+#if __cplusplus >= 201103L && defined(ARDUINO_ARCH_ESP8266) && defined(ARDUINO_ARCH_ESP32)
 #include <functional>
 #include <utility>
 #define BUTTON2_HAS_STD_FUNCTION 1
