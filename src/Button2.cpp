@@ -140,6 +140,16 @@ void Button2::setLongClickHandler(CallbackFunction f) {
 
 void Button2::setLongClickDetectedRetriggerable(bool retriggerable) {
   longclick_retriggerable = retriggerable;
+  has_longclick_retrigger_ms = false;
+  longclick_retrigger_ms = 0;
+}
+
+/////////////////////////////////////////////////////////////////
+
+void Button2::setLongClickDetectedRetriggerable(bool retriggerable, unsigned int retrigger_ms) {
+  longclick_retriggerable = retriggerable;
+  has_longclick_retrigger_ms = true;
+  longclick_retrigger_ms = retrigger_ms;
 }
 
 /////////////////////////////////////////////////////////////////
@@ -398,7 +408,11 @@ void Button2::_checkForLongClick(long now) {
   if (longclick_reported) return;
 
   // has the longclick_ms period has been exceeded?
-  if (now - down_ms < (longclick_time_ms * (longclick_counter + 1))) return;
+  unsigned int threshold_ms =
+    has_longclick_retrigger_ms
+      ? longclick_time_ms + longclick_retrigger_ms * longclick_counter
+      : (longclick_time_ms * (longclick_counter + 1));
+  if (now - down_ms < threshold_ms) return;
   // report multiple?
 
   if (!longclick_retriggerable) {
