@@ -24,22 +24,21 @@ Button2::Button2() {
 /////////////////////////////////////////////////////////////////
 // constructor
 
-Button2::Button2(uint8_t attachTo, uint8_t buttonMode /* = INPUT_PULLUP */, bool activeLow /* = true */, Hardware *hardware /* = ArduinoHardware() */) {
-  begin(attachTo, buttonMode, activeLow, hardware);
+Button2::Button2(uint8_t attachTo, uint8_t buttonMode /* = INPUT_PULLUP */, bool activeLow /* = true */) {
+  begin(attachTo, buttonMode, activeLow);
   _setID();
 }
 
 /////////////////////////////////////////////////////////////////
 
-void Button2::begin(uint8_t attachTo, uint8_t buttonMode /* = INPUT_PULLUP */, bool activeLow /* = true */, Hardware *hardware /* = ArduinoHardware() */) {
-  hw = hardware;
+void Button2::begin(uint8_t attachTo, uint8_t buttonMode /* = INPUT_PULLUP */, bool activeLow /* = true */) {
   pin = attachTo;
   longclick_counter = 0;
   longclick_retriggerable = false;
   _pressedState = activeLow ? LOW : HIGH;
 
   if (attachTo != BTN_VIRTUAL_PIN) {
-    hw->pinMode(attachTo, buttonMode);
+    pinMode(attachTo, buttonMode);
   }
   //  state = activeLow ? HIGH : LOW;
   state = _getState();
@@ -224,8 +223,11 @@ bool Button2::wasPressed() const {
 void Button2::resetPressedState() {
   was_pressed = false;
   last_click_type = empty;
+  last_click_count = 0;
   click_count = 0;
   down_time_ms = 0;
+  click_ms = 0;
+  down_ms = 0;
   pressed_triggered = false;
   longclick_detected = false;
   longclick_reported = false;
@@ -424,7 +426,7 @@ void Button2::_reportClicks() {
   if (click_count == 0) return;
 
   last_click_count = click_count;
-  
+
   // single or long press
   if (click_count == 1) {
     // long press
@@ -479,7 +481,7 @@ uint8_t Button2::_getState() const {
   if (get_state_cb != NULL) {
     return get_state_cb();
   } else {
-    return hw->digitalRead(pin);
+    return digitalRead(pin);
   }
 }
 

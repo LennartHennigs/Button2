@@ -8,7 +8,36 @@
 
 ## Unreleased
 
-No changes yet.
+### Fixed
+
+- Fixed uninitialized member variables (`click_ms`, `down_ms`, `state`, `prev_state`) that could cause phantom button presses and incorrect click detection [Button2.h lines 69-76]
+- Fixed `resetPressedState()` to properly reset all timing variables (`click_ms`, `down_ms`, `last_click_count`) for complete state reset [Button2.cpp lines 223-235]
+- Fixed test initialization order bug where `setButtonStateFunction()` was called after `begin()`, causing phantom press/release transitions
+- Fixed compile_examples.sh: Removed unnecessary AUnit dependency from example compilation
+- Fixed compile_examples.sh: Corrected M5StackCore2CustomHandler exclusion logic - now properly runs on M5Stack platform
+- Fixed compile_examples.sh: Improved platformio.ini generation for M5Stack dependencies
+
+### Added
+
+- Added comprehensive test suite with 68 tests across 6 test suites:
+  - **test_basics** (6 tests): Initialization, configuration, default values
+  - **test_clicks** (12 tests): Click detection - single, double, triple, long
+  - **test_callbacks** (12 tests): All event handler callbacks
+  - **test_states** (19 tests): State management, queries, timing edge cases
+  - **test_configuration** (7 tests): Runtime settings and configuration
+  - **test_multiple** (12 tests): Multiple button interactions
+- Added test documentation in test/README.md and test/CLAUDE.md
+- Added EpoxyDuino-based native testing (no hardware required)
+
+### Changed
+
+- Improved test reliability through proper initialization order and state management
+- Updated documentation (CLAUDE.md) to reflect current testing approach using `setButtonStateFunction()`
+- Removed Hardware.h abstraction layer (replaced with simpler `setButtonStateFunction()` approach)
+
+### Removed
+
+- Removed unused Button2TestHelper utility class
 
 ## [2.4.0] - 2025-07-19
 

@@ -26,7 +26,22 @@
 
 #include <Arduino.h>
 
-#include "Hardware.h"
+// Define Arduino constants if not available (for testing environments)
+#ifndef INPUT
+#define INPUT 0x0
+#endif
+#ifndef OUTPUT
+#define OUTPUT 0x1
+#endif
+#ifndef INPUT_PULLUP
+#define INPUT_PULLUP 0x2
+#endif
+#ifndef HIGH
+#define HIGH 0x1
+#endif
+#ifndef LOW
+#define LOW 0x0
+#endif
 
 /////////////////////////////////////////////////////////////////
 
@@ -51,14 +66,14 @@ class Button2 {
  protected:
   int id;
   uint8_t pin;
-  uint8_t state;
-  uint8_t prev_state;
+  uint8_t state = HIGH;
+  uint8_t prev_state = HIGH;
   uint8_t click_count = 0;
   uint8_t last_click_count = 0;
   clickType last_click_type = empty;
   bool was_pressed = false;
-  unsigned long click_ms;
-  unsigned long down_ms;
+  unsigned long click_ms = 0;
+  unsigned long down_ms = 0;
 
   bool longclick_retriggerable;
   uint16_t longclick_counter = 0;
@@ -105,9 +120,9 @@ class Button2 {
 
  public:
   Button2();
-  Button2(uint8_t attachTo, uint8_t buttonMode = INPUT_PULLUP, bool activeLow = true, Hardware* hardware = new ArduinoHardware());
+  Button2(uint8_t attachTo, uint8_t buttonMode = INPUT_PULLUP, bool activeLow = true);
 
-  void begin(uint8_t attachTo, uint8_t buttonMode = INPUT_PULLUP, bool activeLow = true, Hardware* hardware = new ArduinoHardware());
+  void begin(uint8_t attachTo, uint8_t buttonMode = INPUT_PULLUP, bool activeLow = true);
 
   void setDebounceTime(unsigned int ms);
   void setLongClickTime(unsigned int ms);
@@ -167,7 +182,6 @@ class Button2 {
   static int _nextID;
   uint8_t _pressedState;
   uint8_t _getState() const;
-  Hardware* hw;
 
 };
 /////////////////////////////////////////////////////////////////
