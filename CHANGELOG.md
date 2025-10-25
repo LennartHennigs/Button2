@@ -2,14 +2,13 @@
 
 **Note:** Unreleased changes are checked in but not part of an official release (available through the Arduino IDE or PlatfomIO) yet. This allows you to test WiP features and give feedback to them.
 
-
 ## [2.4.1] - 2025-07-19
 
 - Improved detection and enabling of `std::function` support for callback handlers. Now uses C++11 check and excludes AVR platforms, providing broader compatibility for modern boards (ESP32, ESP8266, ARM, RP2040, etc.).
 
 ## Unreleased
 
-*nothing*
+No changes yet.
 
 ## [2.4.0] - 2025-07-19
 
@@ -36,7 +35,6 @@
 ## [2.3.2] - 2024-02-17
 
 - expanded condition to check for API version 2.0 (for UNO R4, RP2040, ...)
-
 
 ## [2.3.1] - 2024-01-02
 
