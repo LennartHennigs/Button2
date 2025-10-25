@@ -206,14 +206,34 @@ This behavior was confirmed in [issue #35](https://github.com/LennartHennigs/But
 - You can get a buttons' ID via `getID()`.
 - Alternatively, you can use `setID(int newID)` to set a new one. But then you need to make sure that they are unique.
 
-### Creating A Custom Button State Handler
+### Virtual Buttons and Custom State Handlers
 
-- Out of the box *Button2* supports regular hardware buttons.
-- If you want to add other button types you need to define your own function that tracks the state of the button.
-- Use `setButtonStateFunction()` to assign it to your *Button2* instance
-- Make the button pin 'VIRTUAL', i.e. by calling  `button.begin(VIRTUAL_PIN);`
-- And don't forget to initialize the button as this cannot be handled by *Button2*
-- See [ESP32CapacitiveTouch.ino](https://github.com/LennartHennigs/Button2/blob/master/examples/ESP32CapacitiveTouch/ESP32CapacitiveTouch.ino), [M5StackCore2CustomHandler.ino](https://github.com/LennartHennigs/Button2/blob/master/examples/M5StackCore2CustomHandler/M5StackCore2CustomHandler.ino), and [CustomButtonStateHandler.ino](https://github.com/LennartHennigs/Button2/blob/master/examples/CustomButtonStateHandler/CustomButtonStateHandler.ino) as examples.
+Button2 supports "virtual buttons" - buttons not directly connected to GPIO pins. This is useful for:
+
+- **I2C/SPI port expander buttons** (e.g., PCF8574, MCP23017)
+- **Capacitive touch sensors** (e.g., ESP32 touch pins, TTP223)
+- **Custom button sources** (e.g., M5Stack Core2 touch buttons)
+- **Any non-standard input** that can be read as a digital state
+
+#### Setup Requirements
+
+To use a virtual button, you need:
+
+1. **Use `BTN_VIRTUAL_PIN`** instead of a real pin number when calling `begin()`
+2. **Define a state handler function** that returns the current button state
+3. **Initialize your hardware** either manually or via the optional initialization callback parameter
+
+`begin()` accepts an optional initialization callback parameter. This is especially useful for virtual buttons that require hardware setup (I2C, SPI, touch sensors, etc.). The callback is invoked immediately by `begin()`, ensuring your hardware is ready before the button starts polling.
+
+#### Examples
+
+- [CustomButtonStateHandler.ino](https://github.com/LennartHennigs/Button2/blob/master/examples/CustomButtonStateHandler/CustomButtonStateHandler.ino) - Basic virtual button with initialization callback
+- [ESP32CapacitiveTouch.ino](https://github.com/LennartHennigs/Button2/blob/master/examples/ESP32CapacitiveTouch/ESP32CapacitiveTouch.ino) - ESP32 capacitive touch implementation
+- [M5StackCore2CustomHandler.ino](https://github.com/LennartHennigs/Button2/blob/master/examples/M5StackCore2CustomHandler/M5StackCore2CustomHandler.ino) - M5Stack Core2 touch buttons
+
+See [CustomButtonStateHandler.ino](https://github.com/LennartHennigs/Button2/blob/master/examples/CustomButtonStateHandler/CustomButtonStateHandler.ino) for a complete working example showing both the traditional manual initialization approach and the new callback-based approach.
+
+This feature was enhanced in [issue #69](https://github.com/LennartHennigs/Button2/issues/69) to support initialization callbacks.
 
 
 ## Callback Handler Support and Compatibility

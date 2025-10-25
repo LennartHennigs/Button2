@@ -70,11 +70,13 @@ class Button2 {
 #ifdef BUTTON2_HAS_STD_FUNCTION
   typedef std::function<void(Button2 &btn)> CallbackFunction;
   typedef std::function<uint8_t()> StateCallbackFunction;
+  typedef std::function<void()> InitCallbackFunction;
   #define BUTTON2_MOVE(v) std::move(v)
   #define BUTTON2_NULL nullptr
 #else
   typedef void (*CallbackFunction)(Button2 &);
   typedef uint8_t (*StateCallbackFunction)();
+  typedef void (*InitCallbackFunction)();
   #define BUTTON2_MOVE
   #define BUTTON2_NULL NULL
 #endif
@@ -136,7 +138,7 @@ class Button2 {
   Button2();
   Button2(uint8_t attachTo, uint8_t buttonMode = INPUT_PULLUP, bool activeLow = true);
 
-  void begin(uint8_t attachTo, uint8_t buttonMode = INPUT_PULLUP, bool activeLow = true);
+  void begin(uint8_t attachTo, uint8_t buttonMode = INPUT_PULLUP, bool activeLow = true, InitCallbackFunction initCallback = BUTTON2_NULL);
 
   void setDebounceTime(unsigned int ms);
   void setLongClickTime(unsigned int ms);

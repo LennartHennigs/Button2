@@ -31,11 +31,16 @@ Button2::Button2(uint8_t attachTo, uint8_t buttonMode /* = INPUT_PULLUP */, bool
 
 /////////////////////////////////////////////////////////////////
 
-void Button2::begin(uint8_t attachTo, uint8_t buttonMode /* = INPUT_PULLUP */, bool activeLow /* = true */) {
+void Button2::begin(uint8_t attachTo, uint8_t buttonMode /* = INPUT_PULLUP */, bool activeLow /* = true */, InitCallbackFunction initCallback /* = BUTTON2_NULL */) {
   pin = attachTo;
   longclick_counter = 0;
   longclick_retriggerable = false;
   _pressedState = activeLow ? LOW : HIGH;
+
+  // Call initialization callback if provided (useful for I2C/SPI expanders, touch sensors, etc.)
+  if (initCallback != BUTTON2_NULL) {
+    initCallback();
+  }
 
   if (attachTo != BTN_VIRTUAL_PIN) {
     pinMode(attachTo, buttonMode);

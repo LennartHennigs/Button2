@@ -18,6 +18,7 @@
 
 ### Added
 
+- **Issue #69**: Added optional initialization callback parameter to `begin()` method for virtual buttons. This allows hardware initialization (I2C/SPI expanders, touch sensors, etc.) to be encapsulated within the button setup. The callback is invoked immediately when `begin()` is called, ensuring hardware is ready before button polling starts. Example: `button.begin(BTN_VIRTUAL_PIN, INPUT, true, initCallback);` [Button2.h:141, Button2.cpp:34-43]
 - Added comprehensive test suite with 68 tests across 6 test suites:
   - **test_basics** (6 tests): Initialization, configuration, default values
   - **test_clicks** (12 tests): Click detection - single, double, triple, long
