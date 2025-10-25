@@ -95,7 +95,7 @@ void Button2::setButtonStateFunction(StateCallbackFunction f) {
 
 /////////////////////////////////////////////////////////////////
 
-bool Button2::operator==(Button2 &rhs) {
+bool Button2::operator==(const Button2 &rhs) const {
   return (this == &rhs);
 }
 
@@ -203,7 +203,7 @@ void Button2::setID(int newID) {
 
 /////////////////////////////////////////////////////////////////
 
-String Button2::clickToString(clickType type) const {
+const char* Button2::clickToString(clickType type) const {
   if (type == single_click) return "single click";
   if (type == double_click) return "double click";
   if (type == triple_click) return "triple click";
@@ -222,7 +222,7 @@ bool Button2::wasPressed() const {
 
 void Button2::resetPressedState() {
   was_pressed = false;
-  last_click_type = empty;
+  last_click_type = clickType::empty;
   last_click_count = 0;
   click_count = 0;
   down_time_ms = 0;
@@ -309,22 +309,45 @@ void Button2::reset() {
 
   resetPressedState();
 
-  pressed_cb = NULL;
-  released_cb = NULL;
-  change_cb = NULL;
-  tap_cb = NULL;
-  click_cb = NULL;
-  long_cb = NULL;
-  longclick_detected_cb = NULL;
-  double_cb = NULL;
-  triple_cb = NULL;
+  pressed_cb = BUTTON2_NULL;
+  released_cb = BUTTON2_NULL;
+  change_cb = BUTTON2_NULL;
+  tap_cb = BUTTON2_NULL;
+  click_cb = BUTTON2_NULL;
+  long_cb = BUTTON2_NULL;
+  longclick_detected_cb = BUTTON2_NULL;
+  double_cb = BUTTON2_NULL;
+  triple_cb = BUTTON2_NULL;
 }
 
 /////////////////////////////////////////////////////////////////
 
+// IMPORTANT: This function must be called regularly for the button library to work.
+// Recommended call frequency: Every 1-10ms for optimal responsiveness and timing accuracy.
+//
+// Timing accuracy considerations:
+// - Debouncing depends on precise timing measurements
+// - Multi-click detection relies on timeout windows
+// - Long press detection requires continuous monitoring
+//
+// If loop() is not called frequently enough:
+// - Debouncing may not work correctly (missed bounces)
+// - Double/triple click detection may fail (missed clicks)
+// - Long press timing will be less accurate
+//
+// Example good practice:
+//   void loop() {
+//     button.loop();  // Call early and often
+//     // ... other non-blocking code
+//   }
+//
+// Avoid:
+//   - Long delay() calls between loop() invocations
+//   - Blocking operations that prevent regular calling
+//   - Calling less frequently than ~10ms
 void Button2::loop() {
   if (pin == BTN_UNDEFINED_PIN) return;
-  
+
   prev_state = state;
   state = _getState();
 
@@ -343,14 +366,20 @@ void Button2::_handlePress(long now) {
     _pressedNow(now);
     return;
   }
-  // is it pressed for a while?
+
+  // Debouncing strategy: Wait for button to be pressed continuously
+  // for debounce_time_ms BEFORE triggering the press event.
+  // This filters out mechanical bounce on the press edge.
   if (!pressed_triggered) {
     if (now - down_ms >= debounce_time_ms) {
       pressed_triggered = true;
       _validKeypress();
     }
   }
-  // only check for long press on the first click
+
+  // Long press detection: Only check on the first click to avoid ambiguity
+  // between multi-click sequences and long press detection.
+  // See _checkForLongClick() for details.
   if (click_count == 1) {
     _checkForLongClick(now);
   }
@@ -389,20 +418,26 @@ void Button2::_pressedNow(long now) {
 
 void Button2::_validKeypress() {
   click_count++;
-  if (change_cb != NULL) change_cb(*this);
-  if (pressed_cb != NULL) pressed_cb(*this);
+  if (change_cb != BUTTON2_NULL) change_cb(*this);
+  if (pressed_cb != BUTTON2_NULL) pressed_cb(*this);
 }
 
 /////////////////////////////////////////////////////////////////
 
 void Button2::_checkForLongClick(long now) {
-  if (longclick_detected_cb == NULL) return;
+  if (longclick_detected_cb == BUTTON2_NULL) return;
   if (longclick_reported) return;
 
-  // has the longclick_ms period has been exceeded?
-  if (now - down_ms < (longclick_time_ms * (longclick_counter + 1))) return;
-  // report multiple?
+  // Long click detection timing calculation
+  // Cast to unsigned long to prevent overflow on AVR (16-bit unsigned int)
+  // Note: This function is only called when click_count == 1 (see _handlePress).
+  // This design choice prevents ambiguity between multi-click sequences and long press.
+  // For example, during a double-click attempt, if the first click is held too long,
+  // it becomes a long click and the sequence ends. Subsequent clicks in a multi-click
+  // sequence do NOT trigger long click detection.
+  if (now - down_ms < ((unsigned long)longclick_time_ms * (longclick_counter + 1))) return;
 
+  // Handle retriggerable long clicks (for continuous long press detection)
   if (!longclick_retriggerable) {
     longclick_reported = true;
   }
@@ -432,23 +467,23 @@ void Button2::_reportClicks() {
     // long press
     if (longclick_detected) {
       last_click_type = long_click;
-      if (long_cb != NULL) long_cb(*this);
+      if (long_cb != BUTTON2_NULL) long_cb(*this);
       longclick_counter = 0;
     // single click
     } else {
       last_click_type = single_click;
-      if (click_cb != NULL) click_cb (*this);
+      if (click_cb != BUTTON2_NULL) click_cb (*this);
     }
 
   // double click
   } else if (click_count == 2) {
       last_click_type = double_click;
-      if (double_cb != NULL) double_cb(*this);
+      if (double_cb != BUTTON2_NULL) double_cb(*this);
 
   // triple or x-clicks
   } else {
       last_click_type = triple_click;
-      if (triple_cb != NULL) triple_cb(*this);
+      if (triple_cb != BUTTON2_NULL) triple_cb(*this);
   }
 
   was_pressed = true;
@@ -462,13 +497,19 @@ void Button2::_reportClicks() {
 
 void Button2::_releasedNow(long now) {
   down_time_ms = now - down_ms;
-  // is it beyond debounce time?
+
+  // Debouncing strategy (release edge): Reject presses that were
+  // shorter than debounce_time_ms. This filters out mechanical bounce
+  // on the release edge. Note: This is checked AFTER the release, whereas
+  // the press debounce is checked BEFORE the press event is triggered.
+  // This asymmetric approach provides robust debouncing on both edges.
   if (down_time_ms < debounce_time_ms) return;
+
   // trigger release
-  if (change_cb != NULL) change_cb(*this);
-  if (released_cb != NULL) released_cb(*this);
+  if (change_cb != BUTTON2_NULL) change_cb(*this);
+  if (released_cb != BUTTON2_NULL) released_cb(*this);
   // trigger tap
-  if (tap_cb != NULL) tap_cb(*this);
+  if (tap_cb != BUTTON2_NULL) tap_cb(*this);
   // was it a longclick? (precedes single / double / triple clicks)
   if (down_time_ms >= longclick_time_ms) {
     longclick_detected = true;
@@ -478,7 +519,7 @@ void Button2::_releasedNow(long now) {
 /////////////////////////////////////////////////////////////////
 
 uint8_t Button2::_getState() const {
-  if (get_state_cb != NULL) {
+  if (get_state_cb != BUTTON2_NULL) {
     return get_state_cb();
   } else {
     return digitalRead(pin);

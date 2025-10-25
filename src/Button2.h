@@ -64,50 +64,64 @@ enum clickType {
 
 class Button2 {
  protected:
-  int id;
-  uint8_t pin;
-  uint8_t state = HIGH;
-  uint8_t prev_state = HIGH;
-  uint8_t click_count = 0;
-  uint8_t last_click_count = 0;
-  clickType last_click_type = empty;
-  bool was_pressed = false;
-  unsigned long click_ms = 0;
-  unsigned long down_ms = 0;
-
-  bool longclick_retriggerable;
-  uint16_t longclick_counter = 0;
-  bool longclick_detected = false;
-  bool longclick_reported = false;
-
-  unsigned int debounce_time_ms = BTN_DEBOUNCE_MS;
-  unsigned int longclick_time_ms = BTN_LONGCLICK_MS;
-  unsigned int doubleclick_time_ms = BTN_DOUBLECLICK_MS;
-
-  unsigned int down_time_ms = 0;
-  bool pressed_triggered = false;
+  // Memory layout optimized for minimal padding
+  // Ordered by size: pointers/callbacks first, then long, int, uint16_t, uint8_t, bool
 
 #ifdef BUTTON2_HAS_STD_FUNCTION
   typedef std::function<void(Button2 &btn)> CallbackFunction;
   typedef std::function<uint8_t()> StateCallbackFunction;
   #define BUTTON2_MOVE(v) std::move(v)
+  #define BUTTON2_NULL nullptr
 #else
   typedef void (*CallbackFunction)(Button2 &);
   typedef uint8_t (*StateCallbackFunction)();
   #define BUTTON2_MOVE
+  #define BUTTON2_NULL NULL
 #endif
 
-  StateCallbackFunction get_state_cb = NULL;
+  // Function pointers (largest members on most platforms)
+  StateCallbackFunction get_state_cb = BUTTON2_NULL;
+  CallbackFunction pressed_cb = BUTTON2_NULL;
+  CallbackFunction released_cb = BUTTON2_NULL;
+  CallbackFunction change_cb = BUTTON2_NULL;
+  CallbackFunction tap_cb = BUTTON2_NULL;
+  CallbackFunction click_cb = BUTTON2_NULL;
+  CallbackFunction long_cb = BUTTON2_NULL;
+  CallbackFunction longclick_detected_cb = BUTTON2_NULL;
+  CallbackFunction double_cb = BUTTON2_NULL;
+  CallbackFunction triple_cb = BUTTON2_NULL;
 
-  CallbackFunction pressed_cb = NULL;
-  CallbackFunction released_cb = NULL;
-  CallbackFunction change_cb = NULL;
-  CallbackFunction tap_cb = NULL;
-  CallbackFunction click_cb = NULL;
-  CallbackFunction long_cb = NULL;
-  CallbackFunction longclick_detected_cb = NULL;
-  CallbackFunction double_cb = NULL;
-  CallbackFunction triple_cb = NULL;
+  // unsigned long (4 bytes on most platforms)
+  unsigned long click_ms = 0;
+  unsigned long down_ms = 0;
+
+  // unsigned int / uint16_t (2 bytes)
+  unsigned int debounce_time_ms = BTN_DEBOUNCE_MS;
+  unsigned int longclick_time_ms = BTN_LONGCLICK_MS;
+  unsigned int doubleclick_time_ms = BTN_DOUBLECLICK_MS;
+  unsigned int down_time_ms = 0;
+  uint16_t longclick_counter = 0;
+
+  // int (2-4 bytes depending on platform)
+  int id;
+
+  // uint8_t (1 byte each)
+  uint8_t pin;
+  uint8_t state = HIGH;
+  uint8_t prev_state = HIGH;
+  uint8_t click_count = 0;
+  uint8_t last_click_count = 0;
+  uint8_t _pressedState;
+
+  // clickType (typically 1 byte enum)
+  clickType last_click_type = clickType::empty;
+
+  // bool (1 byte each, grouped at end)
+  bool was_pressed = false;
+  bool longclick_retriggerable;
+  bool longclick_detected = false;
+  bool longclick_reported = false;
+  bool pressed_triggered = false;
 
   void _handlePress(long now);
   void _handleRelease(long now);
@@ -169,18 +183,17 @@ class Button2 {
   uint8_t getLongClickCount() const;
 
   clickType getType() const;
-  String clickToString(clickType type) const;
+  const char* clickToString(clickType type) const;
 
   int getID() const;
   void setID(int newID);
 
-  bool operator==(Button2 &rhs);
+  bool operator==(const Button2 &rhs) const;
 
   void loop();
 
  private:
   static int _nextID;
-  uint8_t _pressedState;
   uint8_t _getState() const;
 
 };

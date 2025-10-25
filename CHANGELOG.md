@@ -2,20 +2,19 @@
 
 **Note:** Unreleased changes are checked in but not part of an official release (available through the Arduino IDE or PlatfomIO) yet. This allows you to test WiP features and give feedback to them.
 
-## [2.4.1] - 2025-07-19
-
-- Improved detection and enabling of `std::function` support for callback handlers. Now uses C++11 check and excludes AVR platforms, providing broader compatibility for modern boards (ESP32, ESP8266, ARM, RP2040, etc.).
-
 ## Unreleased
 
 ### Fixed
 
+- **CRITICAL**: Fixed integer overflow in long click counter calculation on AVR platforms (Arduino Nano/Uno). The multiplication `longclick_time_ms * (longclick_counter + 1)` now uses proper casting to prevent 16-bit overflow [Button2.cpp:415]
+- **Issue #82**: Fixed ambiguous reference to `empty` enum value when compiling with libraries that use `using namespace std;`. The library now uses qualified references (`clickType::empty`) internally to avoid conflicts with `std::empty()` from C++17 standard library. This fix maintains 100% backward compatibility - user code does not need to change. [Button2.h:117, Button2.cpp:225]
 - Fixed uninitialized member variables (`click_ms`, `down_ms`, `state`, `prev_state`) that could cause phantom button presses and incorrect click detection [Button2.h lines 69-76]
 - Fixed `resetPressedState()` to properly reset all timing variables (`click_ms`, `down_ms`, `last_click_count`) for complete state reset [Button2.cpp lines 223-235]
 - Fixed test initialization order bug where `setButtonStateFunction()` was called after `begin()`, causing phantom press/release transitions
 - Fixed compile_examples.sh: Removed unnecessary AUnit dependency from example compilation
 - Fixed compile_examples.sh: Corrected M5StackCore2CustomHandler exclusion logic - now properly runs on M5Stack platform
 - Fixed compile_examples.sh: Improved platformio.ini generation for M5Stack dependencies
+- Fixed `operator==` const correctness - now properly uses `const Button2&` parameter and `const` method qualifier [Button2.h:177, Button2.cpp:98]
 
 ### Added
 
@@ -28,9 +27,16 @@
   - **test_multiple** (12 tests): Multiple button interactions
 - Added test documentation in test/README.md and test/CLAUDE.md
 - Added EpoxyDuino-based native testing (no hardware required)
+- Added extensive inline documentation explaining:
+  - Asymmetric debouncing strategy (press vs release edge handling)
+  - Long click detection design (only on first click to avoid multi-click ambiguity)
+  - Critical importance of calling `loop()` regularly (recommended 1-10ms frequency)
 
 ### Changed
 
+- **OPTIMIZATION**: Reordered struct members for better memory packing, reducing padding overhead on 32-bit platforms [Button2.h:66-122]
+- **PERFORMANCE**: Changed `clickToString()` to return `const char*` instead of `String` to avoid heap allocation and fragmentation on low-memory devices [Button2.h:172, Button2.cpp:206]
+- **CODE QUALITY**: Replaced NULL with BUTTON2_NULL macro (nullptr on C++11+, NULL on AVR) for consistent modern C++ practices while maintaining Arduino compatibility
 - Improved test reliability through proper initialization order and state management
 - Updated documentation (CLAUDE.md) to reflect current testing approach using `setButtonStateFunction()`
 - Removed Hardware.h abstraction layer (replaced with simpler `setButtonStateFunction()` approach)
@@ -38,6 +44,11 @@
 ### Removed
 
 - Removed unused Button2TestHelper utility class
+
+
+## [2.4.1] - 2025-07-19
+
+- Improved detection and enabling of `std::function` support for callback handlers. Now uses C++11 check and excludes AVR platforms, providing broader compatibility for modern boards (ESP32, ESP8266, ARM, RP2040, etc.).
 
 ## [2.4.0] - 2025-07-19
 

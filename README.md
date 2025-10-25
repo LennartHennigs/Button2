@@ -145,12 +145,26 @@ If you don't want to use callback there are also functions available for using i
 
 ```c++
     enum clickType {
-      single_click, 
-      double_click, 
-      triple_click, 
+      single_click,
+      double_click,
+      triple_click,
       long_click,
       empty
     };
+```
+
+- **Note:** When using the `empty` enum value in your code, it's recommended to use the scoped syntax `clickType::empty` to avoid potential naming conflicts with other libraries (particularly when using libraries that do `using namespace std;` which imports `std::empty()` from the C++17 standard library).
+
+```c++
+// Recommended - explicit scope avoids ambiguity
+if (button.getType() == clickType::empty) {
+  // handle no click
+}
+
+// Also works, but may cause compilation errors with some library combinations
+if (button.getType() == empty) {
+  // handle no click
+}
 ```
 
 - There are also dedicated waits (`waitForClick()`, `waitForDouble()`, `waitForTriple()` and `waitForLong()`) to detect a specific type
