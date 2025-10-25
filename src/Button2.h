@@ -61,12 +61,14 @@ class Button2 {
   unsigned long down_ms;
 
   bool longclick_retriggerable;
+  bool has_longclick_retrigger_ms = false;
   uint16_t longclick_counter = 0;
   bool longclick_detected = false;
   bool longclick_reported = false;
 
   unsigned int debounce_time_ms = BTN_DEBOUNCE_MS;
   unsigned int longclick_time_ms = BTN_LONGCLICK_MS;
+  unsigned int longclick_retrigger_ms = 0;
   unsigned int doubleclick_time_ms = BTN_DOUBLECLICK_MS;
 
   unsigned int down_time_ms = 0;
@@ -135,6 +137,7 @@ class Button2 {
   void setLongClickDetectedHandler(CallbackFunction f);
 
   void setLongClickDetectedRetriggerable(bool retriggerable);
+  void setLongClickDetectedRetriggerable(bool retriggerable, unsigned int retrigger_ms);
 
   unsigned int wasPressedFor() const;
   bool isPressed() const;
