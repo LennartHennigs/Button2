@@ -48,7 +48,7 @@
 
 ## [2.4.1] - 2025-07-19
 
-- Improved detection and enabling of `std::function` support for callback handlers. Now uses C++11 check and excludes AVR platforms, providing broader compatibility for modern boards (ESP32, ESP8266, ARM, RP2040, etc.).
+- **Issue #58**: Improved detection and enabling of `std::function` support for callback handlers. Switched from platform-specific checks to language-version-based detection (`__cplusplus >= 201103L`), excluding AVR platforms. This provides broader compatibility for modern boards including ESP32, ESP8266, Teensy, ARM, RP2040, SAMD, STM32, and other C++11+ platforms.
 
 ## [2.4.0] - 2025-07-19
 

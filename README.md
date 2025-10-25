@@ -222,13 +222,35 @@ Button2 uses callback handlers for button events. On platforms that support C++1
 
 On platforms that do not support `std::function` (such as AVR/Arduino Uno), Button2 falls back to using regular function pointers for handlers.
 
-### Forcing or Disabling `std::function` Support
+### `std::function` Support
 
-You can force-enable or disable `std::function` support by defining the following macros before including Button2:
+Button2 automatically detects and enables `std::function` support on platforms with C++11 or later, **except AVR** (Arduino Uno, Nano, Mega).
 
-- To force-enable:  
+**Supported platforms**:
+
+- ESP32 (all variants)
+- ESP8266
+- Teensy
+- Raspberry Pi Pico (RP2040)
+- SAMD (Arduino Zero, MKR series)
+- STM32
+- nRF52
+- Other C++11+ platforms with STL support
+
+**Not supported**:
+
+- AVR (Arduino Uno, Nano, Mega) - uses function pointers instead
+
+The library automatically detects support using `#if __cplusplus >= 201103L && !defined(__AVR__)`.
+This improvement was implemented in response to [issue #58](https://github.com/LennartHennigs/Button2/issues/58).
+
+#### Forcing or Disabling `std::function` Support
+
+You can override the automatic detection by defining these macros before including Button2:
+
+- To force-enable:
   `#define BUTTON2_HAS_STD_FUNCTION`
-- To force-disable:  
+- To force-disable:
   `#define BUTTON2_DISABLE_STD_FUNCTION`
 
 This is useful if you are using a custom toolchain or want to override the default detection logic.
@@ -237,7 +259,7 @@ This is useful if you are using a custom toolchain or want to override the defau
 
 ## Troubleshooting
 
-- If you see errors about `<functional>` not being found, your platform does not support `std::function`. Either use a supported board (ESP32/ESP8266) or force-disable with `#define BUTTON2_DISABLE_STD_FUNCTION` before including Button2.
+- If you see errors about `<functional>` not being found, your platform does not have C++11 STL support. Supported platforms include ESP32, ESP8266, Teensy, RP2040, SAMD, STM32, and other modern boards. AVR boards (Uno, Nano, Mega) automatically use function pointers instead. You can force-disable with `#define BUTTON2_DISABLE_STD_FUNCTION` before including Button2.
 
 ## Examples
 
