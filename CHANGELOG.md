@@ -19,6 +19,7 @@
 ### Added
 
 - **Issue #69**: Added optional initialization callback parameter to `begin()` method for virtual buttons. This allows hardware initialization (I2C/SPI expanders, touch sensors, etc.) to be encapsulated within the button setup. The callback is invoked immediately when `begin()` is called, ensuring hardware is ready before button polling starts. Example: `button.begin(BTN_VIRTUAL_PIN, INPUT, true, initCallback);` [Button2.h:141, Button2.cpp:34-43]
+- **Issue #70**: Added `I2CPortExpanderButtons.ino` example demonstrating the efficient caching pattern for multiple buttons on I2C port expanders (PCF8574, MCP23017). The example shows how to read the entire port once per loop cycle and use bit masking in state handlers, reducing I2C bus traffic from N transactions to just 1 per cycle. This pattern scales efficiently to 8+ buttons while minimizing I2C overhead.
 - Added comprehensive test suite with 68 tests across 6 test suites:
   - **test_basics** (6 tests): Initialization, configuration, default values
   - **test_clicks** (12 tests): Click detection - single, double, triple, long

@@ -225,13 +225,18 @@ To use a virtual button, you need:
 
 `begin()` accepts an optional initialization callback parameter. This is especially useful for virtual buttons that require hardware setup (I2C, SPI, touch sensors, etc.). The callback is invoked immediately by `begin()`, ensuring your hardware is ready before the button starts polling.
 
+#### Efficient Pattern for Multiple I2C Buttons
+
+**Important:** When using multiple buttons on an I2C port expander (PCF8574, MCP23017, etc.), read the entire port **once per loop cycle** and cache the value. Each button's state handler then reads from the cache using bit masking. This minimizes I2C bus traffic from N transactions per cycle to just 1.
+
+See [I2CPortExpanderButtons.ino](https://github.com/LennartHennigs/Button2/blob/master/examples/I2CPortExpanderButtons/I2CPortExpanderButtons.ino) for a complete example showing this efficient caching pattern ([issue #70](https://github.com/LennartHennigs/Button2/issues/70)).
+
 #### Examples
 
+- [I2CPortExpanderButtons.ino](https://github.com/LennartHennigs/Button2/blob/master/examples/I2CPortExpanderButtons/I2CPortExpanderButtons.ino) - **Multiple buttons on I2C expander with efficient caching**
 - [CustomButtonStateHandler.ino](https://github.com/LennartHennigs/Button2/blob/master/examples/CustomButtonStateHandler/CustomButtonStateHandler.ino) - Basic virtual button with initialization callback
 - [ESP32CapacitiveTouch.ino](https://github.com/LennartHennigs/Button2/blob/master/examples/ESP32CapacitiveTouch/ESP32CapacitiveTouch.ino) - ESP32 capacitive touch implementation
 - [M5StackCore2CustomHandler.ino](https://github.com/LennartHennigs/Button2/blob/master/examples/M5StackCore2CustomHandler/M5StackCore2CustomHandler.ino) - M5Stack Core2 touch buttons
-
-See [CustomButtonStateHandler.ino](https://github.com/LennartHennigs/Button2/blob/master/examples/CustomButtonStateHandler/CustomButtonStateHandler.ino) for a complete working example showing both the traditional manual initialization approach and the new callback-based approach.
 
 This feature was enhanced in [issue #69](https://github.com/LennartHennigs/Button2/issues/69) to support initialization callbacks.
 
@@ -290,6 +295,7 @@ This is useful if you are using a custom toolchain or want to override the defau
 - [MultiHandler.ino](https://github.com/LennartHennigs/Button2/blob/master/examples/MultiHandler/MultiHandler.ino) – how to use a single handler for multiple events
 - [MultiHandlerTwoButtons.ino](https://github.com/LennartHennigs/Button2/blob/master/examples/MultiHandlerTwoButtons/MultiHandlerTwoButtons.ino) – a single handler for multiple buttons
 - [TrackDualButtonClick.ino](https://github.com/LennartHennigs/Button2/blob/master/examples/TrackDualButtonClick/TrackDualButtonClick.ino) – how to detect when two buttons are clicked at the same time
+- [I2CPortExpanderButtons.ino](https://github.com/LennartHennigs/Button2/blob/master/examples/I2CPortExpanderButtons/I2CPortExpanderButtons.ino) – efficient pattern for multiple buttons on I2C port expanders (PCF8574, MCP23017)
 - [CustomButtonStateHandler.ino](https://github.com/LennartHennigs/Button2/blob/master/examples/CustomButtonStateHandler/CustomButtonStateHandler.ino) - how to assign your own button handler
 - [ESP32CapacitiveTouch.ino](https://github.com/LennartHennigs/Button2/blob/master/examples/ESP32CapacitiveTouch/ESP32CapacitiveTouch.ino) – how to access the ESP32s capacitive touch handlers
 - [M5StackCore2CustomHandler.ino](https://github.com/LennartHennigs/Button2/blob/master/examples/M5StackCore2CustomHandler/M5StackCore2CustomHandler.ino) - example for the M5Stack Core2 touch buttons
