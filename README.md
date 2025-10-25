@@ -185,6 +185,21 @@ bool isPressedRaw() const;
 bool wasPressed() const;
 ```
 
+#### wasPressedFor() - Press Duration
+
+Returns the duration (in milliseconds) that the button was held down during the most recent press.
+
+**Important**: For multi-click scenarios (double/triple clicks), this returns the duration of the **most recent click only**, not the cumulative time across all clicks.
+
+**Examples**:
+
+- Single click held for 500ms → `wasPressedFor()` returns `500`
+- Long click held for 1200ms → `wasPressedFor()` returns `1200`
+- Double click (1st press: 50ms, 2nd press: 80ms) → `wasPressedFor()` returns `80`
+- Triple click (1st: 40ms, 2nd: 60ms, 3rd: 70ms) → `wasPressedFor()` returns `70`
+
+This behavior was confirmed in [issue #35](https://github.com/LennartHennigs/Button2/issues/35).
+
 ### IDs for Button Instances
 
 - Each button instance gets a unique (auto incremented) ID upon creation.
