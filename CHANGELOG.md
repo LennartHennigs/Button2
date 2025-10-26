@@ -24,13 +24,13 @@ This release focuses on code quality improvements, bug fixes, comprehensive test
 
 - **Issue #69**: Added optional initialization callback parameter to `begin()` method for virtual buttons. This allows hardware initialization (I2C/SPI expanders, touch sensors, etc.) to be encapsulated within the button setup. The callback is invoked immediately when `begin()` is called, ensuring hardware is ready before button polling starts. Example: `button.begin(BTN_VIRTUAL_PIN, INPUT, true, initCallback);` [Button2.h:141, Button2.cpp:34-43]
 - **Issue #70**: Added `I2CPortExpanderButtons.ino` example demonstrating the efficient caching pattern for multiple buttons on I2C port expanders (PCF8574, MCP23017). The example shows how to read the entire port once per loop cycle and use bit masking in state handlers, reducing I2C bus traffic from N transactions to just 1 per cycle. This pattern scales efficiently to 8+ buttons while minimizing I2C overhead
-- **Comprehensive Test Suite**: Added 68 tests across 6 test suites using AUnit framework:
-  - **test_basics** (6 tests): Initialization, configuration, default values
-  - **test_clicks** (12 tests): Click detection - single, double, triple, long
+- **Comprehensive Test Suite**: Added 70 tests across 6 test suites using AUnit framework:
+  - **test_basics** (10 tests): Initialization, configuration, default values, init callback
+  - **test_clicks** (11 tests): Click detection - single, double, triple, long
   - **test_callbacks** (12 tests): All event handler callbacks
   - **test_states** (19 tests): State management, queries, timing edge cases
   - **test_configuration** (7 tests): Runtime settings and configuration
-  - **test_multiple** (12 tests): Multiple button interactions
+  - **test_multiple** (11 tests): Multiple button interactions
 - Added EpoxyDuino-based native testing (no hardware required) - tests run on host machine emulating ESP8266/ESP32
 - Added automated compilation testing script (`test/compile_examples.sh`) that tests all examples across multiple platforms (ESP8266, ESP32, AVR)
 - Added comprehensive test documentation in `test/README.md` and `test/CLAUDE.md`
@@ -48,6 +48,7 @@ This release focuses on code quality improvements, bug fixes, comprehensive test
 - **CODE QUALITY**: Replaced NULL with BUTTON2_NULL macro (nullptr on C++11+, NULL on AVR) for consistent modern C++ practices while maintaining Arduino compatibility
 - **Breaking Change (Minor)**: Return type of `clickToString()` changed from `String` to `const char*` - most code will work unchanged, but assignments to `String` variables may need explicit casting
 - Improved test reliability through proper initialization order and state management
+- **TEST PERFORMANCE**: Reduced setup delays in all test suites from 1000ms to 100ms, improving native test execution time by ~5 seconds and reducing intermittent timeouts
 - Enhanced README.md with:
   - Virtual buttons and custom state handlers section
   - Efficient pattern for multiple I2C buttons with caching example
@@ -67,7 +68,6 @@ This release focuses on code quality improvements, bug fixes, comprehensive test
 - Documented std::function support now works on all C++11+ platforms except AVR [Issue #58]
 - Added comprehensive virtual button documentation with I2C port expander examples
 - Added notes about `clickType::empty` scoped syntax to avoid naming conflicts [Issue #82]
-
 
 ## [2.4.1] - 2025-07-19
 

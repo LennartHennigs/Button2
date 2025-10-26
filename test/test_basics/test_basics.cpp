@@ -118,7 +118,7 @@ test(defaults, pin) {
 
 test(other, to_string) {
   Button2 button = createTestButton();
-  
+
   assertStringCaseEqual(button.clickToString(clickType::single_click), String("single click"));
   assertStringCaseEqual(button.clickToString(clickType::double_click), String("double click"));
   assertStringCaseEqual(button.clickToString(clickType::triple_click), String("triple click"));
@@ -126,12 +126,64 @@ test(other, to_string) {
 }
 
 /////////////////////////////////////////////////////////////////
+// INIT CALLBACK TESTS (Issue #69)
+/////////////////////////////////////////////////////////////////
+
+// Global flag to track if init callback was called
+bool initCallbackCalled = false;
+
+void testInitCallback() {
+  initCallbackCalled = true;
+}
+
+test(init_callback, callback_is_called) {
+  // Reset flag
+  initCallbackCalled = false;
+
+  // Create button with init callback
+  Button2 button = createTestButton(); // Use helper to avoid pin issues
+
+  // Re-init with callback
+  button.begin(BUTTON_PIN, BUTTON_MODE, BUTTON_ACTIVE == LOW, testInitCallback);
+
+  // Verify callback was called
+  assertTrue(initCallbackCalled);
+}
+
+/////////////////////////////////////////////////////////////////
+
+test(init_callback, callback_not_required) {
+  // Test backward compatibility - begin() works without callback
+  Button2 button = createTestButton();
+
+  // Button should be functional
+  assertEqual(button.getPin(), BUTTON_PIN);
+}
+
+/////////////////////////////////////////////////////////////////
+
+test(init_callback, lambda_callback) {
+  bool lambdaCalled = false;
+
+  // Create button with lambda callback
+  Button2 button = createTestButton();
+
+  // Re-init with lambda
+  button.begin(BUTTON_PIN, BUTTON_MODE, BUTTON_ACTIVE == LOW, [&lambdaCalled]() {
+    lambdaCalled = true;
+  });
+
+  // Verify lambda was called
+  assertTrue(lambdaCalled);
+}
+
+/////////////////////////////////////////////////////////////////
 
 void setup() {
   setup_test_runner();
 
-  // setup serial
-  delay(1000);
+  // setup serial (reduced delay for faster native testing)
+  delay(100);
   Serial.begin(SERIAL_SPEED);
   while(!Serial) {}
   Serial.println(F("\n\nButton2 Basic Functionality Tests"));

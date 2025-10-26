@@ -512,7 +512,8 @@ test(timing, slow_clicks_become_separate) {
 void setup() {
   setup_test_runner();
 
-  delay(1000);
+  // Reduced delay for faster native testing (was 1000ms)
+  delay(100);
   Serial.begin(SERIAL_SPEED);
   while(!Serial) {}
   Serial.println(F("\n\nButton2 State Management & Timing Tests"));

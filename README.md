@@ -79,7 +79,7 @@ If you don't want to use callback there are also functions available for using i
 - There are two possible callback functions: `setLongClickDetectedHandler()` and `setLongClickHandler()`.
 - `setLongClickDetectedHandler()` will be called as soon as the defined timeout has passed.
 - `setLongClickHandler()` will only be called after the button has been released.
-- `setLongClickDetectedRetriggerable(bool retriggerable)` allows you to define whether want to get multiple notifications for a **single** long click depending on the timeout.
+- `setLongClickDetectedRetriggerEnable(bool retriggerable)` allows you to define whether want to get multiple notifications for a **single** long click depending on the timeout.
 - `getLongClickCount()` gets you the number of long clicks – this is useful when `retriggerable` is set.
 
 ### The Loop
@@ -231,7 +231,7 @@ To use a virtual button, you need:
 
 See [I2CPortExpanderButtons.ino](https://github.com/LennartHennigs/Button2/blob/master/examples/I2CPortExpanderButtons/I2CPortExpanderButtons.ino) for a complete example showing this efficient caching pattern ([issue #70](https://github.com/LennartHennigs/Button2/issues/70)).
 
-#### Examples
+#### Virtual Button Examples
 
 - [I2CPortExpanderButtons.ino](https://github.com/LennartHennigs/Button2/blob/master/examples/I2CPortExpanderButtons/I2CPortExpanderButtons.ino) - **Multiple buttons on I2C expander with efficient caching**
 - [CustomButtonStateHandler.ino](https://github.com/LennartHennigs/Button2/blob/master/examples/CustomButtonStateHandler/CustomButtonStateHandler.ino) - Basic virtual button with initialization callback
@@ -239,7 +239,6 @@ See [I2CPortExpanderButtons.ino](https://github.com/LennartHennigs/Button2/blob/
 - [M5StackCore2CustomHandler.ino](https://github.com/LennartHennigs/Button2/blob/master/examples/M5StackCore2CustomHandler/M5StackCore2CustomHandler.ino) - M5Stack Core2 touch buttons
 
 This feature was enhanced in [issue #69](https://github.com/LennartHennigs/Button2/issues/69) to support initialization callbacks.
-
 
 ## Callback Handler Support and Compatibility
 

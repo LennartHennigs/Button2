@@ -346,7 +346,7 @@ void setup() {
   setup_test_runner();
 
   // setup serial
-  delay(1000);
+  delay(100);  // Reduced for faster native testing
   Serial.begin(SERIAL_SPEED);
   while(!Serial) {}
   Serial.println(F("\n\nButton2 Click Detection Tests"));
