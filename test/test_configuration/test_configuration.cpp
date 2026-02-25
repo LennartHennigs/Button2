@@ -98,13 +98,9 @@ void click(Button2& button, unsigned long duration) {
 // Helper to initialize button with EpoxyDuino
 Button2 createTestButton() {
   Button2 button;
-  button.begin(BUTTON_PIN, BUTTON_MODE, BUTTON_ACTIVE == LOW);
-  
-  // Set up custom state function for testing
-  button.setButtonStateFunction(getSimulatedPinState);
-  
-  // Initialize simulated state to released
   simulatedPinState = !BUTTON_ACTIVE;
+  button.setButtonStateFunction(getSimulatedPinState);
+  button.begin(BUTTON_PIN, BUTTON_MODE, BUTTON_ACTIVE == LOW);
   return button;
 }
 
