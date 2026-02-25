@@ -274,7 +274,7 @@ void Button2::waitForClick(bool keepState /* = false */) {
     while (!wasPressed()) {
       loop();
     }
-  } while (read() != single_click);
+  } while (read(keepState) != single_click);
 }
 
 /////////////////////////////////////////////////////////////////
@@ -284,7 +284,7 @@ void Button2::waitForDouble(bool keepState /* = false */) {
     while (!wasPressed()) {
       loop();
     }
-  } while (read() != double_click);
+  } while (read(keepState) != double_click);
 }
 
 /////////////////////////////////////////////////////////////////
@@ -294,7 +294,7 @@ void Button2::waitForTriple(bool keepState /* = false */) {
     while (!wasPressed()) {
       loop();
     }
-  } while (read() != triple_click);
+  } while (read(keepState) != triple_click);
 }
 
 /////////////////////////////////////////////////////////////////
@@ -304,7 +304,7 @@ void Button2::waitForLong(bool keepState /* = false */) {
     while (!wasPressed()) {
       loop();
     }
-  } while (read() != long_click);
+  } while (read(keepState) != long_click);
 }
 
 /////////////////////////////////////////////////////////////////
