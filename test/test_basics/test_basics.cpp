@@ -10,7 +10,7 @@
 
 #include <Arduino.h>
 #include <AUnitVerbose.h>
-#include <Button2.h>
+#include "../shared/test_helpers.h"
 
 using namespace aunit;
 
@@ -18,42 +18,19 @@ using namespace aunit;
 
 #define SERIAL_SPEED 115200
 
-#define BUTTON_PIN      37
-#define BUTTON_MODE     INPUT_PULLUP
-#define BUTTON_ACTIVE   LOW
-
-#define DEBOUNCE_MS     BTN_DEBOUNCE_MS + 5
-
 /////////////////////////////////////////////////////////////////
 
-// Global test state variables
+// Test state variables
 bool pressed = false;
 bool released = false;
 bool tap = false;
 bool changed = false;
-
-/////////////////////////////////////////////////////////////////
 
 void setup_test_runner() {
   TestRunner::setVerbosity(Verbosity::kDefault);
   TestRunner::list();
 }
 
-/////////////////////////////////////////////////////////////////
-// helper functions
-/////////////////////////////////////////////////////////////////
-
-// Helper to initialize button with EpoxyDuino
-Button2 createTestButton() {
-  Button2 button;
-  button.begin(BUTTON_PIN, BUTTON_MODE, BUTTON_ACTIVE == LOW);
-  // Initialize the pin state to released using EpoxyDuino
-  pinMode(BUTTON_PIN, BUTTON_MODE);
-  digitalWrite(BUTTON_PIN, !BUTTON_ACTIVE);
-  return button;
-}
-
-// resets all handler vars
 void resetHandlerVars() {
   pressed = false;
   released = false;

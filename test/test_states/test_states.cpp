@@ -10,7 +10,7 @@
 
 #include <Arduino.h>
 #include <AUnitVerbose.h>
-#include <Button2.h>
+#include "../shared/test_helpers.h"
 
 using namespace aunit;
 
@@ -18,59 +18,11 @@ using namespace aunit;
 
 #define SERIAL_SPEED 115200
 
-#define BUTTON_PIN      37
-#define BUTTON_MODE     INPUT_PULLUP
-#define BUTTON_ACTIVE   LOW
-
-#define DEBOUNCE_MS     BTN_DEBOUNCE_MS + 5
-
-/////////////////////////////////////////////////////////////////
-
-// Global state variable for button simulation
-static uint8_t simulatedPinState = HIGH;
-
 /////////////////////////////////////////////////////////////////
 
 void setup_test_runner() {
   TestRunner::setVerbosity(Verbosity::kDefault);
   TestRunner::list();
-}
-
-/////////////////////////////////////////////////////////////////
-// Helper functions
-/////////////////////////////////////////////////////////////////
-
-// Custom state function for testing
-uint8_t getSimulatedPinState() {
-  return simulatedPinState;
-}
-
-// Helper to initialize button with EpoxyDuino
-Button2 createTestButton() {
-  Button2 button;
-  simulatedPinState = !BUTTON_ACTIVE;
-  button.setButtonStateFunction(getSimulatedPinState);
-  button.begin(BUTTON_PIN, BUTTON_MODE, BUTTON_ACTIVE == LOW);
-  return button;
-}
-
-// Emulate a button click with proper timing
-void click(Button2& button, unsigned long duration) {
-  simulatedPinState = BUTTON_ACTIVE;
-  button.loop();
-
-  unsigned long startTime = millis();
-  unsigned long endTime = startTime + duration;
-
-  while (millis() < endTime) {
-    button.loop();
-    delay(1);
-  }
-
-  simulatedPinState = !BUTTON_ACTIVE;
-  button.loop();
-  delay(5);
-  button.loop();
 }
 
 /////////////////////////////////////////////////////////////////

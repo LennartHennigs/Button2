@@ -10,7 +10,7 @@
 
 #include <Arduino.h>
 #include <AUnitVerbose.h>
-#include <Button2.h>
+#include "../shared/test_helpers.h"
 
 using namespace aunit;
 
@@ -18,15 +18,9 @@ using namespace aunit;
 
 #define SERIAL_SPEED 115200
 
-#define BUTTON_PIN      37
-#define BUTTON_MODE     INPUT_PULLUP
-#define BUTTON_ACTIVE   LOW
-
-#define DEBOUNCE_MS     BTN_DEBOUNCE_MS + 5
-
 /////////////////////////////////////////////////////////////////
 
-// Global test state variables
+// Test state variables
 static bool g_pressed = false;
 static bool g_released = false;
 static bool g_tap = false;
@@ -40,67 +34,11 @@ static int g_changed_count = 0;
 static int g_long_detected_count = 0;
 static Button2* g_callback_button = nullptr;
 
-/////////////////////////////////////////////////////////////////
-
 void setup_test_runner() {
   TestRunner::setVerbosity(Verbosity::kDefault);
   TestRunner::list();
 }
 
-/////////////////////////////////////////////////////////////////
-// Helper functions
-/////////////////////////////////////////////////////////////////
-
-// Global state variable for button simulation
-static uint8_t simulatedPinState = HIGH;
-
-// Custom state function for testing
-uint8_t getSimulatedPinState() {
-  return simulatedPinState;
-}
-
-// Helper to initialize button with EpoxyDuino
-Button2 createTestButton() {
-  Button2 button;
-
-  // Initialize simulated state to released BEFORE begin()
-  simulatedPinState = !BUTTON_ACTIVE;
-
-  // Set up custom state function for testing BEFORE begin()
-  button.setButtonStateFunction(getSimulatedPinState);
-
-  // Now initialize the button - it will read the correct state
-  button.begin(BUTTON_PIN, BUTTON_MODE, BUTTON_ACTIVE == LOW);
-
-  return button;
-}
-
-// Emulate a button click with proper timing
-void click(Button2& button, unsigned long duration) {
-  // Press the button
-  simulatedPinState = BUTTON_ACTIVE;
-  button.loop();
-
-  // Hold for the specified duration with periodic loop calls
-  unsigned long startTime = millis();
-  unsigned long endTime = startTime + duration;
-
-  // Keep calling loop until we reach the target duration
-  while (millis() < endTime) {
-    button.loop();
-    delay(1);
-  }
-
-  // Release the button
-  simulatedPinState = !BUTTON_ACTIVE;
-  button.loop();
-
-  // Small delay for state to settle
-  delay(5);
-  button.loop();
-}
-
-// Reset all handler variables
 void resetHandlerVars() {
   g_pressed = false;
   g_released = false;

@@ -10,7 +10,7 @@
 
 #include <Arduino.h>
 #include <AUnitVerbose.h>
-#include <Button2.h>
+#include "../shared/test_helpers.h"
 
 using namespace aunit;
 
@@ -21,10 +21,6 @@ using namespace aunit;
 #define BUTTON1_PIN     37
 #define BUTTON2_PIN     38
 #define BUTTON3_PIN     39
-#define BUTTON_MODE     INPUT_PULLUP
-#define BUTTON_ACTIVE   LOW
-
-#define DEBOUNCE_MS     BTN_DEBOUNCE_MS + 5
 
 /////////////////////////////////////////////////////////////////
 

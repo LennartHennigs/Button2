@@ -10,7 +10,7 @@
 
 #include <Arduino.h>
 #include <AUnitVerbose.h>
-#include <Button2.h>
+#include "../shared/test_helpers.h"
 
 using namespace aunit;
 
@@ -18,21 +18,9 @@ using namespace aunit;
 
 #define SERIAL_SPEED 115200
 
-#define VERBOSE_CHANGED         false
-#define VERBOSE_PRESS_RELEASE   false
-#define VERBOSE_MAIN_EVENTS     false // clicks, long presses
-
 /////////////////////////////////////////////////////////////////
 
-#define BUTTON_PIN      37
-#define BUTTON_MODE     INPUT_PULLUP
-#define BUTTON_ACTIVE   LOW
-
-#define DEBOUNCE_MS     BTN_DEBOUNCE_MS + 5
-
-/////////////////////////////////////////////////////////////////
-
-// Global test state variables
+// Test state variables
 bool pressed = false;
 bool released = false;
 bool tap = false;
@@ -41,70 +29,11 @@ bool long_detected = false;
 int  long_detected_count = 0;
 bool changed = false;
 
-/////////////////////////////////////////////////////////////////
-
 void setup_test_runner() {
   TestRunner::setVerbosity(Verbosity::kDefault);
   TestRunner::list();
 }
 
-/////////////////////////////////////////////////////////////////
-// helper functions
-/////////////////////////////////////////////////////////////////
-
-// Global state variable for button simulation
-static uint8_t simulatedPinState = HIGH; // Start in released state (HIGH for INPUT_PULLUP)
-
-// Custom state function for testing
-uint8_t getSimulatedPinState() {
-  return simulatedPinState;
-}
-
-// pressing the button using simulated pin state
-void press(Button2& button) {
-  // Set the simulated pin to pressed state
-  simulatedPinState = BUTTON_ACTIVE;
-  delay(5); // Allow state to settle
-  button.loop();
-}
-
-// letting it go
-void release(Button2& button) {
-  // Set the simulated pin to released state
-  simulatedPinState = !BUTTON_ACTIVE;
-  delay(5); // Allow state to settle
-  button.loop();
-}
-
-// emulate a button click with proper timing
-void click(Button2& button, unsigned long duration) {
-  // Press the button
-  simulatedPinState = BUTTON_ACTIVE;
-  button.loop();
-  
-  // Hold for the specified duration
-  delay(duration);
-  button.loop();
-  
-  // Release the button
-  simulatedPinState = !BUTTON_ACTIVE;
-  button.loop();
-  
-  // Small delay for state to settle
-  delay(5);
-  button.loop();
-}
-
-// Helper to initialize button with EpoxyDuino
-Button2 createTestButton() {
-  Button2 button;
-  simulatedPinState = !BUTTON_ACTIVE;
-  button.setButtonStateFunction(getSimulatedPinState);
-  button.begin(BUTTON_PIN, BUTTON_MODE, BUTTON_ACTIVE == LOW);
-  return button;
-}
-
-// resets all handler vars
 void resetHandlerVars() {
   pressed = false;
   released = false;
