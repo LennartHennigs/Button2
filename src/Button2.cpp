@@ -455,7 +455,7 @@ void Button2::_checkForLongClick(unsigned long now) {
 
 /////////////////////////////////////////////////////////////////
 
-uint8_t Button2::getLongClickCount() const {
+uint16_t Button2::getLongClickCount() const {
   return longclick_counter;
 }
 

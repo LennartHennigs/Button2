@@ -182,7 +182,7 @@ class Button2 {
   void waitForLong(bool keepState = false);
 
   uint8_t getNumberOfClicks() const;
-  uint8_t getLongClickCount() const;
+  uint16_t getLongClickCount() const;
 
   clickType getType() const;
   const char* clickToString(clickType type) const;
