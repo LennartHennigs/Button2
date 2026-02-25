@@ -195,7 +195,7 @@ class Button2 {
   void loop();
 
  private:
-  static int _nextID;
+  static uint8_t _nextID;
   uint8_t _getState() const;
 
 };
