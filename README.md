@@ -35,7 +35,7 @@ If you don't want to use callback there are also functions available for using i
 - Define the button either using the `constructor` or the `begin()` function.
 
 ```c++
-  void begin(byte attachTo, byte buttonMode = INPUT_PULLUP, bool activeLow  = true);
+  void begin(uint8_t attachTo, uint8_t buttonMode = INPUT_PULLUP, bool activeLow = true);
 ```
 
 ### Button Types
@@ -79,7 +79,7 @@ If you don't want to use callback there are also functions available for using i
 - There are two possible callback functions: `setLongClickDetectedHandler()` and `setLongClickHandler()`.
 - `setLongClickDetectedHandler()` will be called as soon as the defined timeout has passed.
 - `setLongClickHandler()` will only be called after the button has been released.
-- `setLongClickDetectedRetriggerEnable(bool retriggerable)` allows you to define whether want to get multiple notifications for a **single** long click depending on the timeout.
+- `setLongClickDetectedRetriggerable(bool retriggerable)` allows you to define whether want to get multiple notifications for a **single** long click depending on the timeout.
 - `getLongClickCount()` gets you the number of long clicks – this is useful when `retriggerable` is set.
 
 ### The Loop
@@ -178,8 +178,8 @@ if (button.getType() == empty) {
 
 ``` c++
 unsigned int wasPressedFor() const;
-byte getNumberOfClicks() const;
-byte getType() const;
+uint8_t getNumberOfClicks() const;
+clickType getType() const;
 bool isPressed() const;
 bool isPressedRaw() const;
 bool wasPressed() const;
@@ -309,18 +309,19 @@ See below the constructors and member functions the library provides:
 
 ```c++
 Button2();
-Button2(byte attachTo, byte buttonMode = INPUT_PULLUP, bool activeLow = true);
+Button2(uint8_t attachTo, uint8_t buttonMode = INPUT_PULLUP, bool activeLow = true);
 
-void begin(byte attachTo, byte buttonMode = INPUT_PULLUP, bool activeLow  = true);
+void begin(uint8_t attachTo, uint8_t buttonMode = INPUT_PULLUP, bool activeLow = true,
+           InitCallbackFunction initCallback = NULL);
 
 void setDebounceTime(unsigned int ms);
 void setLongClickTime(unsigned int ms);
 void setDoubleClickTime(unsigned int ms);
 
-unsigned int getDebounceTime();
-unsigned int getLongClickTime();
-unsigned int getDoubleClickTime();
-byte getPin();
+unsigned int getDebounceTime() const;
+unsigned int getLongClickTime() const;
+unsigned int getDoubleClickTime() const;
+uint8_t getPin() const;
 
 void reset();
 
@@ -338,11 +339,11 @@ void setTripleClickHandler(CallbackFunction f);
 void setLongClickHandler(CallbackFunction f);
 void setLongClickDetectedHandler(CallbackFunction f);
 void setLongClickDetectedRetriggerable(bool retriggerable);
-void byte getLongClickCount() const;
+uint16_t getLongClickCount() const;
 
 unsigned int wasPressedFor() const;
 void resetPressedState();
-byte resetClickCount();
+uint8_t resetClickCount();
 
 bool isPressed() const;
 bool isPressedRaw() const;
@@ -355,14 +356,14 @@ void waitForDouble(bool keepState = false);
 void waitForTriple(bool keepState = false);
 void waitForLong(bool keepState = false);
 
-byte getNumberOfClicks() const;
-byte getType() const;
-String clickToString(clickType type) const;
+uint8_t getNumberOfClicks() const;
+clickType getType() const;
+const char* clickToString(clickType type) const;
 
 int getID() const;
 void setID(int newID);
 
-bool operator == (Button2 &rhs);
+bool operator==(const Button2 &rhs) const;
 
 void loop();
 ```

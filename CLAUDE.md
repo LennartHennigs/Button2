@@ -47,7 +47,7 @@ This is an **embedded Arduino library**. When writing or modifying code:
 
 ### Always use
 
-- `uint8_t`, `unsigned int`, `unsigned long` for sizes and times
+- `uint8_t`, `unsigned int`, `unsigned long` for sizes and times — **never `long` for timing** (would break after 24.8 days on AVR/ESP; use `unsigned long` to match `millis()`)
 - Arduino `String` class (not `std::string`)
 - C-style arrays, not containers
 - `millis()`, `delay()` for timing
@@ -72,15 +72,18 @@ button.setClickHandler(onClick);
 
 ### Testing pattern
 
-Inject state via `setButtonStateFunction()` — do not rely on physical pins in tests:
+**Order matters**: set state function and initial state *before* `begin()`, so the initial state read in `begin()` uses the injected function.
 
 ```cpp
 static uint8_t pinState = HIGH;
 uint8_t getState() { return pinState; }
 
-button.begin(BTN_VIRTUAL_PIN, INPUT_PULLUP, true);
-button.setButtonStateFunction(getState);
+pinState = HIGH;                                        // 1. set initial state
+button.setButtonStateFunction(getState);               // 2. inject function
+button.begin(BTN_VIRTUAL_PIN, INPUT_PULLUP, true);     // 3. begin() reads state
 ```
+
+All six test suites share helpers via `test/shared/test_helpers.h` (`createTestButton()`, `click()`, `press()`, `release()`). Add new tests there, not inline in a single suite.
 
 ## Architecture
 
@@ -117,7 +120,7 @@ Button2(uint8_t attachTo, uint8_t buttonMode = INPUT_PULLUP, bool activeLow = tr
 // Setup
 // initCallback: optional — called once in begin() for hardware init (I2C, SPI, etc.)
 void begin(uint8_t attachTo, uint8_t buttonMode = INPUT_PULLUP, bool activeLow = true,
-           InitCallbackFunction initCallback = NULL);
+           InitCallbackFunction initCallback = BUTTON2_NULL);
 void setButtonStateFunction(StateCallbackFunction f);  // inject custom state reader
 void setLongClickDetectedRetriggerable(bool retriggerable);
 
@@ -126,13 +129,13 @@ void loop();
 void reset();  // resets all state and clears all callbacks (except get_state_cb)
 
 // State queries
-bool isPressed() const;             // debounced
-bool isPressedRaw() const;          // immediate pin state
-bool wasPressed() const;            // true after any completed click
-unsigned int wasPressedFor() const; // duration of last press in ms
+bool isPressed() const;              // debounced
+bool isPressedRaw() const;           // immediate pin state
+bool wasPressed() const;             // true after any completed click
+unsigned int wasPressedFor() const;  // duration of last press in ms
 clickType getType() const;
 uint8_t getNumberOfClicks() const;
-uint8_t getLongClickCount() const;  // retriggerable long-click count
+uint16_t getLongClickCount() const;  // retriggerable long-click count
 uint8_t getPin() const;
 int getID() const;
 
@@ -146,19 +149,19 @@ unsigned int getDoubleClickTime() const;
 unsigned int getLongClickTime() const;
 
 // State management
-void resetPressedState();           // resets all state flags and timing
-uint8_t resetClickCount();          // returns previous click count, resets to 0
+void resetPressedState();   // resets all state flags and timing
+uint8_t resetClickCount();  // returns previous click count, resets to 0
 
 // Callbacks — all receive Button2& reference
 void setChangedHandler(CallbackFunction f);
 void setPressedHandler(CallbackFunction f);
 void setReleasedHandler(CallbackFunction f);
-void setTapHandler(CallbackFunction f);        // fires on every release
-void setClickHandler(CallbackFunction f);      // single click
+void setTapHandler(CallbackFunction f);               // fires on every release
+void setClickHandler(CallbackFunction f);             // single click
 void setDoubleClickHandler(CallbackFunction f);
 void setTripleClickHandler(CallbackFunction f);
-void setLongClickHandler(CallbackFunction f);            // fires after release
-void setLongClickDetectedHandler(CallbackFunction f);    // fires while still held
+void setLongClickHandler(CallbackFunction f);         // fires after release
+void setLongClickDetectedHandler(CallbackFunction f); // fires while still held
 
 // Blocking helpers (use in simple sequential sketches only)
 clickType read(bool keepState = false);
@@ -187,8 +190,8 @@ void updateCache() {
     if (Wire.available()) cachedPort = Wire.read();
 }
 
-byte btn0State() { return (cachedPort & 0x01) ? HIGH : LOW; }
-byte btn1State() { return (cachedPort & 0x02) ? HIGH : LOW; }
+uint8_t btn0State() { return (cachedPort & 0x01) ? HIGH : LOW; }
+uint8_t btn1State() { return (cachedPort & 0x02) ? HIGH : LOW; }
 
 void loop() {
     updateCache();      // one I2C read per cycle
@@ -199,27 +202,15 @@ void loop() {
 
 See `examples/I2CPortExpanderButtons/` for the complete pattern.
 
-### Examples index
-
-| Example | Demonstrates |
-| --- | --- |
-| `SingleButton/` | Basic setup, single click |
-| `MultiHandler/` | Single/double/triple/long click |
-| `MultipleButtons/` | Shared handlers, button IDs |
-| `LongpressHandler/` | Retriggerable long press |
-| `ButtonLoop/` | Blocking `waitForClick()` etc. |
-| `CustomButtonStateHandler/` | Custom state injection |
-| `I2CPortExpanderButtons/` | I2C port expander with caching |
-| `ESP32CapacitiveTouch/` | ESP32 touch pins |
-| `ESP32TimerInterrupt/` | Interrupt-driven sampling |
-
 ## Testing Framework
 
-Tests use **AUnit** + **EpoxyDuino** (native, no hardware needed). Six suites:
+Tests use **AUnit** + **EpoxyDuino** (native, no hardware needed). Six suites in `test/`:
 
-- `test_basics` — defaults and initialization (6 tests)
-- `test_clicks` — single/double/triple/long click detection (12 tests)
-- `test_callbacks` — all event handlers (12 tests)
-- `test_states` — state queries, transitions, timing edges (19 tests)
-- `test_configuration` — runtime settings (7 tests)
-- `test_multiple` — multiple button interactions (12 tests)
+- `test_basics` — defaults and initialization
+- `test_clicks` — single/double/triple/long click detection
+- `test_callbacks` — all event handlers
+- `test_states` — state queries, transitions, timing edges
+- `test_configuration` — runtime settings
+- `test_multiple` — multiple button interactions
+
+Shared infrastructure lives in `test/shared/test_helpers.h` — `createTestButton()`, `click()`, `press()`, `release()`, `BUTTON_PIN`, `BUTTON_MODE`, `BUTTON_ACTIVE`, `DEBOUNCE_MS`.
