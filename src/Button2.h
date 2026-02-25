@@ -113,14 +113,14 @@ class Button2 {
   uint8_t prev_state = HIGH;
   uint8_t click_count = 0;
   uint8_t last_click_count = 0;
-  uint8_t _pressedState;
+  uint8_t _pressedState = LOW;
 
   // clickType (typically 1 byte enum)
   clickType last_click_type = clickType::empty;
 
   // bool (1 byte each, grouped at end)
   bool was_pressed = false;
-  bool longclick_retriggerable;
+  bool longclick_retriggerable = false;
   bool longclick_detected = false;
   bool longclick_reported = false;
   bool pressed_triggered = false;
