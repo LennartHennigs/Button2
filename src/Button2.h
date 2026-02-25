@@ -125,12 +125,12 @@ class Button2 {
   bool longclick_reported = false;
   bool pressed_triggered = false;
 
-  void _handlePress(long now);
-  void _handleRelease(long now);
-  void _releasedNow(long now);
-  void _pressedNow(long now);
+  void _handlePress(unsigned long now);
+  void _handleRelease(unsigned long now);
+  void _releasedNow(unsigned long now);
+  void _pressedNow(unsigned long now);
   void _validKeypress();
-  void _checkForLongClick(long now);
+  void _checkForLongClick(unsigned long now);
   void _reportClicks();
   void _setID();
 

@@ -365,7 +365,7 @@ void Button2::loop() {
 
 /////////////////////////////////////////////////////////////////
 
-void Button2::_handlePress(long now) {
+void Button2::_handlePress(unsigned long now) {
   // is it pressed now?
   if (prev_state != _pressedState) {
     _pressedNow(now);
@@ -399,7 +399,7 @@ void Button2::_setID() {
 
 /////////////////////////////////////////////////////////////////
 
-void Button2::_handleRelease(long now) {
+void Button2::_handleRelease(unsigned long now) {
   // is it released right now?
   if (prev_state == _pressedState) {
     _releasedNow(now);
@@ -413,7 +413,7 @@ void Button2::_handleRelease(long now) {
 
 /////////////////////////////////////////////////////////////////
 
-void Button2::_pressedNow(long now) {
+void Button2::_pressedNow(unsigned long now) {
   down_ms = now;
   pressed_triggered = false;
   click_ms = down_ms;
@@ -429,7 +429,7 @@ void Button2::_validKeypress() {
 
 /////////////////////////////////////////////////////////////////
 
-void Button2::_checkForLongClick(long now) {
+void Button2::_checkForLongClick(unsigned long now) {
   if (longclick_detected_cb == BUTTON2_NULL) return;
   if (longclick_reported) return;
 
@@ -500,7 +500,7 @@ void Button2::_reportClicks() {
 
 /////////////////////////////////////////////////////////////////
 
-void Button2::_releasedNow(long now) {
+void Button2::_releasedNow(unsigned long now) {
   down_time_ms = now - down_ms;
 
   // Debouncing strategy (release edge): Reject presses that were
