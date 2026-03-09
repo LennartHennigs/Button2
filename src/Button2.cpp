@@ -64,6 +64,12 @@ void Button2::setLongClickTime(unsigned int ms) {
 
 /////////////////////////////////////////////////////////////////
 
+void Button2::setLongClickInterval(unsigned int ms) {
+  longclick_interval_ms = ms;
+}
+
+/////////////////////////////////////////////////////////////////
+
 void Button2::setDoubleClickTime(unsigned int ms) {
   doubleclick_time_ms = ms;
 }
@@ -78,6 +84,12 @@ unsigned int Button2::getDebounceTime() const {
 
 unsigned int Button2::getLongClickTime() const {
   return longclick_time_ms;
+}
+
+/////////////////////////////////////////////////////////////////
+
+unsigned int Button2::getLongClickInterval() const {
+  return longclick_interval_ms;
 }
 
 /////////////////////////////////////////////////////////////////
@@ -433,6 +445,10 @@ void Button2::_checkForLongClick(unsigned long now) {
   if (longclick_detected_cb == BUTTON2_NULL) return;
   if (longclick_reported) return;
 
+  // Calculate the interval between consecutive long clicks.
+  // Fallback to initial long click time if no custom interval is set to maintain backward compatibility.
+  unsigned int interval = (longclick_interval_ms > 0) ? longclick_interval_ms : longclick_time_ms;
+
   // Long click detection timing calculation
   // Cast to unsigned long to prevent overflow on AVR (16-bit unsigned int)
   // Note: This function is only called when click_count == 1 (see _handlePress).
@@ -440,7 +456,7 @@ void Button2::_checkForLongClick(unsigned long now) {
   // For example, during a double-click attempt, if the first click is held too long,
   // it becomes a long click and the sequence ends. Subsequent clicks in a multi-click
   // sequence do NOT trigger long click detection.
-  if (now - down_ms < ((unsigned long)longclick_time_ms * (longclick_counter + 1))) return;
+  if (now - down_ms < ((unsigned long)longclick_time_ms + ((unsigned long)longclick_counter * interval))) return;
 
   // Handle retriggerable long clicks (for continuous long press detection)
   if (!longclick_retriggerable) {

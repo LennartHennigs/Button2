@@ -2,9 +2,11 @@ Button2	KEYWORD1
 begin	KEYWORD2
 setDebounceTime	KEYWORD2
 setLongClickTime	KEYWORD2
+setLongClickInterval	KEYWORD2
 setDoubleClickTime	KEYWORD2
 getDebounceTime	KEYWORD2
 getLongClickTime	KEYWORD2
+getLongClickInterval	KEYWORD2
 getDoubleClickTime	KEYWORD2
 getPin	KEYWORD2
 setLongClickDetectedRetriggerable	KEYWORD2
@@ -27,8 +29,8 @@ clickToString	KEYWORD2
 getID	KEYWORD2
 setID	KEYWORD2
 wasPressed	KEYWORD2
-resetPressedState   KEYWORD2
-resetClickCount   KEYWORD2
+resetPressedState	KEYWORD2
+resetClickCount	KEYWORD2
 read	KEYWORD2
 getLongClickCount	KEYWORD2
 wait	KEYWORD2

@@ -100,6 +100,7 @@ class Button2 {
   // unsigned int / uint16_t (2 bytes)
   unsigned int debounce_time_ms = BTN_DEBOUNCE_MS;
   unsigned int longclick_time_ms = BTN_LONGCLICK_MS;
+  unsigned int longclick_interval_ms = 0;
   unsigned int doubleclick_time_ms = BTN_DOUBLECLICK_MS;
   unsigned int down_time_ms = 0;
   uint16_t longclick_counter = 0;
@@ -142,10 +143,12 @@ class Button2 {
 
   void setDebounceTime(unsigned int ms);
   void setLongClickTime(unsigned int ms);
+  void setLongClickInterval(unsigned int ms);
   void setDoubleClickTime(unsigned int ms);
 
   unsigned int getDebounceTime() const;
   unsigned int getLongClickTime() const;
+  unsigned int getLongClickInterval() const;
   unsigned int getDoubleClickTime() const;
   uint8_t getPin() const;
 
