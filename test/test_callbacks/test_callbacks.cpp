@@ -236,23 +236,14 @@ test(callbacks, long_click_detected_handler) {
   });
 
   // Press and hold past long click threshold
-  simulatedPinState = BUTTON_ACTIVE;
-  button.loop();
-
-  // Keep calling loop past the long click threshold
-  unsigned long startTime = millis();
-  while (millis() - startTime < (BTN_LONGCLICK_MS + 100)) {
-    button.loop();
-    delay(1);
-  }
+  pressAndHold(button, BTN_LONGCLICK_MS + 100);
 
   // Long click detected should have been called WHILE still pressed
   assertTrue(g_long_detected);
   assertEqual(g_long_detected_count, 1);
 
   // Release
-  simulatedPinState = !BUTTON_ACTIVE;
-  button.loop();
+  release(button);
 }
 
 /////////////////////////////////////////////////////////////////
@@ -268,21 +259,36 @@ test(callbacks, long_click_detected_retriggerable) {
   });
 
   // Press and hold for 2x long click time
-  simulatedPinState = BUTTON_ACTIVE;
-  button.loop();
-
-  unsigned long startTime = millis();
-  while (millis() - startTime < (BTN_LONGCLICK_MS * 2 + 100)) {
-    button.loop();
-    delay(1);
-  }
+  pressAndHold(button, BTN_LONGCLICK_MS * 2 + 100);
 
   // Should have been called twice (retriggerable)
   assertTrue(g_long_detected_count >= 2);
 
   // Release
-  simulatedPinState = !BUTTON_ACTIVE;
-  button.loop();
+  release(button);
+}
+
+/////////////////////////////////////////////////////////////////
+
+test(callbacks, long_click_detected_custom_interval) {
+  resetHandlerVars();
+  Button2 button = createTestButton();
+  button.resetPressedState();
+
+  // First trigger at BTN_LONGCLICK_MS, then every 100 ms
+  const unsigned int retrigger_ms = 100;
+  button.setLongClickDetectedRetriggerable(true, retrigger_ms);
+  button.setLongClickDetectedHandler([](Button2& b) {
+    g_long_detected_count++;
+  });
+
+  // Hold for initial threshold + 2 more retrigger intervals + some margin
+  pressAndHold(button, BTN_LONGCLICK_MS + retrigger_ms * 2 + 50);
+
+  // Should have fired at least 3 times (initial + 2 retriggered)
+  assertTrue(g_long_detected_count >= 3);
+
+  release(button);
 }
 
 /////////////////////////////////////////////////////////////////
