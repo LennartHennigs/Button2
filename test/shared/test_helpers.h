@@ -44,8 +44,8 @@ inline Button2 createTestButton() {
 
 /////////////////////////////////////////////////////////////////
 
-// Emulate a button click: press, hold for `duration` ms (looping), then release.
-inline void click(Button2& button, unsigned long duration) {
+// Press and hold for `duration` ms (looping), without releasing.
+inline void pressAndHold(Button2& button, unsigned long duration) {
   simulatedPinState = BUTTON_ACTIVE;
   button.loop();
 
@@ -54,7 +54,11 @@ inline void click(Button2& button, unsigned long duration) {
     button.loop();
     delay(1);
   }
+}
 
+// Emulate a button click: press, hold for `duration` ms (looping), then release.
+inline void click(Button2& button, unsigned long duration) {
+  pressAndHold(button, duration);
   simulatedPinState = !BUTTON_ACTIVE;
   button.loop();
   delay(5);

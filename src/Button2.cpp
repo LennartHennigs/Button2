@@ -35,6 +35,7 @@ void Button2::begin(uint8_t attachTo, uint8_t buttonMode /* = INPUT_PULLUP */, b
   pin = attachTo;
   longclick_counter = 0;
   longclick_retriggerable = false;
+  longclick_interval_ms = 0;
   _pressedState = activeLow ? LOW : HIGH;
 
   // Call initialization callback if provided (useful for I2C/SPI expanders, touch sensors, etc.)
@@ -78,6 +79,12 @@ unsigned int Button2::getDebounceTime() const {
 
 unsigned int Button2::getLongClickTime() const {
   return longclick_time_ms;
+}
+
+/////////////////////////////////////////////////////////////////
+
+unsigned int Button2::getLongClickInterval() const {
+  return longclick_interval_ms;
 }
 
 /////////////////////////////////////////////////////////////////
@@ -143,7 +150,14 @@ void Button2::setLongClickHandler(CallbackFunction f) {
 /////////////////////////////////////////////////////////////////
 
 void Button2::setLongClickDetectedRetriggerable(bool retriggerable) {
+  setLongClickDetectedRetriggerable(retriggerable, 0);
+}
+
+/////////////////////////////////////////////////////////////////
+
+void Button2::setLongClickDetectedRetriggerable(bool retriggerable, unsigned int retrigger_ms) {
   longclick_retriggerable = retriggerable;
+  longclick_interval_ms = retrigger_ms;
 }
 
 /////////////////////////////////////////////////////////////////
@@ -311,6 +325,8 @@ void Button2::waitForLong(bool keepState /* = false */) {
 
 void Button2::reset() {
   pin = BTN_UNDEFINED_PIN;
+  longclick_retriggerable = false;
+  longclick_interval_ms = 0;
 
   resetPressedState();
 
@@ -433,14 +449,17 @@ void Button2::_checkForLongClick(unsigned long now) {
   if (longclick_detected_cb == BUTTON2_NULL) return;
   if (longclick_reported) return;
 
-  // Long click detection timing calculation
-  // Cast to unsigned long to prevent overflow on AVR (16-bit unsigned int)
+  // Long click detection timing calculation.
+  // First fire at longclick_time_ms; subsequent fires every `interval` ms after that.
+  // interval = longclick_interval_ms when set, otherwise falls back to longclick_time_ms
+  // (matches the old per-longclick_time_ms cadence for backward compatibility).
   // Note: This function is only called when click_count == 1 (see _handlePress).
   // This design choice prevents ambiguity between multi-click sequences and long press.
   // For example, during a double-click attempt, if the first click is held too long,
   // it becomes a long click and the sequence ends. Subsequent clicks in a multi-click
   // sequence do NOT trigger long click detection.
-  if (now - down_ms < ((unsigned long)longclick_time_ms * (longclick_counter + 1))) return;
+  unsigned long interval = (longclick_interval_ms > 0) ? longclick_interval_ms : longclick_time_ms;
+  if (now - down_ms < ((unsigned long)longclick_time_ms + ((unsigned long)longclick_counter * interval))) return;
 
   // Handle retriggerable long clicks (for continuous long press detection)
   if (!longclick_retriggerable) {
