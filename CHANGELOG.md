@@ -3,7 +3,7 @@
 **Note:** Unreleased changes are checked in but not part of an official release (available through the Arduino IDE or PlatfomIO) yet. This allows you to test WiP features and give feedback to them.
 
 ## Unreleased
-
+- **Updated**: Decoupled long-click retrigger interval from initial threshold 
 - **Fixed (CRITICAL)**: Type mismatch in internal timing methods — `_handlePress()`, `_handleRelease()`, `_pressedNow()`, `_releasedNow()`, and `_checkForLongClick()` now accept `unsigned long` instead of `long`, matching the return type of `millis()`. The previous `long` parameter caused incorrect timing arithmetic after ~24.8 days of uptime on AVR and ESP platforms
 - **Fixed**: `waitForClick()`, `waitForDouble()`, `waitForTriple()`, and `waitForLong()` were silently ignoring their `keepState` parameter — it is now correctly forwarded to `read()`
 - **Fixed**: `_pressedState` and `longclick_retriggerable` member variables had no default initializers; they are now initialized to `LOW` and `false` respectively, preventing undefined behavior if query methods are called before `begin()`
