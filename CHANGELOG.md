@@ -3,6 +3,7 @@
 **Note:** Unreleased changes are checked in but not part of an official release (available through the Arduino IDE or PlatfomIO) yet. This allows you to test WiP features and give feedback to them.
 
 ## Unreleased
+- **Fixed (Issue #88)**: Compilation error on Arduino Pico (RP2040) — `INPUT_PULLUP`, `OUTPUT`, and `INPUT` are defined as a `PinMode` enum on Pico, not as macros. The previous `#ifndef` guards only detect macros, so they failed to protect against redefining these constants, causing type mismatch errors with `PinMode`. Wrapped the fallback defines in `#ifndef ARDUINO` so they only apply in non-Arduino environments (e.g. native test builds)
 - **Updated**: Decoupled long-click retrigger interval from initial threshold 
 - **Fixed (CRITICAL)**: Type mismatch in internal timing methods — `_handlePress()`, `_handleRelease()`, `_pressedNow()`, `_releasedNow()`, and `_checkForLongClick()` now accept `unsigned long` instead of `long`, matching the return type of `millis()`. The previous `long` parameter caused incorrect timing arithmetic after ~24.8 days of uptime on AVR and ESP platforms
 - **Fixed**: `waitForClick()`, `waitForDouble()`, `waitForTriple()`, and `waitForLong()` were silently ignoring their `keepState` parameter — it is now correctly forwarded to `read()`

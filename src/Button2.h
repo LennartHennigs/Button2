@@ -26,21 +26,27 @@
 
 #include <Arduino.h>
 
-// Define Arduino constants if not available (for testing environments)
-#ifndef INPUT
-#define INPUT 0x0
-#endif
-#ifndef OUTPUT
-#define OUTPUT 0x1
-#endif
-#ifndef INPUT_PULLUP
-#define INPUT_PULLUP 0x2
-#endif
-#ifndef HIGH
-#define HIGH 0x1
-#endif
-#ifndef LOW
-#define LOW 0x0
+// Define Arduino constants if not available (for testing environments).
+// Wrapped in #ifndef ARDUINO to avoid overriding platform-native types (e.g.
+// Arduino Pico defines INPUT_PULLUP etc. as a PinMode enum, not a macro;
+// the plain #ifndef guards below cannot detect enum values, so without the
+// outer guard the macros would shadow the enum and cause type errors).
+#ifndef ARDUINO
+  #ifndef INPUT
+  #define INPUT 0x0
+  #endif
+  #ifndef OUTPUT
+  #define OUTPUT 0x1
+  #endif
+  #ifndef INPUT_PULLUP
+  #define INPUT_PULLUP 0x2
+  #endif
+  #ifndef HIGH
+  #define HIGH 0x1
+  #endif
+  #ifndef LOW
+  #define LOW 0x0
+  #endif
 #endif
 
 /////////////////////////////////////////////////////////////////
