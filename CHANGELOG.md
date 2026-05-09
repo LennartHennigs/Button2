@@ -4,13 +4,17 @@
 
 ## Unreleased
 - **Fixed (Issue #88)**: Compilation error on Arduino Pico (RP2040) — `INPUT_PULLUP`, `OUTPUT`, and `INPUT` are defined as a `PinMode` enum on Pico, not as macros. The previous `#ifndef` guards only detect macros, so they failed to protect against redefining these constants, causing type mismatch errors with `PinMode`. Wrapped the fallback defines in `#ifndef ARDUINO` so they only apply in non-Arduino environments (e.g. native test builds)
-- **Updated**: Decoupled long-click retrigger interval from initial threshold 
+- **Updated**: Decoupled long-click retrigger interval from initial threshold
+
+## [2.6.0] - 2026-05-09
+
 - **Fixed (CRITICAL)**: Type mismatch in internal timing methods — `_handlePress()`, `_handleRelease()`, `_pressedNow()`, `_releasedNow()`, and `_checkForLongClick()` now accept `unsigned long` instead of `long`, matching the return type of `millis()`. The previous `long` parameter caused incorrect timing arithmetic after ~24.8 days of uptime on AVR and ESP platforms
 - **Fixed**: `waitForClick()`, `waitForDouble()`, `waitForTriple()`, and `waitForLong()` were silently ignoring their `keepState` parameter — it is now correctly forwarded to `read()`
 - **Fixed**: `_pressedState` and `longclick_retriggerable` member variables had no default initializers; they are now initialized to `LOW` and `false` respectively, preventing undefined behavior if query methods are called before `begin()`
 - **Fixed**: Wrong initialization order in `test_configuration.cpp` where `begin()` was called before `setButtonStateFunction()`, causing the initial state to be read via `digitalRead()` instead of the injected state function
 - **Changed**: `getLongClickCount()` return type changed from `uint8_t` to `uint16_t` to match the `uint16_t longclick_counter` storage — with a 200ms retriggerable interval the previous `uint8_t` wrapped after ~51 seconds
 - **Changed**: `_nextID` static counter type changed from `int` to `uint8_t`, saving 1 byte of static RAM on AVR
+- **Added**: `setLongClickDetectedRetriggerable(bool retriggerable, unsigned int interval_ms)` overload — allows setting the retrigger interval in a single call
 - **Internal**: Extracted shared test infrastructure into `test/shared/test_helpers.h`, removing ~80 lines of duplicated boilerplate from each of the 6 test suites and ensuring a single, consistent `click()` implementation that calls `loop()` continuously during the hold period
 
 ## [2.5.0] - 2025-10-25
