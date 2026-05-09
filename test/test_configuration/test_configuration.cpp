@@ -127,6 +127,32 @@ test(settings, resetPressedState) {
 
 /////////////////////////////////////////////////////////////////
 
+test(settings, longclick_interval_default) {
+  Button2 button = createTestButton();
+  // Default: no custom interval (sentinel 0)
+  assertEqual(button.getLongClickInterval(), (unsigned int)0);
+}
+
+/////////////////////////////////////////////////////////////////
+
+test(settings, longclick_interval_set) {
+  Button2 button = createTestButton();
+  button.setLongClickDetectedRetriggerable(true, 500);
+  assertEqual(button.getLongClickInterval(), (unsigned int)500);
+}
+
+/////////////////////////////////////////////////////////////////
+
+test(settings, longclick_interval_reset_by_bool_overload) {
+  Button2 button = createTestButton();
+  button.setLongClickDetectedRetriggerable(true, 500);
+  // Calling the bool-only overload should clear the interval
+  button.setLongClickDetectedRetriggerable(true);
+  assertEqual(button.getLongClickInterval(), (unsigned int)0);
+}
+
+/////////////////////////////////////////////////////////////////
+
 test(settings, set_pressed_handler) {
   resetHandlerVars();
   Button2 button = createTestButton();
