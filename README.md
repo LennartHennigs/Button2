@@ -3,7 +3,7 @@
 Arduino/ESP library to simplify working with buttons.
 
 - Author: Lennart Hennigs (<https://www.lennarthennigs.de>)
-- Copyright (C) 2017-2025 Lennart Hennigs.
+- Copyright (C) 2017-2026 Lennart Hennigs.
 - Released under the MIT license.
 
 ## Description
@@ -377,7 +377,7 @@ Or download the ZIP archive (<https://github.com/lennarthennigs/Button2/zipball/
 
 MIT License
 
-Copyright (c) 2017-2025 Lennart Hennigs
+Copyright (c) 2017-2026 Lennart Hennigs
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
