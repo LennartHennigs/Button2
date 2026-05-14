@@ -26,27 +26,21 @@
 
 #include <Arduino.h>
 
-// Define Arduino constants if not available (for testing environments).
-// Wrapped in #ifndef ARDUINO to avoid overriding platform-native types (e.g.
-// Arduino Pico defines INPUT_PULLUP etc. as a PinMode enum, not a macro;
-// the plain #ifndef guards below cannot detect enum values, so without the
-// outer guard the macros would shadow the enum and cause type errors).
-#ifndef ARDUINO
-  #ifndef INPUT
-  #define INPUT 0x0
-  #endif
-  #ifndef OUTPUT
-  #define OUTPUT 0x1
-  #endif
-  #ifndef INPUT_PULLUP
-  #define INPUT_PULLUP 0x2
-  #endif
-  #ifndef HIGH
-  #define HIGH 0x1
-  #endif
-  #ifndef LOW
-  #define LOW 0x0
-  #endif
+// Define Arduino constants if not available (for testing environments)
+#ifndef INPUT
+#define INPUT 0x0
+#endif
+#ifndef OUTPUT
+#define OUTPUT 0x1
+#endif
+#ifndef INPUT_PULLUP
+#define INPUT_PULLUP 0x2
+#endif
+#ifndef HIGH
+#define HIGH 0x1
+#endif
+#ifndef LOW
+#define LOW 0x0
 #endif
 
 /////////////////////////////////////////////////////////////////
@@ -60,31 +54,26 @@ const unsigned int BTN_VIRTUAL_PIN = 254;
 
 /////////////////////////////////////////////////////////////////
 
-enum clickType {
-  single_click,
-  double_click,
-  triple_click,
-  long_click,
-  empty
-};
+enum clickType { single_click, double_click, triple_click, long_click, empty };
 
 class Button2 {
  protected:
   // Memory layout optimized for minimal padding
-  // Ordered by size: pointers/callbacks first, then long, int, uint16_t, uint8_t, bool
+  // Ordered by size: pointers/callbacks first, then long, int, uint16_t,
+  // uint8_t, bool
 
 #ifdef BUTTON2_HAS_STD_FUNCTION
-  typedef std::function<void(Button2 &btn)> CallbackFunction;
-  typedef std::function<uint8_t()> StateCallbackFunction;
+  typedef std::function<void(Button2& btn)> CallbackFunction;
+  typedef std::function<uint8_t(const Button2& btn)> StateCallbackFunction;
   typedef std::function<void()> InitCallbackFunction;
-  #define BUTTON2_MOVE(v) std::move(v)
-  #define BUTTON2_NULL nullptr
+#define BUTTON2_MOVE(v) std::move(v)
+#define BUTTON2_NULL nullptr
 #else
-  typedef void (*CallbackFunction)(Button2 &);
-  typedef uint8_t (*StateCallbackFunction)();
+  typedef void (*CallbackFunction)(Button2&);
+  typedef uint8_t (*StateCallbackFunction)(const Button2&);
   typedef void (*InitCallbackFunction)();
-  #define BUTTON2_MOVE
-  #define BUTTON2_NULL NULL
+#define BUTTON2_MOVE
+#define BUTTON2_NULL NULL
 #endif
 
   // Function pointers (largest members on most platforms)
@@ -143,9 +132,12 @@ class Button2 {
 
  public:
   Button2();
-  Button2(uint8_t attachTo, uint8_t buttonMode = INPUT_PULLUP, bool activeLow = true);
+  Button2(uint8_t attachTo, uint8_t buttonMode = INPUT_PULLUP,
+          bool activeLow = true);
 
-  void begin(uint8_t attachTo, uint8_t buttonMode = INPUT_PULLUP, bool activeLow = true, InitCallbackFunction initCallback = BUTTON2_NULL);
+  void begin(uint8_t attachTo, uint8_t buttonMode = INPUT_PULLUP,
+             bool activeLow = true,
+             InitCallbackFunction initCallback = BUTTON2_NULL);
 
   void setDebounceTime(unsigned int ms);
   void setLongClickTime(unsigned int ms);
@@ -174,7 +166,8 @@ class Button2 {
   void setLongClickDetectedHandler(CallbackFunction f);
 
   void setLongClickDetectedRetriggerable(bool retriggerable);
-  void setLongClickDetectedRetriggerable(bool retriggerable, unsigned int retrigger_ms);
+  void setLongClickDetectedRetriggerable(bool retriggerable,
+                                         unsigned int retrigger_ms);
 
   unsigned int wasPressedFor() const;
   bool isPressed() const;
@@ -199,14 +192,13 @@ class Button2 {
   int getID() const;
   void setID(int newID);
 
-  bool operator==(const Button2 &rhs) const;
+  bool operator==(const Button2& rhs) const;
 
   void loop();
 
  private:
   static uint8_t _nextID;
   uint8_t _getState() const;
-
 };
 /////////////////////////////////////////////////////////////////
 #endif
