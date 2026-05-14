@@ -64,13 +64,15 @@ class Button2 {
 
 #ifdef BUTTON2_HAS_STD_FUNCTION
   typedef std::function<void(Button2& btn)> CallbackFunction;
-  typedef std::function<uint8_t(const Button2& btn)> StateCallbackFunction;
+  typedef std::function<uint8_t()> StateCallbackFunction;
+  typedef std::function<uint8_t(const Button2& btn)> StateCallbackFunctionBtn;
   typedef std::function<void()> InitCallbackFunction;
 #define BUTTON2_MOVE(v) std::move(v)
 #define BUTTON2_NULL nullptr
 #else
   typedef void (*CallbackFunction)(Button2&);
-  typedef uint8_t (*StateCallbackFunction)(const Button2&);
+  typedef uint8_t (*StateCallbackFunction)();
+  typedef uint8_t (*StateCallbackFunctionBtn)(const Button2&);
   typedef void (*InitCallbackFunction)();
 #define BUTTON2_MOVE
 #define BUTTON2_NULL NULL
@@ -78,6 +80,7 @@ class Button2 {
 
   // Function pointers (largest members on most platforms)
   StateCallbackFunction get_state_cb = BUTTON2_NULL;
+  StateCallbackFunctionBtn get_state_btn_cb = BUTTON2_NULL;
   CallbackFunction pressed_cb = BUTTON2_NULL;
   CallbackFunction released_cb = BUTTON2_NULL;
   CallbackFunction change_cb = BUTTON2_NULL;
@@ -152,6 +155,7 @@ class Button2 {
   void reset();
 
   void setButtonStateFunction(StateCallbackFunction f);
+  void setButtonStateFunction(StateCallbackFunctionBtn f);
 
   void setChangedHandler(CallbackFunction f);
   void setPressedHandler(CallbackFunction f);
