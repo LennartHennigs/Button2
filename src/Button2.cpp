@@ -97,6 +97,12 @@ void Button2::setButtonStateFunction(StateCallbackFunction f) {
 
 /////////////////////////////////////////////////////////////////
 
+void Button2::setButtonStateFunction(StateCallbackFunctionBtn f) {
+  get_state_btn_cb = BUTTON2_MOVE(f);
+}
+
+/////////////////////////////////////////////////////////////////
+
 bool Button2::operator==(const Button2& rhs) const { return (this == &rhs); }
 
 /////////////////////////////////////////////////////////////////
@@ -516,7 +522,9 @@ void Button2::_releasedNow(unsigned long now) {
 
 uint8_t Button2::_getState() const {
   if (get_state_cb != BUTTON2_NULL) {
-    return get_state_cb(*this);
+    return get_state_cb();
+  } else if (get_state_btn_cb != BUTTON2_NULL) {
+    return get_state_btn_cb(*this);
   } else {
     return digitalRead(pin);
   }
