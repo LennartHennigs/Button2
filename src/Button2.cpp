@@ -244,7 +244,6 @@ void Button2::resetPressedState() {
   last_click_type = clickType::empty;
   last_click_count = 0;
   click_count = 0;
-  down_time_ms = 0;
   click_ms = 0;
   down_ms = 0;
   pressed_triggered = false;
