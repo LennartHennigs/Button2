@@ -323,6 +323,9 @@ unsigned int getLongClickTime() const;
 unsigned int getDoubleClickTime() const;
 uint8_t getPin() const;
 
+void  setContext(void* ctx);  // attach caller-owned data; retrieve via getContext() in any handler
+void* getContext() const;
+
 void reset();
 
 void setButtonStateFunction(StateCallbackFunction f);

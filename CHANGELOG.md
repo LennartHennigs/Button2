@@ -4,6 +4,8 @@
 
 ## Unreleased
 
+- **Added**: `setContext(void*)` / `getContext()` — attach arbitrary caller data to a button instance and retrieve it inside any callback handler, without globals. Useful on AVR (no lambda captures) and for the explicit context pattern on any platform. Context is not cleared by `reset()`
+- **Added**: `CallbackContext` example — two buttons sharing the same handler functions, each with a different `ButtonCtx` struct attached via `setContext()`
 - **Added**: `setButtonStateFunction(StateCallbackFunctionBtn f)` overload — state callback now optionally receives a `const Button2&` reference, enabling multiple virtual buttons to share one state function and differentiate by ID or config. Useful for capacitive touch arrays (e.g. ESP32 `touchRead`) and I2C expanders
 - **Added**: `ESP32MultiCapTouch` example demonstrating two capacitive touch buttons sharing a single state handler via `btn.getID()`
 

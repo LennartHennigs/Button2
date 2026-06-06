@@ -153,6 +153,54 @@ test(settings, longclick_interval_reset_by_bool_overload) {
 
 /////////////////////////////////////////////////////////////////
 
+test(settings, context_default_null) {
+  Button2 button = createTestButton();
+  assertEqual(button.getContext(), (void*)nullptr);
+}
+
+/////////////////////////////////////////////////////////////////
+
+test(settings, context_set_get) {
+  Button2 button = createTestButton();
+  int value = 42;
+  button.setContext(&value);
+  assertEqual(button.getContext(), (void*)&value);
+}
+
+/////////////////////////////////////////////////////////////////
+
+test(settings, context_in_callback) {
+  Button2 button = createTestButton();
+  button.resetPressedState();
+
+  struct Ctx { int result; };
+  Ctx ctx = { 0 };
+  button.setContext(&ctx);
+
+  button.setClickHandler([](Button2& btn) {
+    Ctx* c = (Ctx*)btn.getContext();
+    c->result = 99;
+  });
+
+  click(button, DEBOUNCE_MS);
+  delay(BTN_DOUBLECLICK_MS + 10);
+  button.loop();
+
+  assertEqual(ctx.result, 99);
+}
+
+/////////////////////////////////////////////////////////////////
+
+test(settings, context_survives_reset) {
+  Button2 button = createTestButton();
+  int value = 7;
+  button.setContext(&value);
+  button.reset();
+  assertEqual(button.getContext(), (void*)&value);
+}
+
+/////////////////////////////////////////////////////////////////
+
 test(settings, set_pressed_handler) {
   resetHandlerVars();
   Button2 button = createTestButton();

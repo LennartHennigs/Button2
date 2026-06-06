@@ -228,6 +228,16 @@ void Button2::setID(int newID) {
 
 /////////////////////////////////////////////////////////////////
 
+void Button2::setContext(void* ctx) {
+  context = ctx;
+}
+
+void* Button2::getContext() const {
+  return context;
+}
+
+/////////////////////////////////////////////////////////////////
+
 const char* Button2::clickToString(clickType type) const {
   if (type == single_click) return "single click";
   if (type == double_click) return "double click";

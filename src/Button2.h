@@ -102,6 +102,9 @@ class Button2 {
   CallbackFunction double_cb = BUTTON2_NULL;
   CallbackFunction triple_cb = BUTTON2_NULL;
 
+  // void* (4 bytes on 32-bit, 2 bytes on AVR — same size tier as function pointers)
+  void* context = nullptr;
+
   // unsigned long (4 bytes on most platforms)
   unsigned long click_ms = 0;
   unsigned long down_ms = 0;
@@ -153,6 +156,9 @@ class Button2 {
   void setDebounceTime(unsigned int ms);
   void setLongClickTime(unsigned int ms);
   void setDoubleClickTime(unsigned int ms);
+
+  void  setContext(void* ctx);
+  void* getContext() const;
 
   unsigned int getDebounceTime() const;
   unsigned int getLongClickTime() const;
