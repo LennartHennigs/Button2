@@ -4,14 +4,14 @@ This file provides specific guidance for AI assistants (especially Claude Code) 
 
 ## Test Suite Overview
 
-The Button2 test suite consists of **68 comprehensive tests** organized into 6 test suites:
+The Button2 test suite consists of **72 comprehensive tests** organized into 6 test suites:
 
-1. **test_basics** (6 tests) - Button initialization, configuration, and fundamental operations
+1. **test_basics** (10 tests) - Button initialization, configuration, and fundamental operations
 2. **test_clicks** (12 tests) - Click detection (single, double, triple, long, patterns)
-3. **test_callbacks** (12 tests) - All event handler callbacks
-4. **test_states** (19 tests) - State management, queries, and timing edge cases
+3. **test_callbacks** (13 tests) - All event handler callbacks
+4. **test_states** (23 tests) - State management, queries, timing edge cases, read() contract
 5. **test_configuration** (7 tests) - Settings management and property validation
-6. **test_multiple** (12 tests) - Multiple button scenarios and interactions
+6. **test_multiple** (11 tests) - Multiple button scenarios and interactions
 
 ## Testing Architecture
 
@@ -43,22 +43,6 @@ Button2 createTestButton() {
 
   return button;
 }
-```
-
-### Why This Order Matters
-
-❌ **WRONG** - Will cause phantom clicks and state issues:
-```cpp
-button.begin(PIN, MODE, true);              // Reads undefined state
-button.setButtonStateFunction(func);        // Too late!
-simulatedPinState = HIGH;                   // Way too late!
-```
-
-✅ **CORRECT** - Proper initialization:
-```cpp
-simulatedPinState = HIGH;                   // 1. Set state first
-button.setButtonStateFunction(func);        // 2. Inject reader
-button.begin(PIN, MODE, true);              // 3. Now reads correct state
 ```
 
 ## Critical Testing Rules
@@ -152,137 +136,6 @@ test(callbacks, click_handler) {
   button.loop();               // Process the timeout
 
   assertTrue(g_clicked);
-}
-```
-
-## Test Suite Patterns
-
-### test_basics/
-
-Basic functionality and initialization tests:
-
-```cpp
-test(basics, equal_operator) {
-  Button2 button1 = createTestButton();
-  Button2 button2 = createTestButton();
-
-  assertTrue(button1 == button1);
-  assertFalse(button1 == button2);
-}
-```
-
-### test_clicks/
-
-Click detection tests:
-
-```cpp
-test(clicks, double_click) {
-  Button2 button = createTestButton();
-  button.resetPressedState();
-
-  // Two quick clicks
-  click(button, DEBOUNCE_MS);
-  click(button, DEBOUNCE_MS);
-
-  // Wait for double-click to be reported
-  delay(BTN_DOUBLECLICK_MS);
-  button.loop();
-
-  assertEqual(button.getType(), double_click);
-  assertEqual(button.getNumberOfClicks(), 2);
-}
-```
-
-### test_callbacks/
-
-Callback handler tests:
-
-```cpp
-test(callbacks, long_click_detected_handler) {
-  resetHandlerVars();
-  Button2 button = createTestButton();
-  button.resetPressedState();
-
-  button.setLongClickDetectedHandler([](Button2& b) {
-    g_long_detected = true;
-  });
-
-  // Press and hold past threshold
-  simulatedPinState = BUTTON_ACTIVE;
-  button.loop();
-
-  unsigned long startTime = millis();
-  while (millis() - startTime < (BTN_LONGCLICK_MS + 100)) {
-    button.loop();
-    delay(1);
-  }
-
-  // Handler called WHILE still pressed
-  assertTrue(g_long_detected);
-
-  // Release
-  simulatedPinState = !BUTTON_ACTIVE;
-  button.loop();
-}
-```
-
-### test_states/
-
-State management and timing tests:
-
-```cpp
-test(states, is_pressed_raw) {
-  Button2 button = createTestButton();
-
-  // isPressedRaw reflects immediate pin state
-  simulatedPinState = BUTTON_ACTIVE;
-  assertTrue(button.isPressedRaw());
-
-  simulatedPinState = !BUTTON_ACTIVE;
-  assertFalse(button.isPressedRaw());
-}
-```
-
-### test_configuration/
-
-Configuration management tests:
-
-```cpp
-test(settings, longclick_time) {
-  Button2 button = createTestButton();
-
-  button.setLongClickTime(BTN_LONGCLICK_MS + 1);
-  assertEqual(button.getLongClickTime(), (unsigned int)(BTN_LONGCLICK_MS + 1));
-}
-```
-
-### test_multiple/
-
-Multiple button interaction tests:
-
-```cpp
-test(multiple, shared_handler_different_buttons) {
-  resetTestState();
-
-  Button2 button1 = createTestButton(PIN1, func1, &state1);
-  Button2 button2 = createTestButton(PIN2, func2, &state2);
-
-  button1.setID(1);
-  button2.setID(2);
-
-  // Shared handler tracks which button was clicked
-  auto sharedHandler = [](Button2& b) {
-    g_last_button_id = b.getID();
-  };
-
-  button1.setClickHandler(sharedHandler);
-  button2.setClickHandler(sharedHandler);
-
-  click(button1, &state1, DEBOUNCE_MS);
-  delay(BTN_DOUBLECLICK_MS);
-  button1.loop();
-
-  assertEqual(g_last_button_id, 1);
 }
 ```
 
@@ -405,15 +258,19 @@ pio test -e epoxy-esp8266 -e epoxy-esp32 -e epoxy-nano -v
 
 ### Expected Results
 
-All 68 tests should pass:
-- ✅ test_basics: 6 passed
+All 72 tests should pass:
+- ✅ test_basics: 10 passed
 - ✅ test_clicks: 12 passed
-- ✅ test_callbacks: 12 passed
-- ✅ test_states: 19 passed
+- ✅ test_callbacks: 13 passed
+- ✅ test_states: 23 passed
 - ✅ test_configuration: 7 passed
-- ✅ test_multiple: 12 passed
+- ✅ test_multiple: 11 passed
 
-Total execution time: ~34 seconds on epoxy-esp8266
+Total execution time: ~35 seconds on epoxy-esp8266
+
+### Runner Timeout
+
+`test_states` sets `TestRunner::setTimeout(30)` in `setup_test_runner()` — the default 10s was too short once the suite grew past ~20 tests. If you add tests to a suite that starts timing out, increase its timeout the same way.
 
 ## Adding New Tests
 
@@ -506,15 +363,3 @@ Tests are platform-agnostic:
 - ✅ No platform-specific features in core tests
 - ✅ Platform differences handled in library, not tests
 
-## Summary
-
-**Remember the golden rules:**
-
-1. ✅ Set `simulatedPinState` BEFORE `begin()`
-2. ✅ Call `button.loop()` repeatedly while button is pressed
-3. ✅ Wait for timeouts and call `loop()` before checking results
-4. ✅ Reset all state with `resetHandlerVars()` at start of each test
-5. ✅ Use local button instances, never global
-6. ✅ Cast literals to `(unsigned int)` for assertEqual() with timing values
-
-Follow these patterns and your tests will be robust, reliable, and maintainable!

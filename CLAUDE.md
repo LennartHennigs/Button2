@@ -6,6 +6,24 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Button2 is an Arduino/ESP library for handling physical buttons with advanced click detection, debouncing, and callback support. Targets Arduino Uno/Nano (AVR), ESP8266, and ESP32.
 
+## Changelog Rule
+
+**Always update `CHANGELOG.md` when making code changes.** After every bug fix, feature addition, or behavioral change, add a bullet to the `## Unreleased` section before committing. Use the format already established in the file:
+
+- `**Fixed (Issue #N)**: ...` for bug fixes
+- `**Added**: ...` for new public API or features
+- `**Changed**: ...` for behavioral changes
+- `**Internal**: ...` for refactors, test additions, infra changes with no user-visible effect
+
+Do not add changelog entries for typo fixes, comment edits, or whitespace-only changes.
+
+Also update `README.md` when:
+- A new public function is added or an existing one is removed/renamed → update the API Reference section
+- Default timing values or behavior change → update the relevant description
+- A new usage pattern or example is introduced → add or update the relevant section
+
+Do not update README for internal refactors, test changes, or bug fixes that don't affect observable behavior.
+
 ## Development Commands
 
 ```bash
@@ -28,6 +46,9 @@ pio test -e test_multiple
 # Build / upload
 pio run -e Wemos_D1_Mini
 pio run -t upload -e Wemos_D1_Mini
+
+# Publish to PlatformIO registry (run after tagging a release)
+pio pkg publish --no-interactive
 ```
 
 Prerequisites: `arduino-cli`, PlatformIO, and cores `esp8266:esp8266 esp32:esp32 arduino:avr`.
@@ -84,6 +105,14 @@ button.begin(BTN_VIRTUAL_PIN, INPUT_PULLUP, true);     // 3. begin() reads state
 ```
 
 All six test suites share helpers via `test/shared/test_helpers.h` (`createTestButton()`, `click()`, `press()`, `release()`). Add new tests there, not inline in a single suite.
+
+## read() / resetPressedState() Contract
+
+`read()` calls `resetPressedState()` internally. After `read()`:
+- `wasPressedFor()` — **survives** (`down_time_ms` is a completed measurement, not active state)
+- `wasPressed()`, `getType()`, `getNumberOfClicks()` — **reset to defaults** (by design)
+
+Do not add `down_time_ms = 0` back to `resetPressedState()` — this was the bug in issue #96.
 
 ## Architecture
 

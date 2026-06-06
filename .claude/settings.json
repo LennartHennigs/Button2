@@ -1,0 +1,48 @@
+{
+    "permissions": {
+      "allow": [
+        "Bash(pio test:*)",
+        "Bash(pio run:*)",
+        "Bash(gh issue view:*)",
+        "Bash(gh issue comment:*)",
+        "Bash(gh pr:*)",
+        "Bash(./test/compile_examples.sh:*)",
+        "Bash(git add:*)",
+        "Bash(git commit:*)",
+        "Bash(git checkout:*)",
+        "Bash(git push:*)",
+        "Bash(git tag:*)"
+      ],
+      "deny": [],
+      "ask": []
+    },
+    "hooks": {
+      "PreToolUse": [
+        {
+          "matcher": "Edit|Write",
+          "hooks": [
+            {
+              "type": "command",
+              "command": "input=$(cat); echo \"$input\" | grep -q 
+  '\\.pio/' && echo 'Blocked: do not edit .pio/ build artifacts 
+  directly.' && exit 2 || exit 0"
+            }
+          ]
+        }
+      ],
+      "PostToolUse": [
+        {
+          "matcher": "Edit|Write",
+          "hooks": [
+            {
+              "type": "command",
+              "command": "input=$(cat); echo \"$input\" | grep -qE 
+  '\"file_path\".*/(src|test)/.*\\.(cpp|h)\"' && echo '--- Running 
+  tests ---' && pio test -e epoxy-esp8266 2>&1 | grep -E 
+  '(PASSED|FAILED|ERRORED)' || true"
+            }
+          ]
+        }
+      ]
+    }
+  }
