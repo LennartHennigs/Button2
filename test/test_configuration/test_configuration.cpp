@@ -31,6 +31,7 @@ bool changed = false;
 
 void setup_test_runner() {
   TestRunner::setVerbosity(Verbosity::kDefault);
+  TestRunner::setTimeout(90);
   TestRunner::list();
 }
 
@@ -149,6 +150,85 @@ test(settings, longclick_interval_reset_by_bool_overload) {
   // Calling the bool-only overload should clear the interval
   button.setLongClickDetectedRetriggerable(true);
   assertEqual(button.getLongClickInterval(), (unsigned int)0);
+}
+
+/////////////////////////////////////////////////////////////////
+
+test(settings, context_default_null) {
+  Button2 button = createTestButton();
+  assertEqual(button.getContext(), (void*)nullptr);
+}
+
+/////////////////////////////////////////////////////////////////
+
+test(settings, context_set_get) {
+  Button2 button = createTestButton();
+  int value = 42;
+  button.setContext(&value);
+  assertEqual(button.getContext(), (void*)&value);
+}
+
+/////////////////////////////////////////////////////////////////
+
+test(settings, context_in_callback) {
+  Button2 button = createTestButton();
+  button.resetPressedState();
+
+  struct Ctx { int result; };
+  Ctx ctx = { 0 };
+  button.setContext(&ctx);
+
+  button.setClickHandler([](Button2& btn) {
+    Ctx* c = (Ctx*)btn.getContext();
+    c->result = 99;
+  });
+
+  click(button, DEBOUNCE_MS);
+  delay(BTN_DOUBLECLICK_MS + 10);
+  button.loop();
+
+  assertEqual(ctx.result, 99);
+}
+
+/////////////////////////////////////////////////////////////////
+
+test(settings, context_survives_reset) {
+  Button2 button = createTestButton();
+  int value = 7;
+  button.setContext(&value);
+  button.reset();
+  assertEqual(button.getContext(), (void*)&value);
+}
+
+/////////////////////////////////////////////////////////////////
+
+test(settings, context_survives_resetPressedState) {
+  Button2 button = createTestButton();
+  int value = 7;
+  button.setContext(&value);
+  button.resetPressedState();
+  assertEqual(button.getContext(), (void*)&value);
+}
+
+/////////////////////////////////////////////////////////////////
+
+test(settings, context_can_be_updated) {
+  Button2 button = createTestButton();
+  int a = 1, b = 2;
+  button.setContext(&a);
+  assertEqual(button.getContext(), (void*)&a);
+  button.setContext(&b);
+  assertEqual(button.getContext(), (void*)&b);
+}
+
+/////////////////////////////////////////////////////////////////
+
+test(settings, context_explicit_null) {
+  Button2 button = createTestButton();
+  int value = 5;
+  button.setContext(&value);
+  button.setContext(nullptr);
+  assertEqual(button.getContext(), (void*)nullptr);
 }
 
 /////////////////////////////////////////////////////////////////

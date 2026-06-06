@@ -39,6 +39,7 @@ static int g_last_button_id = -1;
 
 void setup_test_runner() {
   TestRunner::setVerbosity(Verbosity::kDefault);
+  TestRunner::setTimeout(90);
   TestRunner::list();
 }
 
@@ -434,6 +435,44 @@ test(multiple, alternating_button_clicks) {
 
   assertEqual(g_button1_clicks, 3);
   assertEqual(g_button2_clicks, 3);
+}
+
+/////////////////////////////////////////////////////////////////
+
+// Two buttons with independent context structs using the same handler.
+// Verifies that getContext() returns each button's own data, not the other's.
+test(multiple, context_independent_per_button) {
+  resetTestState();
+
+  Button2 button1 = createTestButton(BUTTON1_PIN, getSimulatedPin37State, &simulatedPin37State);
+  Button2 button2 = createTestButton(BUTTON2_PIN, getSimulatedPin38State, &simulatedPin38State);
+  button1.resetPressedState();
+  button2.resetPressedState();
+
+  struct Ctx { int received; };
+  Ctx ctx1 = { 0 };
+  Ctx ctx2 = { 0 };
+
+  auto handler = [](Button2& btn) {
+    Ctx* c = (Ctx*)btn.getContext();
+    c->received++;
+  };
+
+  button1.setContext(&ctx1);
+  button2.setContext(&ctx2);
+  button1.setClickHandler(handler);
+  button2.setClickHandler(handler);
+
+  click(button1, &simulatedPin37State, DEBOUNCE_MS);
+  delay(BTN_DOUBLECLICK_MS + 10);
+  button1.loop();
+
+  click(button2, &simulatedPin38State, DEBOUNCE_MS);
+  delay(BTN_DOUBLECLICK_MS + 10);
+  button2.loop();
+
+  assertEqual(ctx1.received, 1);
+  assertEqual(ctx2.received, 1);
 }
 
 /////////////////////////////////////////////////////////////////

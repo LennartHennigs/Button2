@@ -80,6 +80,7 @@ If you don't want to use callback there are also functions available for using i
 - `setLongClickDetectedHandler()` will be called as soon as the defined timeout has passed.
 - `setLongClickHandler()` will only be called after the button has been released.
 - `setLongClickDetectedRetriggerable(bool retriggerable)` allows you to define whether want to get multiple notifications for a **single** long click depending on the timeout.
+- `setLongClickDetectedRetriggerable(bool retriggerable, unsigned int retrigger_ms)` overload lets you set the retrigger interval in the same call instead of relying on the longclick timeout.
 - `getLongClickCount()` gets you the number of long clicks – this is useful when `retriggerable` is set.
 
 ### The Loop
@@ -206,6 +207,28 @@ This behavior was confirmed in [issue #35](https://github.com/LennartHennigs/But
 - You can get a buttons' ID via `getID()`.
 - Alternatively, you can use `setID(int newID)` to set a new one. But then you need to make sure that they are unique.
 
+### Attaching Context Data to a Button
+
+- You can attach a pointer to any caller-owned data with `setContext(void*)` and retrieve it inside any callback via `getContext()`.
+- This avoids the need for global variables — especially useful on AVR where lambda captures are not available.
+- Context is **not** cleared by `reset()` or `resetPressedState()`.
+
+```c++
+struct LedCtx { uint8_t pin; const char* label; };
+
+void onClick(Button2& btn) {
+  LedCtx* ctx = (LedCtx*)btn.getContext();
+  digitalWrite(ctx->pin, !digitalRead(ctx->pin));
+  Serial.println(ctx->label);
+}
+
+LedCtx ctx = { 13, "my button" };
+button.setContext(&ctx);
+button.setClickHandler(onClick);
+```
+
+- See [CallbackContext.ino](https://github.com/LennartHennigs/Button2/blob/master/examples/CallbackContext/CallbackContext.ino) for a complete example with two buttons sharing the same handlers via context structs.
+
 ### Virtual Buttons and Custom State Handlers
 
 Button2 supports "virtual buttons" - buttons not directly connected to GPIO pins. This is useful for:
@@ -237,6 +260,7 @@ See [I2CPortExpanderButtons.ino](https://github.com/LennartHennigs/Button2/blob/
 - [CustomButtonStateHandler.ino](https://github.com/LennartHennigs/Button2/blob/master/examples/CustomButtonStateHandler/CustomButtonStateHandler.ino) - Basic virtual button with initialization callback
 - [ESP32CapacitiveTouch.ino](https://github.com/LennartHennigs/Button2/blob/master/examples/ESP32CapacitiveTouch/ESP32CapacitiveTouch.ino) - ESP32 capacitive touch implementation
 - [M5StackCore2CustomHandler.ino](https://github.com/LennartHennigs/Button2/blob/master/examples/M5StackCore2CustomHandler/M5StackCore2CustomHandler.ino) - M5Stack Core2 touch buttons
+- [ESP32MultiCapTouch.ino](https://github.com/LennartHennigs/Button2/blob/master/examples/ESP32MultiCapTouch/ESP32MultiCapTouch.ino) - **Two capacitive touch buttons sharing one state handler via `btn.getID()`**
 
 This feature was enhanced in [issue #69](https://github.com/LennartHennigs/Button2/issues/69) to support initialization callbacks.
 
@@ -299,6 +323,8 @@ This is useful if you are using a custom toolchain or want to override the defau
 - [ESP32CapacitiveTouch.ino](https://github.com/LennartHennigs/Button2/blob/master/examples/ESP32CapacitiveTouch/ESP32CapacitiveTouch.ino) – how to access the ESP32s capacitive touch handlers
 - [M5StackCore2CustomHandler.ino](https://github.com/LennartHennigs/Button2/blob/master/examples/M5StackCore2CustomHandler/M5StackCore2CustomHandler.ino) - example for the M5Stack Core2 touch buttons
 - [ESP32TimerInterrupt.ino](https://github.com/LennartHennigs/Button2/blob/master/examples/ESP32TimerInterrupt/ESP32TimerInterrupt.ino) - how to use a timer interrupt with the library.
+- [CallbackContext.ino](https://github.com/LennartHennigs/Button2/blob/master/examples/CallbackContext/CallbackContext.ino) – how to attach context data to a button so shared handlers can distinguish between instances without globals
+- [ESP32MultiCapTouch.ino](https://github.com/LennartHennigs/Button2/blob/master/examples/ESP32MultiCapTouch/ESP32MultiCapTouch.ino) – two ESP32 capacitive touch buttons sharing a single state handler via `btn.getID()`
 - [ButtonLoop.ino](https://github.com/LennartHennigs/Button2/blob/master/examples/ButtonLoop/ButtonLoop.ino) – how to use the button class in the main loop (I recommend using handlers, but well...)
 
 ## Class Definition
@@ -320,12 +346,17 @@ void setDoubleClickTime(unsigned int ms);
 
 unsigned int getDebounceTime() const;
 unsigned int getLongClickTime() const;
+unsigned int getLongClickInterval() const;
 unsigned int getDoubleClickTime() const;
 uint8_t getPin() const;
+
+void  setContext(void* ctx);  // attach caller-owned data; retrieve via getContext() in any handler
+void* getContext() const;
 
 void reset();
 
 void setButtonStateFunction(StateCallbackFunction f);
+void setButtonStateFunction(StateCallbackFunctionBtn f); // overload: callback receives const Button2& reference
 
 void setChangedHandler(CallbackFunction f);
 void setPressedHandler(CallbackFunction f);
@@ -339,6 +370,7 @@ void setTripleClickHandler(CallbackFunction f);
 void setLongClickHandler(CallbackFunction f);
 void setLongClickDetectedHandler(CallbackFunction f);
 void setLongClickDetectedRetriggerable(bool retriggerable);
+void setLongClickDetectedRetriggerable(bool retriggerable, unsigned int retrigger_ms); // overload: set retrigger interval in one call
 uint16_t getLongClickCount() const;
 
 unsigned int wasPressedFor() const;

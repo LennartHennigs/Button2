@@ -270,7 +270,7 @@ Total execution time: ~35 seconds on epoxy-esp8266
 
 ### Runner Timeout
 
-`test_states` sets `TestRunner::setTimeout(30)` in `setup_test_runner()` — the default 10s was too short once the suite grew past ~20 tests. If you add tests to a suite that starts timing out, increase its timeout the same way.
+All suites set `TestRunner::setTimeout(90)` in `setup_test_runner()`. The AUnit default (10s) is too short on slower platforms (epoxy-nano) once a suite has timing-sensitive tests. 90s gives headroom for all current suites including `test_clicks` which has a random-interval test that can run up to ~30s.
 
 ## Adding New Tests
 
