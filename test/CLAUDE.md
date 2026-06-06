@@ -260,10 +260,10 @@ pio test -e epoxy-esp8266 -e epoxy-esp32 -e epoxy-nano -v
 
 ### Expected Results
 
-All 72 tests should pass:
+All 91 tests should pass:
 - ✅ test_basics: 10 passed
-- ✅ test_clicks: 12 passed
-- ✅ test_callbacks: 13 passed
+- ✅ test_clicks: 20 passed
+- ✅ test_callbacks: 17 passed
 - ✅ test_states: 23 passed
 - ✅ test_configuration: 17 passed
 - ✅ test_multiple: 12 passed
