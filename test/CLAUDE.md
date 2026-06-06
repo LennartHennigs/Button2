@@ -4,14 +4,14 @@ This file provides specific guidance for AI assistants (especially Claude Code) 
 
 ## Test Suite Overview
 
-The Button2 test suite consists of **72 comprehensive tests** organized into 6 test suites:
+The Button2 test suite consists of **91 comprehensive tests** organized into 6 test suites:
 
 1. **test_basics** (10 tests) - Button initialization, configuration, and fundamental operations
-2. **test_clicks** (12 tests) - Click detection (single, double, triple, long, patterns)
-3. **test_callbacks** (13 tests) - All event handler callbacks
+2. **test_clicks** (20 tests) - Click detection (single, double, triple, long, patterns, bounce simulation)
+3. **test_callbacks** (17 tests) - All event handler callbacks, including context retrieval
 4. **test_states** (23 tests) - State management, queries, timing edge cases, read() contract
-5. **test_configuration** (7 tests) - Settings management and property validation
-6. **test_multiple** (11 tests) - Multiple button scenarios and interactions
+5. **test_configuration** (17 tests) - Settings management, context, and property validation
+6. **test_multiple** (12 tests) - Multiple button scenarios and interactions
 
 ## Testing Architecture
 
@@ -108,6 +108,8 @@ void click(Button2& button, unsigned long duration) {
 ```
 
 **Critical**: Call `button.loop()` repeatedly while button is pressed to allow debouncing and click detection.
+
+To simulate sub-debounce mechanical bounce (noise resilience tests), use `injectBounce(button, durationMs=5)` — it briefly flips the pin state and pumps `loop()`, then restores it. Duration must be less than `DEBOUNCE_MS` to be filtered by the library.
 
 ### 4. Callback Testing Pattern
 
@@ -263,8 +265,8 @@ All 72 tests should pass:
 - ✅ test_clicks: 12 passed
 - ✅ test_callbacks: 13 passed
 - ✅ test_states: 23 passed
-- ✅ test_configuration: 7 passed
-- ✅ test_multiple: 11 passed
+- ✅ test_configuration: 17 passed
+- ✅ test_multiple: 12 passed
 
 Total execution time: ~35 seconds on epoxy-esp8266
 

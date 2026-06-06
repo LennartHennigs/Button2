@@ -122,6 +122,7 @@ Do not add `down_time_ms = 0` back to `resetPressedState()` — this was the bug
 - Press is only counted after `debounce_time_ms` of continuous press (`pressed_triggered` flag)
 - Release shorter than `debounce_time_ms` is ignored (bounce rejection)
 - After release, `_reportClicks()` fires after `doubleclick_time_ms` timeout
+- All presses within one `doubleclick_time_ms` window are counted as a single sequence — a new press before the timeout resets `click_ms` and increments `click_count`. Intentional, not a bug.
 - Long-click fires via `_checkForLongClick()` only when `click_count == 1` (prevents ambiguity with multi-click sequences)
 - Memory layout in `Button2.h` is ordered by size to minimize padding on AVR
 
@@ -151,7 +152,9 @@ Button2(uint8_t attachTo, uint8_t buttonMode = INPUT_PULLUP, bool activeLow = tr
 void begin(uint8_t attachTo, uint8_t buttonMode = INPUT_PULLUP, bool activeLow = true,
            InitCallbackFunction initCallback = BUTTON2_NULL);
 void setButtonStateFunction(StateCallbackFunction f);  // inject custom state reader
+void setButtonStateFunction(StateCallbackFunctionBtn f); // overload: receives const Button2& ref
 void setLongClickDetectedRetriggerable(bool retriggerable);
+void setLongClickDetectedRetriggerable(bool retriggerable, unsigned int retrigger_ms);
 
 // Must be called regularly (every 1–10ms)
 void loop();
@@ -168,6 +171,10 @@ uint16_t getLongClickCount() const;  // retriggerable long-click count
 uint8_t getPin() const;
 int getID() const;
 
+// Caller context — AVR-friendly alternative to lambda captures
+void  setContext(void* ctx);   // attach caller-owned data; not cleared by reset()
+void* getContext() const;      // retrieve inside any handler
+
 // Configuration
 void setDebounceTime(unsigned int ms);
 void setDoubleClickTime(unsigned int ms);
@@ -176,6 +183,7 @@ void setID(int newID);
 unsigned int getDebounceTime() const;
 unsigned int getDoubleClickTime() const;
 unsigned int getLongClickTime() const;
+unsigned int getLongClickInterval() const;
 
 // State management
 void resetPressedState();   // resets all state flags and timing
@@ -242,4 +250,5 @@ Tests use **AUnit** + **EpoxyDuino** (native, no hardware needed). Six suites in
 - `test_configuration` — runtime settings
 - `test_multiple` — multiple button interactions
 
-Shared infrastructure lives in `test/shared/test_helpers.h` — `createTestButton()`, `click()`, `press()`, `release()`, `BUTTON_PIN`, `BUTTON_MODE`, `BUTTON_ACTIVE`, `DEBOUNCE_MS`.
+Shared infrastructure lives in `test/shared/test_helpers.h` — `createTestButton()`, `click()`, `press()`, `release()`, `injectBounce()`, `BUTTON_PIN`, `BUTTON_MODE`, `BUTTON_ACTIVE`, `DEBOUNCE_MS`.
+`injectBounce(button, durationMs=5)` simulates a brief spurious edge (sub-debounce noise) for bounce resilience tests.
