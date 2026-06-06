@@ -23,9 +23,7 @@
           "hooks": [
             {
               "type": "command",
-              "command": "input=$(cat); echo \"$input\" | grep -q 
-  '\\.pio/' && echo 'Blocked: do not edit .pio/ build artifacts 
-  directly.' && exit 2 || exit 0"
+              "command": "input=$(cat); echo \"$input\" | grep -q '\\.pio/' && echo 'Blocked: do not edit .pio/ build artifacts directly.' && exit 2 || exit 0"
             }
           ]
         }
@@ -36,10 +34,7 @@
           "hooks": [
             {
               "type": "command",
-              "command": "input=$(cat); echo \"$input\" | grep -qE 
-  '\"file_path\".*/(src|test)/.*\\.(cpp|h)\"' && echo '--- Running 
-  tests ---' && pio test -e epoxy-esp8266 2>&1 | grep -E 
-  '(PASSED|FAILED|ERRORED)' || true"
+              "command": "input=$(cat); echo \"$input\" | grep -qE '\"file_path\".*/(src|test)/.*\\.(cpp|h)\"' && echo '--- Running tests ---' && pio test -e epoxy-esp8266 2>&1 | grep -E '(PASSED|FAILED|ERRORED)' || true"
             }
           ]
         }
