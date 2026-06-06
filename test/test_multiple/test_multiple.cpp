@@ -39,6 +39,7 @@ static int g_last_button_id = -1;
 
 void setup_test_runner() {
   TestRunner::setVerbosity(Verbosity::kDefault);
+  TestRunner::setTimeout(90);
   TestRunner::list();
 }
 

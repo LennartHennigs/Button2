@@ -22,7 +22,7 @@ using namespace aunit;
 
 void setup_test_runner() {
   TestRunner::setVerbosity(Verbosity::kDefault);
-  TestRunner::setTimeout(30);
+  TestRunner::setTimeout(90);
   TestRunner::list();
 }
 

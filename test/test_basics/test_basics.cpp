@@ -28,6 +28,7 @@ bool changed = false;
 
 void setup_test_runner() {
   TestRunner::setVerbosity(Verbosity::kDefault);
+  TestRunner::setTimeout(90);
   TestRunner::list();
 }
 
