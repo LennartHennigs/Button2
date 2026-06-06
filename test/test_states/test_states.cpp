@@ -22,6 +22,7 @@ using namespace aunit;
 
 void setup_test_runner() {
   TestRunner::setVerbosity(Verbosity::kDefault);
+  TestRunner::setTimeout(30);
   TestRunner::list();
 }
 
@@ -121,6 +122,58 @@ test(states, was_pressed_for_after_read) {
   assertTrue(measuredDuration > 0);
   assertTrue(measuredDuration >= pressDuration - 20);
   assertTrue(measuredDuration <= pressDuration + 100);
+}
+
+/////////////////////////////////////////////////////////////////
+
+test(states, read_returns_click_type) {
+  Button2 button = createTestButton();
+  button.resetPressedState();
+
+  click(button, DEBOUNCE_MS);
+  delay(BTN_DOUBLECLICK_MS);
+  button.loop();
+
+  assertEqual(button.read(), single_click);
+}
+
+/////////////////////////////////////////////////////////////////
+
+test(states, read_resets_state) {
+  Button2 button = createTestButton();
+  button.resetPressedState();
+
+  click(button, DEBOUNCE_MS);
+  delay(BTN_DOUBLECLICK_MS);
+  button.loop();
+
+  assertTrue(button.wasPressed());
+  assertEqual(button.getType(), single_click);
+  assertEqual(button.getNumberOfClicks(), (uint8_t)1);
+
+  button.read();
+
+  assertFalse(button.wasPressed());
+  assertEqual(button.getType(), clickType::empty);
+  assertEqual(button.getNumberOfClicks(), (uint8_t)0);
+}
+
+/////////////////////////////////////////////////////////////////
+
+test(states, read_keep_state_preserves_state) {
+  Button2 button = createTestButton();
+  button.resetPressedState();
+
+  click(button, DEBOUNCE_MS);
+  delay(BTN_DOUBLECLICK_MS);
+  button.loop();
+
+  clickType t = button.read(true);
+
+  assertEqual(t, single_click);
+  assertTrue(button.wasPressed());
+  assertEqual(button.getType(), single_click);
+  assertEqual(button.getNumberOfClicks(), (uint8_t)1);
 }
 
 /////////////////////////////////////////////////////////////////
