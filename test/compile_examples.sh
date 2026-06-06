@@ -5,7 +5,8 @@
 # Author: Generated for Button2 v2.x
 # Date: October 25, 2024
 
-set -e  # Exit on any error
+# Not using set -e: compilation failures are tracked via counters; aborting early
+# would skip remaining examples and suppress the summary.
 
 #######################################################################
 # CONFIGURATION CONSTANTS
