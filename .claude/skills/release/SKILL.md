@@ -1,6 +1,6 @@
 ---
 name: release
-description: Cut a new Button2 release — suggests version bump based on change type, updates version files and CHANGELOG, commits, tags, and pushes
+description: Cut a new Button2 release — suggests version bump based on change type, updates version files and CHANGELOG, commits, tags, pushes, creates a GitHub release, and publishes to PlatformIO
 ---
 
 Cut a new Button2 release. Follow these steps exactly:
@@ -31,20 +31,31 @@ In `CHANGELOG.md`:
 - Rename `## Unreleased` to `## [x.y.z] - YYYY-MM-DD` (use today's date and the new version)
 - Add a fresh `## Unreleased` section above it (empty, just the heading)
 
- ## Step 4: Commit, tag, push
-  
-  Run these commands in order:
-  ```bash
-  git add library.json library.properties CHANGELOG.md
-  git commit -m "chore: release vX.Y.Z"
-  git tag vX.Y.Z
-  git push && git push --tags
+## Step 4: Commit, tag, push
 
-  Step 5: Publish to PlatformIO registry
+```bash
+git add library.json library.properties CHANGELOG.md
+git commit -m "chore: release vX.Y.Z"
+git tag vX.Y.Z
+git push && git push --tags
+```
 
-  pio pkg publish --no-interactive
+## Step 5: Create GitHub release
 
-  This pushes directly to the PlatformIO registry. The Arduino Library Manager picks up the new tag automatically from GitHub — no separate step
-  needed there.
+Extract the release notes for this version from the CHANGELOG (the bullet points under `## [x.y.z]`), then run:
 
-  Confirm each step succeeded and report which registries were updated.
+```bash
+gh release create vX.Y.Z \
+  --title "vX.Y.Z" \
+  --notes "<changelog bullet points for this version>"
+```
+
+## Step 6: Publish to PlatformIO registry
+
+```bash
+pio pkg publish --no-interactive
+```
+
+This pushes directly to the PlatformIO registry. The Arduino Library Manager picks up the new tag automatically from GitHub — no separate step needed there.
+
+Confirm each step succeeded and report which registries were updated.
