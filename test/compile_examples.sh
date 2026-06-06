@@ -22,9 +22,9 @@ declare -a PLATFORMS=(
 # Platform-specific example exclusions
 # Format: "FQBN:example1,example2,..."
 PLATFORM_EXCLUSIONS=(
-    "arduino:avr:nano:ESP32CapacitiveTouch,ESP32ClassicCapacitiveTouch,ESP32S2S3CapacitiveTouch,ESP32TimerInterrupt,M5StackCore2CustomHandler"  # ESP32-only and M5Stack-only examples
-    "esp8266:esp8266:d1_mini:ESP32CapacitiveTouch,ESP32ClassicCapacitiveTouch,ESP32S2S3CapacitiveTouch,ESP32TimerInterrupt,M5StackCore2CustomHandler"  # ESP32-only and M5Stack-only examples
-    "esp32:esp32:m5stack_core2:ESP32CapacitiveTouch,ESP32ClassicCapacitiveTouch,ESP32S2S3CapacitiveTouch,ESP32TimerInterrupt"  # Non-M5Stack capacitive touch examples (M5Stack Core2 has different touch API)
+    "arduino:avr:nano:ESP32CapacitiveTouch,ESP32ClassicCapacitiveTouch,ESP32S2S3CapacitiveTouch,ESP32TimerInterrupt,ESP32MultiCapTouch,M5StackCore2CustomHandler"  # ESP32-only and M5Stack-only examples
+    "esp8266:esp8266:d1_mini:ESP32CapacitiveTouch,ESP32ClassicCapacitiveTouch,ESP32S2S3CapacitiveTouch,ESP32TimerInterrupt,ESP32MultiCapTouch,M5StackCore2CustomHandler"  # ESP32-only and M5Stack-only examples
+    "esp32:esp32:m5stack_core2:ESP32CapacitiveTouch,ESP32ClassicCapacitiveTouch,ESP32S2S3CapacitiveTouch,ESP32TimerInterrupt,ESP32MultiCapTouch"  # Non-M5Stack capacitive touch examples (M5Stack Core2 has different touch API)
 )
 
 # Examples directory
@@ -360,6 +360,7 @@ show_help() {
     echo "  - ESP32ClassicCapacitiveTouch: ESP32 only"
     echo "  - ESP32S2S3CapacitiveTouch: ESP32 only"
     echo "  - ESP32TimerInterrupt: ESP32 only"
+    echo "  - ESP32MultiCapTouch: ESP32 only"
     echo "  - M5StackCore2CustomHandler: M5Stack Core2 only"
     echo ""
 }
