@@ -6,6 +6,7 @@
 - **Fixed (Issue #88)**: Compilation error on Arduino Pico (RP2040) — `INPUT_PULLUP`, `OUTPUT`, and `INPUT` are defined as a `PinMode` enum on Pico, not as macros. The previous `#ifndef` guards only detect macros, so they failed to protect against redefining these constants, causing type mismatch errors with `PinMode`. Wrapped the fallback defines in `#ifndef ARDUINO` so they only apply in non-Arduino environments (e.g. native test builds)
 - **Updated**: Decoupled long-click retrigger interval from initial threshold
 - **Fixed (Issue #96)**: `wasPressedFor()` always returned 0 when called after `read()`. `down_time_ms` is a completed measurement and must not be reset by `resetPressedState()`; removed the erroneous zero from that function
+- **Internal**: Added Claude Code project skills (`/commit`, `/release`, `/test`, `/compile`, `/readme`), auto-test and `.pio/` guard hooks, and updated CLAUDE.md with `read()` contract, runner timeout note, and changelog/README rules
 - **Tests**: Added `read()` contract tests — verifying return value, state reset on `read()`, and state preservation on `read(true)`
 
 ## [2.6.0] - 2026-05-09
