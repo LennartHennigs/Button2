@@ -239,6 +239,25 @@ void loop() {
 
 See `examples/I2CPortExpanderButtons/` for the complete pattern.
 
+## Adding New Examples
+
+When adding a new example under `examples/`:
+
+1. **Run the compile script** to verify it builds on all platforms:
+   ```bash
+   ./test/compile_examples.sh
+   ```
+   The script auto-discovers all `.ino` files — no need to register the example anywhere.
+
+2. **Add a platform exclusion** if the example is platform-specific (e.g. ESP32-only or M5Stack-only). Edit the `PLATFORM_EXCLUSIONS` array in `test/compile_examples.sh`:
+   ```bash
+   "arduino:avr:nano:MyESP32Example"      # skip on AVR
+   "esp8266:esp8266:d1_mini:MyESP32Example"  # skip on ESP8266
+   ```
+   See the existing ESP32/M5Stack entries for the exact format.
+
+3. **Update README.md** if the example introduces a new usage pattern worth documenting.
+
 ## Testing Framework
 
 Tests use **AUnit** + **EpoxyDuino** (native, no hardware needed). Six suites in `test/`:
