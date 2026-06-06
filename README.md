@@ -326,6 +326,7 @@ uint8_t getPin() const;
 void reset();
 
 void setButtonStateFunction(StateCallbackFunction f);
+void setButtonStateFunction(StateCallbackFunctionBtn f); // overload: callback receives const Button2& reference
 
 void setChangedHandler(CallbackFunction f);
 void setPressedHandler(CallbackFunction f);

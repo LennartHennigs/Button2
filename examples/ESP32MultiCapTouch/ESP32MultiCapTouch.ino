@@ -1,0 +1,57 @@
+/////////////////////////////////////////////////////////////////
+
+#if !defined(ESP32)
+  #error This sketch needs an ESP32
+#else
+
+/////////////////////////////////////////////////////////////////
+
+#include "Button2.h"
+
+/////////////////////////////////////////////////////////////////
+
+Button2 btn1, btn2;
+
+const uint8_t TOUCH_THRESHOLD = 35;
+
+/////////////////////////////////////////////////////////////////
+
+byte capStateHandler(const Button2& btn) {
+    return touchRead(btn.getID()) < TOUCH_THRESHOLD ? LOW : HIGH;
+}
+
+/////////////////////////////////////////////////////////////////
+
+void click(Button2& btn) {
+    Serial.print("click from pin ");
+    Serial.println(btn.getID());
+}
+
+/////////////////////////////////////////////////////////////////
+
+void setup() {
+    Serial.begin(9600);
+    delay(50);
+    Serial.println("\n\nMulti Capacitive Touch Demo");
+
+    btn1.setID(4);
+    btn1.setButtonStateFunction(capStateHandler);
+    btn1.setClickHandler(click);
+    btn1.begin(BTN_VIRTUAL_PIN);
+
+    btn2.setID(5);
+    btn2.setButtonStateFunction(capStateHandler);
+    btn2.setClickHandler(click);
+    btn2.begin(BTN_VIRTUAL_PIN);
+}
+
+/////////////////////////////////////////////////////////////////
+
+void loop() {
+    btn1.loop();
+    btn2.loop();
+}
+
+/////////////////////////////////////////////////////////////////
+#endif
+/////////////////////////////////////////////////////////////////
