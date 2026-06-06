@@ -104,6 +104,27 @@ test(states, was_pressed_for_duration) {
 
 /////////////////////////////////////////////////////////////////
 
+test(states, was_pressed_for_after_read) {
+  Button2 button = createTestButton();
+  button.resetPressedState();
+
+  unsigned long pressDuration = 100;
+  click(button, pressDuration);
+  delay(BTN_DOUBLECLICK_MS);
+  button.loop();
+
+  // Consume the click via read(), which internally calls resetPressedState()
+  button.read();
+
+  // wasPressedFor() must still return the duration of the completed press
+  unsigned long measuredDuration = button.wasPressedFor();
+  assertTrue(measuredDuration > 0);
+  assertTrue(measuredDuration >= pressDuration - 20);
+  assertTrue(measuredDuration <= pressDuration + 100);
+}
+
+/////////////////////////////////////////////////////////////////
+
 test(states, get_number_of_clicks) {
   Button2 button = createTestButton();
   button.resetPressedState();
