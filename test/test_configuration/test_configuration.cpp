@@ -201,6 +201,37 @@ test(settings, context_survives_reset) {
 
 /////////////////////////////////////////////////////////////////
 
+test(settings, context_survives_resetPressedState) {
+  Button2 button = createTestButton();
+  int value = 7;
+  button.setContext(&value);
+  button.resetPressedState();
+  assertEqual(button.getContext(), (void*)&value);
+}
+
+/////////////////////////////////////////////////////////////////
+
+test(settings, context_can_be_updated) {
+  Button2 button = createTestButton();
+  int a = 1, b = 2;
+  button.setContext(&a);
+  assertEqual(button.getContext(), (void*)&a);
+  button.setContext(&b);
+  assertEqual(button.getContext(), (void*)&b);
+}
+
+/////////////////////////////////////////////////////////////////
+
+test(settings, context_explicit_null) {
+  Button2 button = createTestButton();
+  int value = 5;
+  button.setContext(&value);
+  button.setContext(nullptr);
+  assertEqual(button.getContext(), (void*)nullptr);
+}
+
+/////////////////////////////////////////////////////////////////
+
 test(settings, set_pressed_handler) {
   resetHandlerVars();
   Button2 button = createTestButton();

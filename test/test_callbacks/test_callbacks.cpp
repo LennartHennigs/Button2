@@ -320,6 +320,86 @@ test(callbacks, multiple_handlers_on_click) {
 
 /////////////////////////////////////////////////////////////////
 
+test(callbacks, context_in_pressed_handler) {
+  resetHandlerVars();
+  Button2 button = createTestButton();
+  button.resetPressedState();
+
+  int value = 0;
+  button.setContext(&value);
+  button.setPressedHandler([](Button2& btn) {
+    *(int*)btn.getContext() = 1;
+  });
+
+  press(button);
+  delay(DEBOUNCE_MS);
+  button.loop();
+
+  assertEqual(value, 1);
+  release(button);
+}
+
+/////////////////////////////////////////////////////////////////
+
+test(callbacks, context_in_released_handler) {
+  resetHandlerVars();
+  Button2 button = createTestButton();
+  button.resetPressedState();
+
+  int value = 0;
+  button.setContext(&value);
+  button.setReleasedHandler([](Button2& btn) {
+    *(int*)btn.getContext() = 2;
+  });
+
+  click(button, DEBOUNCE_MS);
+
+  assertEqual(value, 2);
+}
+
+/////////////////////////////////////////////////////////////////
+
+test(callbacks, context_in_double_click_handler) {
+  resetHandlerVars();
+  Button2 button = createTestButton();
+  button.resetPressedState();
+
+  int value = 0;
+  button.setContext(&value);
+  button.setDoubleClickHandler([](Button2& btn) {
+    *(int*)btn.getContext() = 3;
+  });
+
+  click(button, DEBOUNCE_MS);
+  click(button, DEBOUNCE_MS);
+  delay(BTN_DOUBLECLICK_MS + 10);
+  button.loop();
+
+  assertEqual(value, 3);
+}
+
+/////////////////////////////////////////////////////////////////
+
+test(callbacks, context_in_long_click_handler) {
+  resetHandlerVars();
+  Button2 button = createTestButton();
+  button.resetPressedState();
+
+  int value = 0;
+  button.setContext(&value);
+  button.setLongClickHandler([](Button2& btn) {
+    *(int*)btn.getContext() = 4;
+  });
+
+  click(button, BTN_LONGCLICK_MS + 10);
+  delay(BTN_DOUBLECLICK_MS + 10);
+  button.loop();
+
+  assertEqual(value, 4);
+}
+
+/////////////////////////////////////////////////////////////////
+
 test(callbacks, handler_gets_correct_button_reference) {
   resetHandlerVars();
   Button2 button = createTestButton();
